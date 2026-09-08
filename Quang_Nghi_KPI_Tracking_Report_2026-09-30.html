@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quang Nghi — Bảng Tracking KPI đến 30.09.2026</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#1f2933; --sub:#5b6b7b; --line:#e3e8ee;
+    --brand:#ff6a00; --brand-soft:#fff1e6;
+    --red:#d64545; --red-soft:#fdecec;
+    --amber:#d97706; --amber-soft:#fdf3e3;
+    --green:#1e8e4a; --green-soft:#e8f6ee;
+    --blue:#2563eb; --blue-soft:#eaf1fe;
+    --gray:#6b7280; --gray-soft:#f0f2f5;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Segoe UI',Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.55;}
+  .wrap{max-width:1080px; margin:0 auto; padding:24px 20px 60px;}
+  .hero{background:linear-gradient(135deg,#1f2933 0%,#37485a 60%,#ff6a00 160%); color:#fff; border-radius:16px; padding:28px 30px; margin-bottom:20px;}
+  .hero h1{font-size:24px; font-weight:700; letter-spacing:.2px;}
+  .hero .sub{opacity:.85; margin-top:6px; font-size:14px;}
+  .chips{margin-top:14px; display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25); padding:4px 12px; border-radius:999px; font-size:12.5px;}
+  .chip.big{background:var(--brand); border-color:var(--brand); font-weight:700;}
+  .countdown{background:#fff; border:1px solid var(--brand); color:#c2410c; border-radius:12px; padding:10px 16px; display:inline-block; font-weight:700; margin-bottom:16px; font-size:14px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin-bottom:18px;}
+  .card h2{font-size:16px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:8px;}
+  .card h2 .tag{font-size:11px; font-weight:600; padding:2px 8px; border-radius:999px; letter-spacing:.3px;}
+  .card .desc{color:var(--sub); font-size:13px; margin-bottom:14px;}
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th{background:#1f2933; color:#fff; text-align:left; padding:9px 10px; font-weight:600; white-space:nowrap;}
+  td{padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  tr:nth-child(even) td{background:#fafbfc;}
+  td.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap;}
+  .kpi{font-weight:600;}
+  .pill{display:inline-block; padding:2px 10px; border-radius:999px; font-size:12px; font-weight:600; white-space:nowrap;}
+  .p-red{background:var(--red-soft); color:var(--red);}
+  .p-amber{background:var(--amber-soft); color:var(--amber);}
+  .p-green{background:var(--green-soft); color:var(--green);}
+  .p-gray{background:var(--gray-soft); color:var(--gray);}
+  .p-blue{background:var(--blue-soft); color:var(--blue);}
+  .bar{height:10px; background:#e9edf2; border-radius:999px; overflow:hidden; min-width:110px;}
+  .bar>span{display:block; height:100%; border-radius:999px;}
+  .b-green{background:var(--green);} .b-amber{background:#f0a02e;} .b-red{background:var(--red);} .b-brand{background:var(--brand);} .b-blue{background:var(--blue);}
+  .stars{color:#f0a02e; letter-spacing:1px; font-size:13px; white-space:nowrap;}
+  .stars .off{color:#c9d2db;}
+  .grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:6px;}
+  .stat{background:#fafbfc; border:1px solid var(--line); border-radius:10px; padding:12px 14px;}
+  .stat .lbl{color:var(--sub); font-size:12px;}
+  .stat .val{font-size:20px; font-weight:700; margin-top:2px;}
+  .stat .note{font-size:12px; color:var(--sub); margin-top:2px;}
+  .action{border-left:4px solid var(--brand); background:#fff; padding:12px 16px; border-radius:0 10px 10px 0; margin-bottom:10px;}
+  .action.p0{border-color:var(--red);} .action.p1{border-color:var(--amber);} .action.p2{border-color:var(--blue);}
+  .action .ttl{font-weight:700; font-size:14px;}
+  .action .due{font-size:12px; color:var(--sub);}
+  .action ul{margin:6px 0 0 18px; font-size:13px; color:#374151;}
+  .action li{margin-bottom:4px;}
+  .milestone{display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;}
+  .ms{flex:1; min-width:150px; border:1px solid var(--line); border-radius:10px; padding:10px 12px; text-align:center; background:#fafbfc;}
+  .ms .d{font-weight:700; font-size:14px;} .ms .v{font-size:13px; color:var(--sub);} .ms.hit{border-color:var(--green); background:var(--green-soft);} .ms.now{border-color:var(--brand);}
+  .foot{color:var(--sub); font-size:12px; margin-top:8px;}
+  .note-box{background:#fff8ec; border:1px solid #f2d9b0; border-radius:10px; padding:10px 14px; font-size:12.5px; color:#7c5a24; margin-top:10px;}
+  ul.clean{margin-left:18px;}
+  ul.clean li{margin-bottom:5px;}
+  .warn{background:var(--red-soft); border:1px solid #f3c2c2;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>📊 Bảng Tracking KPI — Gian hàng Quang Nghi (Tofu Cat Litter)</h1>
+    <div class="sub">Đối chiếu chỉ tiêu Alibaba giao (kết số <b>30.09.2026</b>) với số liệu hiện tại → mức độ hoàn thành &amp; nhịp độ triển khai</div>
+    <div class="chips">
+      <span class="chip">Cập nhật: 08/09/2026</span>
+      <span class="chip">Số liệu nền: tháng 08/2026 + dashboard hiện tại</span>
+      <span class="chip">Nguồn: Seller Center / CRM (ảnh chụp)</span>
+      <span class="chip big">⏳ Còn 22 ngày</span>
+    </div>
+  </div>
+
+  <div class="countdown">⚠️ Hạn chốt 30.09.2026 — còn 22 ngày. Lưu ý: các chỉ số Star Rating (Marketing/Service) tính theo cửa sổ 30 ngày trượt, nên hành động từ <u>giữa tháng 9 trở đi sẽ chỉ được tính nửa kỳ</u> → phải kích hoạt ngay từ tuần này.</div>
+
+  <!-- ============ BẢNG KPI TỔNG HỢP ============ -->
+  <div class="card">
+    <h2>1️⃣ KPI số lượng &amp; chất lượng bài đăng <span class="tag" style="background:var(--red-soft);color:var(--red)">ĐANG CHẬM ~2×</span></h2>
+    <div class="desc">Mục tiêu: 800 bài trước 30.09 (50% RTS / 50% Customize). Hiện tại tổng bài = 393 → mới đạt <b>49%</b>.</div>
+    <table>
+      <tr><th style="width:30%">Chỉ tiêu</th><th>Hiện tại</th><th>% hoàn thành</th><th>Còn thiếu</th><th>Pace cần (22 ngày)</th><th>Pace thực tế</th><th>Nhịp độ</th></tr>
+      <tr>
+        <td class="kpi">Tổng bài đăng ≥ 800</td>
+        <td class="num"><b>393</b> bài active</td>
+        <td><div class="bar"><span class="b-red" style="width:49%"></span></div> 49%</td>
+        <td class="num"><b>407</b> bài</td>
+        <td class="num"><b>18.5</b> bài/ngày</td>
+        <td class="num">8.6 bài/ngày<br><span style="color:var(--sub)">(266 bài mới trong T8)</span></td>
+        <td><span class="pill p-red">🔴 Chậm ~2.1×</span></td>
+      </tr>
+      <tr>
+        <td class="kpi">Bài RTS ≥ 400</td>
+        <td class="num"><b>194</b> RTS</td>
+        <td><div class="bar"><span class="b-amber" style="width:49%"></span></div> 48.5%</td>
+        <td class="num"><b>206</b> bài</td>
+        <td class="num">9.4 bài/ngày</td>
+        <td class="num">~2.5 bài/ngày<br><span style="color:var(--sub)">(+77 trong T8)</span></td>
+        <td><span class="pill p-red">🔴 Chậm</span></td>
+      </tr>
+      <tr>
+        <td class="kpi">Bài Customize ≥ 400</td>
+        <td class="num"><b>199</b> bài</td>
+        <td><div class="bar"><span class="b-amber" style="width:50%"></span></div> 49.8%</td>
+        <td class="num"><b>201</b> bài</td>
+        <td class="num">9.1 bài/ngày</td>
+        <td class="num">~6 bài/ngày<br><span style="color:var(--sub)">(~189 trong T8)</span></td>
+        <td><span class="pill p-amber">🟡 Hơi chậm</span></td>
+      </tr>
+      <tr>
+        <td class="kpi">RTS High Demand &gt; 100 bài</td>
+        <td class="num"><b>24</b> bài High Demand<br><span style="color:var(--sub)">(tổng, chưa tách RTS/Customize)</span></td>
+        <td><div class="bar"><span class="b-red" style="width:24%"></span></div> ~24%</td>
+        <td colspan="2">Cần &gt; 100 bài RTS High Demand → thiếu ~76+ bài RTS. Lọc danh sách High Demand Products trong Seller Center, tách nhóm RTS để xác định số thiếu chính xác</td>
+        <td></td>
+        <td><span class="pill p-red">🔴 Thiếu xa</span></td>
+      </tr>
+      <tr>
+        <td class="kpi">RTS đăng &lt; 30 ngày &gt; 100 bài</td>
+        <td class="num">Một phần</td>
+        <td colspan="3">Tổng bài mới T8 = 266 nhưng ảnh không tách RTS/Customize → ước RTS mới ~77 (đúng bằng mức tăng RTS) → chưa đủ 100</td>
+        <td></td>
+        <td><span class="pill p-amber">🟡 Gần đạt</span></td>
+      </tr>
+      <tr>
+        <td class="kpi">Score RTS &gt; 5.6 / Customize &gt; 5.5</td>
+        <td class="num"><b>214</b> bài đạt score ≥ 5.5<br><b>369</b> bài đạt PIS/score ≥ 5.0<br><span style="color:var(--sub)">/ 393 bài</span></td>
+        <td><div class="bar"><span class="b-amber" style="width:54%"></span></div> ≥5.5: 54%<br><div class="bar" style="margin-top:4px"><span class="b-green" style="width:94%"></span></div> ≥5.0: 94%</td>
+        <td colspan="3">≥5.0: 369/393 (94%) — nền tốt. ≥5.5: 214/393 (54%) — cần phân tách RTS (&gt;5.6) vs Customize (&gt;5.5) để biết nhóm kéo tụt; khi đăng/Dup mới phải giữ tỷ lệ đạt chuẩn cao (không đăng bài điểm thấp)</td>
+        <td><span class="pill p-amber">🟡 ≥5.5 mới 54%</span></td>
+      </tr>
+    </table>
+    <div class="note-box">💡 <b>Đọc nhanh:</b> cơ cấu RTS/Customize đang ~49/51 — gần chuẩn 50/50 ✅. Vấn đề là <b>tổng lượng</b>: cần +407 bài, tức <b>gấp ~2.1 lần nhịp tháng 8</b> (8.6 → 18.5 bài/ngày). Với 22 ngày còn lại, không thể dựa vào đăng tay — bắt buộc dùng <b>Dup từ 10 ID đang có traffic</b> (xem mục Action plan) để nhân bản biến thể size/đóng gói/hương.</div>
+  </div>
+
+  <!-- ============ STAR RATING ============ -->
+  <div class="card">
+    <h2>2️⃣ Star Rating — mục tiêu ≥ 2★ tổng <span class="tag" style="background:var(--amber-soft);color:var(--amber)">RỦI RO CAO (GMV = 0)</span></h2>
+    <div class="desc">Dashboard hiện hiển thị tổng ~2–3★ (nhãn "Healthy") nhưng <b>forecast bỏ trống</b> và cửa sổ đang thiếu trụ Sales — GMV 90 ngày = <b>0 USD</b>, đơn Trade Assurance = <b>0</b>, task thưởng tháng "Orders 0/1". Đây là rủi ro lớn nhất kéo tụt tổng sao khi kết số 30.09.</div>
+    <table>
+      <tr><th>Tiêu chí</th><th>Mục tiêu</th><th>Hiện tại</th><th>Ngưỡng ước tính*</th><th>Trạng thái</th></tr>
+      <tr>
+        <td class="kpi">Product</td>
+        <td><span class="stars">★★★★<span class="off">★</span></span> 4★</td>
+        <td><span class="stars">★★<span class="off">★★★</span></span> 2★<br><span style="color:var(--sub)">369/393 sp đạt PIS ≥ 5.0 (94%)</span></td>
+        <td>4★ ≈ <b>800 sp</b> đạt PIS ≥ 5.0 (scale 100/300/500/800/1000) — trùng với mục tiêu 800 bài; 369 hiện tại mới đủ ~2★ (mốc 300)</td>
+        <td><span class="pill p-amber">🟡 Khớp KPI 800 bài</span></td>
+      </tr>
+      <tr>
+        <td class="kpi">Marketing</td>
+        <td><span class="stars">★★<span class="off">★★★</span></span> – <span class="stars">★★★<span class="off">★★</span></span> 2–3★</td>
+        <td><span class="stars"><span class="off">★★★★★</span></span> ~0–1★<br><span style="color:var(--sub)">83–94 UV/30 ngày</span></td>
+        <td>2–3★ ≈ <b>300–500 UV/30 ngày</b> (scale 100/300/500/1000/2000)</td>
+        <td><span class="pill p-red">🔴 Thiếu xa ~4–5×</span></td>
+      </tr>
+      <tr>
+        <td class="kpi">Service</td>
+        <td><span class="stars">★★★<span class="off">★★</span></span> 3★</td>
+        <td><span class="stars">★<span class="off">★★★★</span></span> 1★<br><span style="color:var(--sub)">12 responded buyers/30 ngày</span></td>
+        <td>3★ ≈ <b>≥ 30 buyer</b> phản hồi/30 ngày (scale 2/15/30/50/100)</td>
+        <td><span class="pill p-amber">🟡 Đạt 40%, cần +18 buyer</span></td>
+      </tr>
+      <tr>
+        <td class="kpi">Sales (GMV/đơn TA)</td>
+        <td>— (điều kiện giữ tổng ≥ 2★)</td>
+        <td class="num"><b>0 USD</b> GMV 90 ngày<br>0 đơn TA</td>
+        <td>Cần ≥ 1 đơn TA có giá trị để không bị chặn tổng sao</td>
+        <td><span class="pill p-red">🔴 Chưa có đơn</span></td>
+      </tr>
+    </table>
+    <div class="foot">*Ngưỡng sao ước tính theo thang đo hiển thị trên dashboard (vị trí marker so với scale); xác nhận lại với Seller Center để chốt mốc chính xác.</div>
+    <div class="note-box warn">⛔ <b>Điểm nghẽn then chốt:</b> dù kéo được Product 4★ + Marketing 2–3★ + Service 3★, nếu <b>GMV/đơn TA vẫn = 0</b> thì tổng sao sẽ bị kìm ở mức thấp — đơn hàng TA đầu tiên là điều kiện bắt buộc, không phải tuỳ chọn.</div>
+  </div>
+
+  <!-- ============ RFQ & QUYỀN LỢI ============ -->
+  <div class="card">
+    <h2>3️⃣ RFQ &amp; Quyền lợi thành viên</h2>
+    <div class="grid3">
+      <div class="stat">
+        <div class="lbl">RFQ — mục tiêu dùng 60</div>
+        <div class="val">24 <span style="font-size:14px;color:var(--sub)">/ 70 khả dụng (34%)</span></div>
+        <div class="bar" style="margin-top:6px"><span class="b-amber" style="width:40%"></span></div>
+        <div class="note">Còn <b>36 RFQ</b> → cần <b>1.6–2 RFQ/ngày</b> liên tục từ nay đến 30.09. Nhịp hiện tại ~0.6/ngày → <span class="pill p-red">🔴 Chậm</span></div>
+      </div>
+      <div class="stat">
+        <div class="lbl">Gian trưng bày (Showroom)</div>
+        <div class="val" style="color:var(--green)">60 / 60 — 100%</div>
+        <div class="note">✅ Hoàn thành sớm — duy trì</div>
+      </div>
+      <div class="stat">
+        <div class="lbl">AI quota (ảnh/video/phân tích/文本)</div>
+        <div class="val">4 <span style="font-size:14px;color:var(--sub)">/ 39.996 điểm (0%)</span></div>
+        <div class="note">Nguồn lực gần như <b>chưa khai thác</b> — dùng để sản xuất ảnh/video hàng loạt cho 407 bài mới</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ BỐI CẢNH HIỆU QUẢ ============ -->
+  <div class="card">
+    <h2>4️⃣ Bối cảnh hiệu quả tháng 08 — nền tảng đang dựng nhưng còn rất thấp so với ngành</h2>
+    <table>
+      <tr><th>Chỉ số</th><th>Hiện tại (T8)</th><th>Trung bình ngành</th><th>Dẫn đầu ngành</th><th>Đánh giá</th></tr>
+      <tr><td>Search exposures</td><td class="num"><b>2,857</b> <span style="color:var(--green)">▲ +268% (T7: 776)</span></td><td class="num">34,378</td><td class="num">190,315</td><td><span class="pill p-red">8% mức TB ngành</span></td></tr>
+      <tr><td>Page views / UV</td><td class="num">206 / 94</td><td class="num">2,655 / 1,204</td><td class="num">23,760 / 8,886</td><td><span class="pill p-red">Rất thấp</span></td></tr>
+      <tr><td>Inquiries / Messages</td><td class="num">3 / 15</td><td class="num">29 / 179</td><td class="num">323 / 2,078</td><td><span class="pill p-red">~10% TB ngành</span></td></tr>
+      <tr><td>Timely response / Reply time</td><td class="num">93.3–100% / <b>6.5h</b></td><td class="num">92.1% / 3.8h</td><td class="num">99.3% / 1.5h</td><td><span class="pill p-amber">Response tốt, tốc độ reply chậm ~1.7×</span></td></tr>
+      <tr><td>Active products / Mới đăng</td><td class="num">393 / 266</td><td class="num">—</td><td class="num">—</td><td><span class="pill p-green">Tăng trưởng mạnh (+209% MoM)</span></td></tr>
+      <tr><td>Sp có hiển thị / click / RFQ</td><td class="num">258 / 25 / 5</td><td class="num">—</td><td class="num">—</td><td><span class="pill p-amber">66% số bài có hiển thị nhưng click rất ít</span></td></tr>
+      <tr><td>RTS products</td><td class="num"><b>194</b> <span style="color:var(--green)">▲ +65.8% MoM</span></td><td class="num">—</td><td class="num">—</td><td><span class="pill p-green">Đúng hướng</span></td></tr>
+      <tr><td>Super / Top products</td><td class="num">0 / 1</td><td class="num">—</td><td class="num">—</td><td><span class="pill p-red">Chưa dùng công cụ</span></td></tr>
+      <tr><td>Buyers: active / L2+ / trả phí / ≥10k USD</td><td class="num">15 / 11 / 5 / 4</td><td class="num">179 / 134 / 113 / 34</td><td class="num">2,488 / 1,968 / 1,573 / 441</td><td><span class="pill p-red">~8% TB ngành — có sẵn 4 khách lớn tiềm năng</span></td></tr>
+      <tr><td>Đơn TA / GMV 90 ngày</td><td class="num">0 / 0 USD</td><td class="num">—</td><td class="num">—</td><td><span class="pill p-red">Điểm nghẽn chí mạng</span></td></tr>
+    </table>
+    <div class="note-box">💡 <b>Nhận xét tổng quan (so với report audit 25.08):</b> các khuyến nghị cũ — <b>giá 4 bậc, hạ MOQ thử nghiệm 1,600 → 300, thêm video flushable + spec định lượng</b> — vẫn còn nguyên giá trị và giờ trở thành đòn bẩy để lấy đơn TA đầu tiên + nâng score bài Customize. Traffic 10 ID đầu (Bentonite 4kg: 241 view, Tofu 2.5kg: 167, Silica: 165, Cassava: 133…) là nguồn Dup ưu tiên.</div>
+  </div>
+
+  <!-- ============ MỐC TUẦN ============ -->
+  <div class="card">
+    <h2>📅 Mốc kiểm tra hàng tuần (lộ trình tuyến tính tới 800 bài)</h2>
+    <div class="milestone">
+      <div class="ms now"><div class="d">08/09 — nay</div><div class="v">393 bài · RTS 194</div><div class="v" style="color:#c2410c;font-weight:600">Điểm xuất phát</div></div>
+      <div class="ms"><div class="d">14/09</div><div class="v">~504 bài · RTS ~250</div><div class="v">+111 bài (18.5/ngày)</div></div>
+      <div class="ms"><div class="d">21/09</div><div class="v">~634 bài · RTS ~316</div><div class="v">+241 bài</div></div>
+      <div class="ms"><div class="d">28/09</div><div class="v">~767 bài · RTS ~381</div><div class="v">+374 bài</div></div>
+      <div class="ms"><div class="d">30/09</div><div class="v">800 bài · RTS 400</div><div class="v">🏁 Chốt KPI</div></div>
+    </div>
+    <div class="foot">Nếu tụt dưới mốc ~504 bài vào 14/09 → không thể gỡ kịp bằng đăng tay; phải kích hoạt ngay phương án Dup hàng loạt + thuê/ủy quyền đăng bài.</div>
+  </div>
+
+  <!-- ============ ACTION PLAN ============ -->
+  <div class="card">
+    <h2>🎯 Action plan đề xuất cho Quang Nghi (08 → 30.09)</h2>
+
+    <div class="action p0">
+      <div class="ttl">🔴 P0 — Tuần 1 (08–14/09): Bùng nổ số lượng bài đúng chất lượng</div>
+      <ul>
+        <li><b>Chiến dịch +407 bài (18.5 bài/ngày):</b> chia đều RTS/Customize. Không đăng tay — dùng <b>Dup từ 10 ID đang có traffic</b> (Bentonite 4kg, Tofu 2.5kg, Silica, Cassava, Coconut…) nhân biến thể: size 2.5/4/6.5/10kg, số túi/kiện, hương, bao bì OEM. Ưu tiên ID High Demand + PIS cao đúng chỉ đạo KPI.</li>
+        <li><b>Chỉ đăng bài đạt chuẩn:</b> giữ score RTS &gt; 5.6 / Customize &gt; 5.5 — kiểm tra score trước khi publish, bài dưới ngưỡng thì sửa attribute/ảnh chứ không đăng bừa (tránh kéo tụt điểm trung bình).</li>
+        <li><b>Xác nhận 2 sub-KPI RTS</b> trên Seller Center: danh sách High Demand (mục tiêu &gt;100) và bộ lọc bài đăng &lt;30 ngày (mục tiêu &gt;100) — báo cáo lại số chính xác.</li>
+        <li><b>RFQ 2 RFQ/ngày</b> (24 → 60): ưu tiên RFQ cat litter/chất độn chuồng, trả lời kèm bảng giá 4 bậc + video flushable.</li>
+      </ul>
+    </div>
+
+    <div class="action p1">
+      <div class="ttl">🟡 P1 — Tuần 2–3 (15–28/09): Kích hoạt traffic + Service để cứu chiều Marketing/Service</div>
+      <ul>
+        <li><b>Marketing 300–500 UV/30 ngày:</b> chạy P4P gói nhỏ cho 5–10 từ khoá chính (cat litter, tofu cat litter, bentonite, clumping, flushable…); tận dụng 39,996 điểm AI (ảnh/video) làm creative mới cho bài RTS; kiểm tra keyword/title theo bộ từ High Demand.</li>
+        <li><b>Service 3★ (≥30 buyer/30 ngày):</b> cài quick reply + auto-welcome để kéo reply time từ 6.5h → &lt;3h; kích hoạt trả lời tự động ngoài giờ để giữ response 100%; mở chiến dịch outreach tới 15 buyer đã tương tác + 4 khách ≥10k USD.</li>
+        <li><b>Lấy đơn TA đầu tiên (điều kiện sống còn):</b> chào sample miễn phí/giảm giá + MOQ linh hoạt 300 cho 4 buyer lớn cũ; ưu tiên chốt 1 đơn TA có giá trị trước 30.09 để GMV &gt; 0 và hoàn thành task "Orders 1/1".</li>
+        <li><b>Đăng ký Super product</b> cho 3–5 sản phẩm đầu tàu (hiện đang 0) + duy trì Top product.</li>
+      </ul>
+    </div>
+
+    <div class="action p2">
+      <div class="ttl">🔵 P2 — Duy trì &amp; chuẩn bị cho tháng cao điểm 10–11</div>
+      <ul>
+        <li>Lên lịch đăng ổn định ~15–20 bài/ngày sang tháng 10 (mùa cao điểm Pet Supplies Q4).</li>
+        <li>Triển khai nội dung từ audit 25.08: video flushable 30–60s, spec định lượng (dust %, độ hút nước), bảng giá 4 bậc trên toàn bộ listing Customize để tăng PIS/score.</li>
+        <li>Rà soát bài trùng lặp (hiện 0) và bài hết hạn index để bảo vệ exposure.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot">⚠️ <b>Nguồn số liệu:</b> ảnh dashboard Seller Center / CRM chụp đầu 09/2026 (số liệu tháng 08/2026) + số liệu bổ sung do người dùng cung cấp: score55_product = 214 (đạt score ≥ 5.5), highdemand product = 24, 5.0 product = 369 (đạt PIS ≥ 5.0). Các chỉ tiêu tách nhóm RTS vs Customize vẫn cần bổ sung từ Seller Center để chốt % hoàn thành chính xác. Báo cáo phục vụ tracking nội bộ, không phải tài liệu chính thức của Alibaba.</div>
+
+</div>
+</body>
+</html>
