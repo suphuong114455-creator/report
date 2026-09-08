@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo cáo Middle Yellow 2026 · CN/VI</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#23303b; --muted:#5b6b77; --line:#e2e8ee; --card:#ffffff;
+    --brand:#1d5b80; --brand2:#c56443; --ok:#2e7d5b; --warn:#b3541e;
+    --soft:#eef4f8; --bg:#f5f7fa; --gold:#b98a2f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",-apple-system,"Noto Sans","Helvetica Neue",Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 60px}
+  /* ---------- HERO ---------- */
+  .hero{background:linear-gradient(120deg,#16344a 0%,#1d5b80 60%,#2a6f8f 100%);color:#fff;padding:34px 0 30px}
+  .hero .topline{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12.5px;margin-bottom:10px}
+  .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:2px 10px;border-radius:20px;font-weight:500}
+  .badge.gold{background:#b98a2f;border-color:#d8b45c}
+  h1{font-size:27px;margin:6px 0 2px;letter-spacing:.2px;font-weight:600}
+  .sub{font-size:14px;opacity:.92;margin-bottom:14px}
+  .meta{font-size:12.5px;opacity:.85;display:flex;flex-wrap:wrap;gap:14px}
+  /* ---------- CONTROLS ---------- */
+  .controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:22px 0 18px;justify-content:space-between}
+  .tabs{display:inline-flex;background:#e5ebf1;border-radius:12px;padding:4px;gap:4px}
+  .tabs button{border:0;background:transparent;padding:8px 20px;border-radius:9px;font-size:14px;font-weight:600;color:#41505c;cursor:pointer;transition:.15s}
+  .tabs button.on{background:#fff;color:var(--brand);box-shadow:0 1px 4px rgba(20,40,60,.14)}
+  .langswitch{display:inline-flex;background:#e5ebf1;border-radius:12px;padding:4px;gap:4px}
+  .langswitch button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-size:13.5px;font-weight:600;color:#41505c;cursor:pointer}
+  .langswitch button.on{background:var(--brand);color:#fff}
+  /* ---------- PANELS ---------- */
+  .panel{display:none}
+  body[data-mod="1"] .mod1{display:block}
+  body[data-mod="2"] .mod2{display:block}
+  body[data-lang="vi"] .cn{display:none!important}
+  body[data-lang="cn"] .vi{display:none!important}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:16px 0;box-shadow:0 1px 3px rgba(20,40,60,.05)}
+  h2{font-size:19px;margin:26px 0 4px;color:var(--brand);display:flex;align-items:center;gap:10px}
+  h2 .n{background:var(--brand);color:#fff;font-size:13px;width:26px;height:26px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 26px}
+  h3{font-size:15.5px;margin:18px 0 8px;color:var(--ink)}
+  h4{font-size:14px;margin:14px 0 6px}
+  p{margin:8px 0;font-size:14px}
+  .lead{font-size:13.5px;color:var(--muted);margin:2px 0 10px}
+  ul,ol{margin:8px 0;padding-left:22px;font-size:14px}
+  li{margin:5px 0}
+  .tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:12px;margin-right:6px;margin-bottom:6px}
+  .tag.g{background:#e6f2ec;color:var(--ok);border:1px solid #bfe0d2}
+  .tag.w{background:#fbeadf;color:var(--warn);border:1px solid #f0cbb2}
+  .tag.b{background:var(--soft);color:var(--brand);border:1px solid #cfe0ec}
+  .cols2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:860px){.cols2,.cols3{grid-template-columns:1fr}}
+  .good{color:var(--ok);font-weight:600}.bad{color:var(--warn);font-weight:600}
+  /* table */
+  .twrap{overflow-x:auto;margin:12px 0}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:right;vertical-align:middle}
+  th{background:#eef3f8;color:#33424e;font-weight:600;white-space:nowrap}
+  td.l,th.l{text-align:left}
+  td b{font-size:13px}
+  td .tb{display:block;font-size:11px;color:#98a4ae;font-weight:400}
+  .mon{font-weight:600;color:var(--brand);white-space:nowrap}
+  .hl{background:#fdf6ec!important}
+  /* images */
+  figure{margin:14px 0 4px;text-align:center}
+  figure img{max-width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+  figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+  .imgs2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.imgs2{grid-template-columns:1fr}}
+  .chartbox{position:relative;height:300px;margin:6px 0}
+  .charts2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:860px){.charts2{grid-template-columns:1fr}}
+  /* competitor rows */
+  .link{color:var(--brand);text-decoration:none;font-weight:600;word-break:break-all}
+  .link:hover{text-decoration:underline}
+  .src{font-size:11.5px;color:#8a97a1}
+  .note{background:#fbf6ea;border:1px solid #eedfc0;border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0}
+  .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:#8a97a1}
+  .secbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
+  .arrow{color:var(--brand2);font-weight:600}
+  .grid-prof{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:10px 0}
+  .prof-item{background:var(--soft);border:1px solid #d9e6ef;border-radius:10px;padding:8px 12px;font-size:13px}
+  .prof-item b{display:block;color:var(--brand);font-size:13.5px}
+  .src-img-row{display:flex;gap:6px;font-size:12px;color:var(--muted);align-items:center;margin-top:6px}
+</style>
+</head>
+<body data-lang="vi" data-mod="1">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="topline">
+      <span class="badge gold">GOLD SUPPLIER · 3 YRS</span>
+      <span class="badge">A&V Verified · Manufacturer</span>
+      <span class="badge">Dong Nai, Vietnam</span>
+      <span class="badge">Trade Assurance</span>
+      <span class="badge" style="margin-left:auto"><span class="vi">Đạt 4★ Star Rating</span><span class="cn">店铺 4★ 星等级</span></span>
+    </div>
+    <h1>MIDDLE YELLOW VIET NAM., LTD</h1>
+    <div class="sub"><span class="vi">Báo cáo Gian hàng &amp; Thị trường · Travel Bags / Túi xách &amp; Balo du lịch</span><span class="cn">店铺与行业市场报告 · 旅行袋 / 箱包皮具</span></div>
+    <div class="meta">
+      <span><span class="vi">Ngày lập:</span><span class="cn">报告日期:</span> 07/09/2026</span>
+      <span><span class="vi">Chu kỳ dữ liệu gian hàng:</span><span class="cn">店铺数据周期:</span> 03–08/2026</span>
+      <span><span class="vi">Sản phẩm đang hoạt động (T8):</span><span class="cn">在线商品数（8月）:</span> 1.057</span>
+      <span><span class="vi">Phản hồi trên web:</span><span class="cn">网站公开响应:</span> ≤3h · 99,16%</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="tabs" role="tablist">
+      <button id="modbtn1" class="on" onclick="setMod(1)"><span class="vi">Module 1 · Tổng quan gian hàng</span><span class="cn">模块一 · 店铺总览</span></button>
+      <button id="modbtn2" onclick="setMod(2)"><span class="vi">Module 2 · Thị trường ngành</span><span class="cn">模块二 · 行业市场</span></button>
+    </div>
+    <div class="langswitch">
+      <button id="langvi" class="on" onclick="setLang('vi')">Tiếng Việt</button>
+      <button id="langcn" onclick="setLang('cn')">中文</button>
+    </div>
+  </div>
+
+  <!-- ================= MODULE 1 · VI ================= -->
+  <section class="panel mod1 vi">
+    <h2><span class="n">1</span><span>Tổng quan gian hàng</span></h2>
+    <p class="lead">Nguồn: CRM Alibaba (hiệu quả gian hàng 03–08/2026) + website gian hàng trustpass (truy cập 07/09/2026) + đánh giá của đội dịch vụ.</p>
+    <div class="card">
+      <h3>1.1 Hồ sơ gian hàng</h3>
+      <div class="grid-prof">
+        <div class="prof-item"><b>MIDDLE YELLOW VIET NAM., LTD</b>Nhà sản xuất (Manufacturer) · Thành lập 2023 · Đồng Nai, Việt Nam</div>
+        <div class="prof-item"><b>Quy mô</b>101–200 nhân viên · 5.000–10.000 m² · Giá trị sản lượng 2,5–5 triệu USD/năm</div>
+        <div class="prof-item"><b>Nhóm sản phẩm chính</b>Shopping Bag, Foldable Bag, Drawstring Bag, Foldable Backpack, Waist Bag (+ Woven, Garment, Cooler, Cotton Canvas, Cosmetic Bag)</div>
+        <div class="prof-item"><b>Thị trường chính</b>Tây Âu, Bắc Mỹ, Nam Âu, Đông Nam Á, Đông Âu</div>
+      </div>
+      <p style="font-size:13.5px"><b>Điểm định vị:</b> nhà sản xuất travel bag tại Việt Nam với dòng sản phẩm đa dạng — từ <i>foldable shopping bag / tote tái sử dụng, drawstring bag, foldable backpack</i> đến <i>duffle weekender, waist bag (fanny pack), cosmetic pouch, garment bag</i> — phù hợp cả kênh OEM/ODM lẫn bán sỉ theo ngành hàng (quảng bá, thể thao, du lịch, nhà bán lẻ). Xem sản phẩm nổi bật tại <a class="link" href="https://middleyellow.trustpass.alibaba.com/productlist.html" target="_blank">middleyellow.trustpass.alibaba.com</a>.</p>
+    </div>
+    <div class="card">
+      <h3>1.2 Dữ liệu hiệu quả 6 tháng gần nhất (03–08/2026)</h3>
+      <p class="lead">Ô màu vàng = giá trị gian hàng (Current value); dòng xám nhỏ bên dưới = trung bình ngành (Industry average). Nguồn: trang "Store's performance" trên CRM.</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Chỉ số</th><th class="mon">03/2026</th><th class="mon">04/2026</th><th class="mon">05/2026</th><th class="mon">06/2026</th><th class="mon">07/2026</th><th class="mon">08/2026</th></tr></thead>
+          <tbody>
+            <tr class="hl"><td class="l"><b>Lượt hiển thị tìm kiếm</b> (Search exposures)</td><td><b>45.476</b><span class="tb">TB 62.502</span></td><td><b>91.658</b><span class="tb">TB 59.729</span></td><td><b>82.808</b><span class="tb">TB 58.936</span></td><td><b>95.675</b><span class="tb">TB 56.131</span></td><td><b>106.808</b><span class="tb">TB 59.311</span></td><td><b>79.160</b><span class="tb">TB 65.944</span></td></tr>
+            <tr><td class="l">Lượt xem trang (Page views)</td><td><b>1.714</b><span class="tb">TB 5.114</span></td><td><b>2.900</b><span class="tb">TB 5.055</span></td><td><b>2.464</b><span class="tb">TB 5.019</span></td><td><b>3.690</b><span class="tb">TB 4.881</span></td><td><b>3.562</b><span class="tb">TB 5.307</span></td><td><b>2.515</b><span class="tb">TB 5.455</span></td></tr>
+            <tr><td class="l">Khách truy cập (Unique visitors)</td><td><b>889</b><span class="tb">TB 2.155</span></td><td><b>1.516</b><span class="tb">TB 2.088</span></td><td><b>1.330</b><span class="tb">TB 2.019</span></td><td><b>1.806</b><span class="tb">TB 1.972</span></td><td><b>1.989</b><span class="tb">TB 2.102</span></td><td><b>1.395</b><span class="tb">TB 2.164</span></td></tr>
+            <tr class="hl"><td class="l"><b>Click trực tiếp từ tìm kiếm</b></td><td><b>739</b><span class="tb">TB 1.336</span></td><td><b>1.404</b><span class="tb">TB 1.292</span></td><td><b>1.274</b><span class="tb">TB 1.278</span></td><td><b>1.614</b><span class="tb">TB 1.212</span></td><td><b>1.642</b><span class="tb">TB 1.310</span></td><td><b>1.301</b><span class="tb">TB 1.434</span></td></tr>
+            <tr><td class="l">Khách gửi inquiry (Inquiry visitors)</td><td><b>22</b><span class="tb">TB 32</span></td><td><b>25</b><span class="tb">TB 33</span></td><td><b>27</b><span class="tb">TB 32</span></td><td><b>35</b><span class="tb">TB 34</span></td><td><b>38</b><span class="tb">TB 40</span></td><td><b>13</b><span class="tb">TB 42</span></td></tr>
+            <tr class="hl"><td class="l"><b>Số inquiry (yêu cầu báo giá)</b></td><td><b>22</b><span class="tb">TB 37</span></td><td><b>26</b><span class="tb">TB 38</span></td><td><b>30</b><span class="tb">TB 37</span></td><td><b>40</b><span class="tb">TB 39</span></td><td><b>38</b><span class="tb">TB 45</span></td><td><b>15</b><span class="tb">TB 48</span></td></tr>
+            <tr><td class="l">Tin nhắn (Messages)</td><td><b>94</b><span class="tb">TB 353</span></td><td><b>150</b><span class="tb">TB 347</span></td><td><b>137</b><span class="tb">TB 352</span></td><td><b>170</b><span class="tb">TB 361</span></td><td><b>172</b><span class="tb">TB 385</span></td><td><b>137</b><span class="tb">TB 391</span></td></tr>
+            <tr class="hl"><td class="l"><b>Tỷ lệ phản hồi đúng hạn</b></td><td><b>93,81%</b><span class="tb">TB 93,51%</span></td><td><b>97,28%</b><span class="tb">TB 93,82%</span></td><td><b>98,54%</b><span class="tb">TB 93,25%</span></td><td><b>100%</b><span class="tb">TB 93,44%</span></td><td><b>100%</b><span class="tb">TB 93,71%</span></td><td><b>99,23%</b><span class="tb">TB 93,2%</span></td></tr>
+            <tr class="hl"><td class="l"><b>Thời gian phản hồi TB (giờ)</b></td><td><b>3,7</b><span class="tb">TB 3,6</span></td><td><b>2,1</b><span class="tb">TB 3,5</span></td><td><b>1,7</b><span class="tb">TB 3,6</span></td><td><b>1,6</b><span class="tb">TB 3,5</span></td><td><b>1,1</b><span class="tb">TB 3,5</span></td><td><b>2,0</b><span class="tb">TB 3,6</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Chỉ số sản phẩm (chỉ số riêng gian hàng)</th><th class="mon">03</th><th class="mon">04</th><th class="mon">05</th><th class="mon">06</th><th class="mon">07</th><th class="mon">08</th></tr></thead>
+          <tbody>
+            <tr><td class="l">Tổng sản phẩm</td><td>1.129</td><td>1.135</td><td>1.084</td><td>1.154</td><td>1.185</td><td><b>1.057</b></td></tr>
+            <tr><td class="l">Sản phẩm mới đăng</td><td>70</td><td>30</td><td>52</td><td><b>125</b></td><td>61</td><td><b style="color:#b3541e">35</b></td></tr>
+            <tr><td class="l">Sản phẩm được cập nhật</td><td>103</td><td>247</td><td>185</td><td><b>448</b></td><td>157</td><td>232</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>1.3 Xu hướng 6 tháng (biểu đồ)</h3>
+      <div class="charts2">
+        <div><div style="font-size:13.5px;font-weight:600;margin-bottom:4px">Lượt hiển thị tìm kiếm: gian hàng vs TB ngành</div><div class="chartbox"><canvas id="m1exp_vi"></canvas></div></div>
+        <div><div style="font-size:13.5px;font-weight:600;margin-bottom:4px">CTR tìm kiếm (click / hiển thị): gian hàng vs TB ngành</div><div class="chartbox"><canvas id="m1ctr_vi"></canvas></div></div>
+      </div>
+      <p class="lead">Nhận xét: hiển thị tìm kiếm vượt TB ngành ở 5/6 tháng (đỉnh 106.808 vào 07/2026) — nguồn traffic phía trên phễu rất tốt. Tuy nhiên CTR tìm kiếm duy trì ~1,5–1,7%, thấp hơn TB ngành (~2,1–2,2%) — số lần hiển thị cao nhưng click còn hạn chế (chi tiết tại Mục 1.5).</p>
+    </div>
+    <div class="card">
+      <h3>1.4 Điểm sáng gian hàng</h3>
+      <h4><span class="tag b">Điểm sáng 1</span> Nhà sản xuất lớn tại Việt Nam · Dòng sản phẩm travel bag đa dạng</h4>
+      <p>Nhà máy tại Đồng Nai (101–200 người, 5.000–10.000 m²), nhà sản xuất (Manufacturer) đã xác minh A&amp;V, 3 năm Gold Supplier trên Alibaba.com. Hơn <b>1.000 sản phẩm đang hoạt động</b> trải rộng nhiều dòng: foldable shopping bag/tote, drawstring bag, foldable backpack, waist bag, duffle weekender, woven bag, cooler bag, garment bag, cosmetic bag — lợi thế lớn khi chào khách theo đúng ngành (quảng bá – thể thao – du lịch – bán lẻ).</p>
+      <h4><span class="tag b">Điểm sáng 2</span> Traffic &amp; độ phủ tìm kiếm tốt</h4>
+      <p>Lượt hiển thị tìm kiếm cao hơn TB ngành ở 5/6 tháng (04–08/2026), riêng 07/2026 đạt 106.808 lượt — gấp ~1,8 lần TB ngành. Đây là nền tảng traffic "phía trên phễu" hiếm có, chỉ cần cải thiện CTR (Mục 1.5) là có thể kéo mạnh inquiry. Hoạt động hỏi hàng qua tin nhắn duy trì 137–172 tin/tháng; cùng tỷ lệ phản hồi 99–100% và tốc độ trả lời 1,1–2,0h, khách hỏi hàng luôn được chăm sóc kịp thời — điều kiện thuận lợi để chuyển hội thoại thành cơ hội.</p>
+      <h4><span class="tag b">Điểm sáng 3</span> Hình ảnh sản phẩm đẹp, chuyên nghiệp</h4>
+      <p>Ảnh chính đồng bộ trên toàn gian hàng: chụp trên mẫu người mặc/bối cảnh thực tế (model đeo balo, túi tote), có đa góc nhìn, hiển thị đủ màu sắc và chi tiết cấu trúc túi — đạt chuẩn hình ảnh thương mại B2B. Đây là tài sản giữ chân khách khi đã click vào trang sản phẩm.</p>
+      <h4><span class="tag b">Điểm sáng 4</span> Star Rating đạt 4★ (Healthy)</h4>
+      <p>Theo màn hình Star Rating (CRM, 07/09/2026): gian hàng đang ở mức <b>4★ – trạng thái "Healthy"</b>, kèm nhãn Star-rating Boost. Chi tiết từng tiêu chí:</p>
+      <ul>
+        <li><b>Product: 5/5 tim</b> — 1.058 sản phẩm đạt ngưỡng PIS (vượt mốc tối đa 1.000 trên thang đánh giá).</li>
+        <li><b>Marketing: 5/5 tim</b> — 1.381 khách truy cập/30 ngày, đang tiến về mốc cao hơn (2.000).</li>
+        <li><b>Service: 4/5 tim</b> — 83 người mua được phản hồi/30 ngày (mốc tối đa 100) — đây là tiêu chí duy nhất chưa đạt trọn.</li>
+        <li><b>Bonus: chưa hoàn thành</b> — "Monthly bonus star tasks": Orders 0/3.</li>
+      </ul>
+      <p style="font-size:13.5px">Vì vậy, lộ trình lên 5★ / kích hoạt Star-rating Boost cần: (1) hoàn thành 3 đơn hàng bonus trong tháng, (2) tăng số người mua được phản hồi tiến tới ~100/30 ngày (chủ động nhắn lại mọi inquiry/RFQ và mời đánh giá sau giao dịch).</p>
+      <figure><img src="https://sc04.alicdn.com/kf/S2f3b5eef1340453282563440ced4467dR.jpg" alt="Star Rating 4 sao"><figcaption>Màn hình Star Rating: 4★ Healthy · Product 5/5 · Marketing 5/5 · Service 4/5 · Bonus Orders 0/3</figcaption></figure>
+      <h4><span class="tag b">Điểm sáng 5</span> Phản hồi nhanh, tỷ lệ phản hồi cao</h4>
+      <p>Tỷ lệ phản hồi đúng hạn 99–100% (TB ngành ~93%) và thời gian phản hồi trung bình chỉ 1,1–2,0 giờ (TB ngành 3,5–3,6 giờ); thông tin công khai trên gian hàng: ≤3h và 99,16%. Khách hỏi hàng được chăm sóc gần như tức thời — yếu tố quyết định chuyển hội thoại thành cơ hội và giữ điểm Service ở mức cao.</p>
+      <p style="font-size:13.5px">Chỉ số người mua 30 ngày gần nhất (ảnh dưới) cho thấy chất lượng khách tốt: 135 người mua hoạt động, trong đó 89 là L2+ và 30 người có tổng đơn ≥ 10.000 USD; tỷ lệ phản hồi đạt 100%.</p>
+      <figure><img src="https://sc04.alicdn.com/kf/Sa105f3cd0ee9435487700f07576e7a255.jpg" alt="Chỉ số người mua & dịch vụ"><figcaption>Chỉ số người mua &amp; dịch vụ (CRM): 100% phản hồi · 135 người mua hoạt động · 89 L2+ · 30 người mua đơn ≥ $10.000</figcaption></figure>
+    </div>
+    <div class="card">
+      <h3>1.5 Điểm cần cải thiện</h3>
+      <h4><span class="tag w">Cải thiện 1</span> Số sản phẩm có yêu cầu báo giá giảm so với tháng trước</h4>
+      <p>Theo màn hình "Hiệu quả sản phẩm" (tháng 08/2026):</p>
+      <ul>
+        <li>Sản phẩm có yêu cầu báo giá: <b>55</b> — giảm <b class="bad">−24,66%</b> so với tháng 07.</li>
+        <li>Số inquiry toàn gian hàng: 08/2026 chỉ <b>15</b> so với 38 (07/2026) và 40 (06/2026) — giảm mạnh ~60% trong tháng 8.</li>
+        <li>Liên quan: sản phẩm mới đăng chỉ còn <b>35</b> (−27,08% MoM) sau nhịp cao 125 (06/2026) → 61 (07/2026); sản phẩm có click 229 (−19,08%).</li>
+      </ul>
+      <figure><img src="https://sc04.alicdn.com/kf/S51809eca66f64335aa4146f9842f458fb.jpg" alt="Hiệu quả sản phẩm tháng 08/2026"><figcaption>"Hiệu quả sản phẩm" 08/2026: 55 sản phẩm có yêu cầu báo giá (−24,66% MoM) · SP mới 35 (−27,08%) · SP có click 229 (−19,08%)</figcaption></figure>
+      <p style="font-size:13.5px"><b>Gợi ý xử lý:</b> sụt giảm inquiry bắt nguồn trực tiếp từ việc ít click hơn (xem Cải thiện 2) và nhịp đăng sản phẩm mới chậm lại. Cần: duy trì đăng mới ≥ 60–100 SP/tháng vào các nhóm từ khóa đang cầu (Mục 2.1), ưu tiên "bơm" đúng các sản phẩm đã có inquiry/click trong tháng, rà soát sản phẩm hết hiệu lực (tổng SP giảm từ 1.185 → 1.057).</p>
+      <h4><span class="tag w">Cải thiện 2</span> CTR còn thấp: hiển thị nhiều nhưng click hạn chế</h4>
+      <p>CTR tìm kiếm của gian hàng ~1,5–1,7% trong khi TB ngành ~2,1–2,2% (6 tháng liên tục). Bảng dưới là 10 sản phẩm hút hiển thị nhất tháng 08/2026 (nguồn: "Phân tích sản phẩm Top"):</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Sản phẩm Top (ID)</th><th>Hiển thị</th><th>Click</th><th>CTR</th><th>Inquiry</th><th>Tin nhắn TM</th></tr></thead>
+          <tbody>
+            <tr><td class="l">Foldable Backpack 20L ripstop (1601881019841)</td><td>2.196</td><td>52</td><td><b>2,4%</b></td><td>2</td><td>1</td></tr>
+            <tr><td class="l">Insulated Cooler Hiking Backpack (1601836349088)</td><td>1.426</td><td>16</td><td class="bad">1,1%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">Woven Leather Cosmetic Bag (1601111696890)</td><td>1.416</td><td>24</td><td class="bad">1,7%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">70L Internal Frame Hiking Backpack (1601873363176)</td><td>1.332</td><td>30</td><td><b>2,3%</b></td><td>2</td><td>0</td></tr>
+            <tr><td class="l">Roll Top Laptop Backpack 15,5" (1601913896725)</td><td>1.097</td><td>13</td><td class="bad">1,2%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">Banana Waist Bag (1601864240925)</td><td>1.086</td><td>15</td><td class="bad">1,4%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">Custom Gym Drawstring Backpack (1601676384695)</td><td>1.029</td><td>21</td><td><b>2,0%</b></td><td>0</td><td>0</td></tr>
+            <tr><td class="l">Drawstring Backpack 45cm Gym Sack (1601904230305)</td><td>1.011</td><td>16</td><td class="bad">1,6%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">Reusable Grocery Bags Floral (1601068295317)</td><td>999</td><td>15</td><td class="bad">1,5%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">Large Nylon Tote Reusable (1601915244840)</td><td>892</td><td>25</td><td><b>2,8%</b></td><td>0</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13.5px"><b>Gợi ý xử lý (theo thứ tự ưu tiên):</b></p>
+      <ol>
+        <li><b>Thử giảm MOQ để tăng cạnh tranh:</b> rà soát 10 sản phẩm Top + các sản phẩm dạng RTS. Tham chiếu đối thủ trong Mục 2.2: nhà bán xu hướng đang chào MOQ 2–50 chiếc (bán thử), trong khi nhiều sản phẩm của gian hàng đang để MOQ 500–1.000. Đề xuất thí điểm: nhóm foldable shopping bag / drawstring / cosmetic pouch hạ MOQ còn 100–300, nhóm backpack để 50–100 kèm mức giá theo bậc số lượng.</li>
+        <li><b>Tối ưu tiêu đề + từ khóa</b> cho đúng ý định tìm kiếm 2026 (xem hot keywords Mục 2.1) — hiện nhiều tiêu đề dài nhưng thiếu từ khóa "bán chạy" ở đầu.</li>
+        <li><b>Giữ ảnh chuẩn + bổ sung video/ảnh cấu trúc</b> cho nhóm sản phẩm CTR thấp (cooler backpack, roll top, banana waist bag) để tăng độ tin cậy khi đã click.</li>
+      </ol>
+    </div>
+    <div class="secbox" style="border-left:4px solid var(--brand)">
+      <h4 style="margin-top:0">Ưu tiên 30 ngày tới (gợi ý)</h4>
+      <ol style="margin-bottom:2px">
+        <li>Chạy mục tiêu <b>3 đơn bonus + Service ~100 người mua</b> → giữ/đẩy Star Rating lên 5★.</li>
+        <li>Hạ MOQ thí điểm 5–10 sản phẩm Top + đăng mới ≥ 60 SP theo từ khóa 2026.</li>
+        <li>Kích hoạt khách cũ: nhắn lại khách đã inquiry chưa chốt (30 người mua ≥ $10k là ưu tiên).</li>
+        <li>Theo dõi chỉ số "SP có yêu cầu báo giá" hàng tuần để bắt đà tăng trở lại.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 1 · CN ================= -->
+  <section class="panel mod1 cn">
+    <h2><span class="n">1</span>店铺总览</h2>
+    <p class="lead">数据来源：阿里巴巴国际站 CRM（2026年3–8月店铺效果）+ 店铺官网 trustpass（2026/09/07 访问）+ 服务团队评估。</p>
+    <div class="card">
+      <h3>1.1 店铺档案</h3>
+      <div class="grid-prof">
+        <div class="prof-item"><b>MIDDLE YELLOW VIET NAM., LTD</b>生产厂家（Manufacturer）· 成立于2023 · 越南同奈省</div>
+        <div class="prof-item"><b>规模</b>101–200人 · 5,000–10,000 m² · 年产值 250万–500万美元</div>
+        <div class="prof-item"><b>主营品类</b>购物袋、折叠袋、束口袋、折叠背包、腰包（另有编织袋、服装袋、保温袋、棉帆布袋、化妆包）</div>
+        <div class="prof-item"><b>主要市场</b>西欧、北美、南欧、东南亚、东欧</div>
+      </div>
+      <p style="font-size:13.5px"><b>定位：</b>越南旅行袋生产厂家，产品线齐全 — 从可折叠购物袋/环保托特、束口袋、折叠背包到旅行周末包（duffle）、腰包（fanny pack）、化妆包、服装袋 — 支持 OEM/ODM 与行业批量供货（促销、运动、旅行、零售）。店铺公开页：<a class="link" href="https://middleyellow.trustpass.alibaba.com/productlist.html" target="_blank">middleyellow.trustpass.alibaba.com</a>。</p>
+    </div>
+    <div class="card">
+      <h3>1.2 近6个月店铺效果数据（2026/03–08）</h3>
+      <p class="lead">黄色行 = 店铺实际值；行内灰色小字 = 行业平均值。来源：CRM "Store's performance"。</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">指标</th><th class="mon">2026/03</th><th class="mon">2026/04</th><th class="mon">2026/05</th><th class="mon">2026/06</th><th class="mon">2026/07</th><th class="mon">2026/08</th></tr></thead>
+          <tbody>
+            <tr class="hl"><td class="l"><b>搜索曝光</b></td><td><b>45,476</b><span class="tb">行业 62,502</span></td><td><b>91,658</b><span class="tb">行业 59,729</span></td><td><b>82,808</b><span class="tb">行业 58,936</span></td><td><b>95,675</b><span class="tb">行业 56,131</span></td><td><b>106,808</b><span class="tb">行业 59,311</span></td><td><b>79,160</b><span class="tb">行业 65,944</span></td></tr>
+            <tr><td class="l">页面浏览</td><td><b>1,714</b><span class="tb">行业 5,114</span></td><td><b>2,900</b><span class="tb">行业 5,055</span></td><td><b>2,464</b><span class="tb">行业 5,019</span></td><td><b>3,690</b><span class="tb">行业 4,881</span></td><td><b>3,562</b><span class="tb">行业 5,307</span></td><td><b>2,515</b><span class="tb">行业 5,455</span></td></tr>
+            <tr><td class="l">独立访客</td><td><b>889</b><span class="tb">行业 2,155</span></td><td><b>1,516</b><span class="tb">行业 2,088</span></td><td><b>1,330</b><span class="tb">行业 2,019</span></td><td><b>1,806</b><span class="tb">行业 1,972</span></td><td><b>1,989</b><span class="tb">行业 2,102</span></td><td><b>1,395</b><span class="tb">行业 2,164</span></td></tr>
+            <tr class="hl"><td class="l"><b>搜索直接点击</b></td><td><b>739</b><span class="tb">行业 1,336</span></td><td><b>1,404</b><span class="tb">行业 1,292</span></td><td><b>1,274</b><span class="tb">行业 1,278</span></td><td><b>1,614</b><span class="tb">行业 1,212</span></td><td><b>1,642</b><span class="tb">行业 1,310</span></td><td><b>1,301</b><span class="tb">行业 1,434</span></td></tr>
+            <tr><td class="l">询盘访客</td><td><b>22</b><span class="tb">行业 32</span></td><td><b>25</b><span class="tb">行业 33</span></td><td><b>27</b><span class="tb">行业 32</span></td><td><b>35</b><span class="tb">行业 34</span></td><td><b>38</b><span class="tb">行业 40</span></td><td><b>13</b><span class="tb">行业 42</span></td></tr>
+            <tr class="hl"><td class="l"><b>询盘数</b></td><td><b>22</b><span class="tb">行业 37</span></td><td><b>26</b><span class="tb">行业 38</span></td><td><b>30</b><span class="tb">行业 37</span></td><td><b>40</b><span class="tb">行业 39</span></td><td><b>38</b><span class="tb">行业 45</span></td><td><b>15</b><span class="tb">行业 48</span></td></tr>
+            <tr><td class="l">消息数</td><td><b>94</b><span class="tb">行业 353</span></td><td><b>150</b><span class="tb">行业 347</span></td><td><b>137</b><span class="tb">行业 352</span></td><td><b>170</b><span class="tb">行业 361</span></td><td><b>172</b><span class="tb">行业 385</span></td><td><b>137</b><span class="tb">行业 391</span></td></tr>
+            <tr class="hl"><td class="l"><b>及时回复率</b></td><td><b>93.81%</b><span class="tb">行业 93.51%</span></td><td><b>97.28%</b><span class="tb">行业 93.82%</span></td><td><b>98.54%</b><span class="tb">行业 93.25%</span></td><td><b>100%</b><span class="tb">行业 93.44%</span></td><td><b>100%</b><span class="tb">行业 93.71%</span></td><td><b>99.23%</b><span class="tb">行业 93.2%</span></td></tr>
+            <tr class="hl"><td class="l"><b>平均回复时长（小时）</b></td><td><b>3.7</b><span class="tb">行业 3.6</span></td><td><b>2.1</b><span class="tb">行业 3.5</span></td><td><b>1.7</b><span class="tb">行业 3.6</span></td><td><b>1.6</b><span class="tb">行业 3.5</span></td><td><b>1.1</b><span class="tb">行业 3.5</span></td><td><b>2.0</b><span class="tb">行业 3.6</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">商品指标（店铺独有）</th><th class="mon">03</th><th class="mon">04</th><th class="mon">05</th><th class="mon">06</th><th class="mon">07</th><th class="mon">08</th></tr></thead>
+          <tbody>
+            <tr><td class="l">在线商品总数</td><td>1,129</td><td>1,135</td><td>1,084</td><td>1,154</td><td>1,185</td><td><b>1,057</b></td></tr>
+            <tr><td class="l">新发商品数</td><td>70</td><td>30</td><td>52</td><td><b>125</b></td><td>61</td><td><b style="color:#b3541e">35</b></td></tr>
+            <tr><td class="l">更新商品数</td><td>103</td><td>247</td><td>185</td><td><b>448</b></td><td>157</td><td>232</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>1.3 6个月趋势</h3>
+      <div class="charts2">
+        <div><div style="font-size:13.5px;font-weight:600;margin-bottom:4px">搜索曝光：本店 vs 行业均值</div><div class="chartbox"><canvas id="m1exp_cn"></canvas></div></div>
+        <div><div style="font-size:13.5px;font-weight:600;margin-bottom:4px">搜索CTR（点击/曝光）：本店 vs 行业均值</div><div class="chartbox"><canvas id="m1ctr_cn"></canvas></div></div>
+      </div>
+      <p class="lead">点评：搜索曝光6个月中有5个月高于行业均值（2026/07 达峰值 106,808）— 漏斗顶部流量很好。但搜索CTR约1.5–1.7%，低于行业均值（约2.1–2.2%）— 曝光高而点击有限（详见 1.5）。</p>
+    </div>
+    <div class="card">
+      <h3>1.4 店铺亮点</h3>
+      <h4><span class="tag b">亮点 1</span> 越南大型生产厂家 · 旅行袋产品线丰富</h4>
+      <p>工厂位于同奈省（101–200人，5,000–10,000 m²），A&amp;V 认证生产厂家，Alibaba.com 金品诚企3年。在线商品超 <b>1,000 款</b>，覆盖可折叠购物袋/托特、束口袋、折叠背包、腰包、旅行周末包（duffle）、编织袋、保温袋、服装袋、化妆包 — 按行业（促销、运动、旅行、零售）向买家供货是突出优势。</p>
+      <h4><span class="tag b">亮点 2</span> 流量与搜索覆盖良好</h4>
+      <p>搜索曝光 6 个月中 5 个月高于行业均值（2026/04–08），其中 07 月达 106,808 — 约为行业均值 1.8 倍。这是稀缺的"漏斗顶部"流量基础，只要提升 CTR（见 1.5）即可显著拉动询盘。月均消息往来维持在 137–172 条；配合 99–100% 及时回复率与 1.1–2.0 小时回复速度，询盘买家得到即时响应 — 是把对话转化为商机的有利条件。</p>
+      <h4><span class="tag b">亮点 3</span> 产品图片专业美观</h4>
+      <p>全店主图风格统一：真人/场景实拍（模特背背包、托特包）、多角度展示、颜色齐全、结构细节清晰 — 符合 B2B 商业图片标准。买家点击进入详情页后，图片有助于留住访客。</p>
+      <h4><span class="tag b">亮点 4</span> 星等级达 4★（健康）</h4>
+      <p>CRM 星等级页（2026/09/07）：店铺当前 <b>4★ – Healthy</b>，带 Star-rating Boost 标签。分项明细：</p>
+      <ul>
+        <li><b>商品力 5/5</b> — 1,058 款商品达标（PIS），已超过评分上限 1,000。</li>
+        <li><b>营销力 5/5</b> — 30天独立访客 1,381，正向更高档位（2,000）推进。</li>
+        <li><b>服务力 4/5</b> — 30天已回复买家 83（满分档 100）— 唯一未满分的维度。</li>
+        <li><b>Bonus 未完成</b> — 当月星级加星任务：订单 0/3。</li>
+      </ul>
+      <p style="font-size:13.5px">升 5★ / 触发 Star-rating Boost 的路径：(1) 当月完成 3 个 bonus 订单；(2) 将已回复买家数推高至 ~100/30天（对每条询盘/RFQ 主动跟进，成交后引导评价）。</p>
+      <figure><img src="https://sc04.alicdn.com/kf/S2f3b5eef1340453282563440ced4467dR.jpg" alt="星等级 4★"><figcaption>星等级：4★ Healthy · 商品力 5/5 · 营销力 5/5 · 服务力 4/5 · Bonus 订单 0/3</figcaption></figure>
+      <h4><span class="tag b">亮点 5</span> 回复快、回复率高</h4>
+      <p>及时回复率 99–100%（行业约93%），平均回复时长仅 1.1–2.0 小时（行业 3.5–3.6 小时）；店铺公开信息：≤3h、99.16%。询盘买家基本被即时响应 — 这是把对话转化为商机、维持高服务分的关键。</p>
+      <p style="font-size:13.5px">最近30天买家指标（下图）：活跃买家 135，其中 L2+ 89、累计订单 ≥$10,000 的买家 30；回复率 100%。</p>
+      <figure><img src="https://sc04.alicdn.com/kf/Sa105f3cd0ee9435487700f07576e7a255.jpg" alt="买家与服务指标"><figcaption>买家与服务指标（CRM）：回复率100% · 活跃买家135 · L2+买家89 · ≥$10,000订单买家30</figcaption></figure>
+    </div>
+    <div class="card">
+      <h3>1.5 待改进点</h3>
+      <h4><span class="tag w">改进 1</span> 有报价请求的商品数环比下降</h4>
+      <p>"商品效果"页（2026/08）：</p>
+      <ul>
+        <li>有报价请求的商品：<b>55</b>，环比 <b class="bad">−24.66%</b>。</li>
+        <li>全店询盘：08月仅 <b>15</b>（07月38、06月40），环比降约 60%。</li>
+        <li>关联：新发商品降至 <b>35</b>（−27.08% MoM），此前节奏为 125（06）→ 61（07）；有点击商品 229（−19.08%）。</li>
+      </ul>
+      <figure><img src="https://sc04.alicdn.com/kf/S51809eca66f64335aa4146f9842f458fb.jpg" alt="商品效果 08/2026"><figcaption>"商品效果"2026/08：有报价请求商品55（−24.66%）· 新发35（−27.08%）· 有点击229（−19.08%）</figcaption></figure>
+      <p style="font-size:13.5px"><b>建议：</b>询盘下滑直接来自点击减少（见改进2）与新发节奏放缓。需要：按 2026 需求关键词持续新发 ≥60–100款/月（见模块二 2.1）；优先加推当月已有询盘/点击的商品；清理失效商品（在线总数 1,185 → 1,057）。</p>
+      <h4><span class="tag w">改进 2</span> CTR偏低：曝光高、点击有限</h4>
+      <p>本店搜索CTR约1.5–1.7%，行业均值约2.1–2.2%（连续6个月）。下表为 08/2026 曝光最高的10款商品（来源："Top 商品分析"）：</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Top 商品（ID）</th><th>曝光</th><th>点击</th><th>CTR</th><th>询盘</th><th>TM消息</th></tr></thead>
+          <tbody>
+            <tr><td class="l">可折叠背包20L ripstop（1601881019841）</td><td>2,196</td><td>52</td><td><b>2.4%</b></td><td>2</td><td>1</td></tr>
+            <tr><td class="l">保温登山背包（1601836349088）</td><td>1,426</td><td>16</td><td class="bad">1.1%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">编织皮革化妆包（1601111696890）</td><td>1,416</td><td>24</td><td class="bad">1.7%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">70L 内架登山背包（1601873363176）</td><td>1,332</td><td>30</td><td><b>2.3%</b></td><td>2</td><td>0</td></tr>
+            <tr><td class="l">卷顶笔记本电脑背包15.5"（1601913896725）</td><td>1,097</td><td>13</td><td class="bad">1.2%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">香蕉型腰包（1601864240925）</td><td>1,086</td><td>15</td><td class="bad">1.4%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">定制健身束口背包（1601676384695）</td><td>1,029</td><td>21</td><td><b>2.0%</b></td><td>0</td><td>0</td></tr>
+            <tr><td class="l">45cm束口健身包（1601904230305）</td><td>1,011</td><td>16</td><td class="bad">1.6%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">印花可重复使用购物袋（1601068295317）</td><td>999</td><td>15</td><td class="bad">1.5%</td><td>0</td><td>0</td></tr>
+            <tr><td class="l">大号尼龙环保托特（1601915244840）</td><td>892</td><td>25</td><td><b>2.8%</b></td><td>0</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13.5px"><b>建议（按优先级）：</b></p>
+      <ol>
+        <li><b>尝试降低 MOQ 提升竞争力：</b>梳理 10 款 Top 商品及 RTS 商品。模块二 2.2 对照显示：趋势型卖家普遍提供 MOQ 2–50 件试单，而本店多款商品 MOQ 为 500–1,000。建议试点：折叠购物袋/束口袋/化妆包降至 100–300，背包类 50–100，并做阶梯价。</li>
+        <li><b>优化标题与关键词</b>贴合 2026 搜索意图（热词见模块二 2.1）— 部分标题过长且核心词未前置。</li>
+        <li><b>补强低CTR款的内容</b>（保温背包、卷顶包、香蕉腰包）：加视频/结构细节图，提升点击后的信任度。</li>
+      </ol>
+    </div>
+    <div class="secbox" style="border-left:4px solid var(--brand)">
+      <h4 style="margin-top:0">未来30天优先级（建议）</h4>
+      <ol style="margin-bottom:2px">
+        <li>冲刺 <b>3 个 bonus 订单 + 服务力 ~100 买家</b> → 巩固并冲击 5★。</li>
+        <li>Top 商品试点降 MOQ + 按 2026 热词新发 ≥60 款。</li>
+        <li>激活存量买家：跟进未成交询盘（≥$10,000 的30个买家优先）。</li>
+        <li>每周跟踪"有报价请求商品数"，推动回升。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 2 · VI ================= -->
+  <section class="panel mod2 vi">
+    <h2><span class="n">2</span>Thị trường ngành · Luggage, Bags &amp; Cases &gt; Women's Bags</h2>
+    <p class="lead">Phạm vi: phân khúc túi xách nữ (Women's Bags) trong ngành hàng Luggage, Bags &amp; Cases trên Alibaba.com, định hướng 2026. Dữ liệu từ nguồn công khai có trích dẫn (cập nhật 25/08/2026, truy cập 07/09/2026). Lưu ý: "top từ khóa" chuẩn theo dữ liệu nội bộ nền tảng cần được kiểm chứng lại bằng công cụ từ khóa trên Seller Center.</p>
+    <div class="card">
+      <h3>2.1 Xu hướng thị trường &amp; Hot keywords 2026</h3>
+      <p style="font-size:13.5px">Bối cảnh: thị trường túi xách toàn cầu dự kiến đạt <b>68,86 tỷ USD năm 2026</b> (Fortune Business Insights). Trên sàn B2B, cầu chuyển từ kiểu dáng Y2K sang <i>thanh lịch chức năng &amp; tối giản điêu khắc</i>, và từng mùa đều có "mẫu chủ lực" mới — cơ hội cho nhà sản xuất OEM/ODM nắm đúng form &amp; từ khóa.</p>
+      <div class="cols2">
+        <div>
+          <h4>6 xu hướng chính 2026 (có số liệu tăng trưởng tìm kiếm)</h4>
+          <ul>
+            <li><b>Shoulder bag cấu trúc / dáng "East-West"</b> — mũi nhọn tối giản; search momentum của shoulder bag tăng <b>+240%</b> trong giai đoạn chuyển mùa xuân 2026; crossbody vẫn là nền cầu ổn định.</li>
+            <li><b>Suede slouchy hobo</b> — tăng <b>+600%</b> (Trendalytics).</li>
+            <li><b>Oversized clutch</b> — tăng <b>+152%</b> (Trendalytics).</li>
+            <li><b>"Charm economy"</b> — cá nhân hóa túi bằng charm/khăn/pin: tìm kiếm tăng <b>+1.824%</b> (Trendalytics).</li>
+            <li><b>Woven (đan) &amp; straw/rattan</b> — túi crossbody đan da kiểu intrecciato, mây tre nổi mạnh mùa hè, có cả phân khúc handmade cao cấp.</li>
+            <li><b>Y2K thoái trào</b> → top-handle retro, vanity case, drawstring pouch quay lại (WhoWhatWear, "Dated Bag Trends 2026").</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Đọc cùng dữ liệu nhà cung cấp</h4>
+          <p style="font-size:13.5px">Trang hướng dẫn mua sắm apparel.alibaba.com (25/08/2026) xác nhận nhu cầu sản xuất tập trung ở các mẫu: <b>puffer/quilted bag, crossbody đan da, tote canvas, tote East-West, túi metallic</b>; đồng thời nêu rõ người mua đang tìm nhà máy nhận <b>MOQ linh hoạt + ODM/OEM theo bản vẽ</b>.</p>
+          <div style="font-size:13px;background:var(--soft);border:1px solid #d9e6ef;border-radius:10px;padding:10px 14px">
+            <b>Bài học cho Middle Yellow:</b> 4/6 xu hướng nằm trong năng lực sản xuất hiện có (túi rút/drawstring pouch, duffle weekender, tote tái sử dụng, waist bag kiểu crossbody, cosmetic pouch) — chỉ cần chọn đúng từ khóa + thêm vài mẫu mới theo form đang lên.
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <div style="font-size:13.5px;font-weight:600;margin-bottom:4px">Mức tăng trưởng tìm kiếm được trích dẫn (theo nguồn công khai, %)</div>
+        <div class="chartbox" style="height:260px"><canvas id="m2t_vi"></canvas></div>
+        <p class="src">Nguồn: Trendalytics Handbag Market Trends 2026 · WhoWhatWear · apparel.alibaba.com (Alibaba search data, spring 2026). Các con số đến từ các nguồn và khoảng thời gian khác nhau — dùng để định hướng, không phải so sánh ngang bằng.</p>
+      </div>
+
+      <h3>Hot keywords (nhóm theo ý định tìm kiếm B2B)</h3>
+      <p class="lead" style="margin-bottom:6px">Tổng hợp từ tiêu đề/listing đang bán chạy, trang xu hướng apparel.alibaba.com và trang sản phẩm thực tế — nên kiểm chứng volume bằng công cụ từ khóa nền tảng trước khi tối ưu.</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l" style="width:22%">Nhóm ý định</th><th class="l">Từ khóa hot 2026 (EN — gợi ý đưa vào tiêu đề)</th></tr></thead>
+          <tbody>
+            <tr><td class="l"><b>Dáng túi (silhouette)</b></td><td class="l">women shoulder bag · crossbody bag · East-West tote bag · suede hobo bag · oversized clutch · bucket bag · drawstring pouch · top-handle bag · vanity case · weekender duffle bag</td></tr>
+            <tr><td class="l"><b>Chất liệu</b></td><td class="l">canvas tote bag · woven leather crossbody · straw / rattan bag · PU leather handbag · quilted puffer bag · clear PVC tote · metallic bag</td></tr>
+            <tr><td class="l"><b>B2B / mua sỉ</b></td><td class="l">custom logo tote · wholesale handbags · OEM ODM bag manufacturer · promotional drawstring bag · reusable shopping bag · cosmetic travel organizer · women gym duffle</td></tr>
+            <tr><td class="l"><b>Mùa / trạng thái</b></td><td class="l">2026 trending new arrival · hot selling women bag · ready to ship (RTS) · spring summer bag · leopard print tote</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="secbox" style="border-left:4px solid var(--brand2)">
+        <h4 style="margin-top:0">Gợi ý tận dụng cho Middle Yellow</h4>
+        <ul style="margin-bottom:2px">
+          <li><b>Ngay:</b> gắn từ khóa xu hướng vào tiêu đề các SP đang có hiển thị cao (foldable backpack, drawstring, duffle weekender, tote) — vd "foldable drawstring pouch", "women gym duffle weekender bag with shoe compartment".</li>
+          <li><b>Mẫu mới nên thử (theo xu hướng):</b> canvas tote bản to dáng East-West, túi rút miệng kiểu drawstring pouch bản fashion, hobo chất suede/vải mềm, vanity case — tận dụng năng lực OEM/ODM và lợi thế "Made in Vietnam" (EVFTA/CPTPP) khi chào khách Âu–Mỹ.</li>
+          <li><b>Bán kèm "charm economy":</b> đề xuất phụ kiện charm/dây buộc tặng kèm theo đơn để tăng giá trị trung bình.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>2.2 Một số nhà bán Top tương tự (tham chiếu cạnh tranh)</h3>
+      <p class="lead">Chọn từ trang "New Bags For Women Manufacturer" (apparel.alibaba.com — nhà cung cấp đã sàng lọc cho xu hướng 2026, cập nhật 25/08/2026) và kiểm tra trang sản phẩm thực tế (07/09/2026). Giá FOB &amp; MOQ có thể thay đổi theo thời điểm.</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Nhà bán (địa điểm)</th><th class="l">Sản phẩm đại diện (link)</th><th>Giá FOB</th><th>MOQ</th><th>Đơn hàng công khai</th><th class="l">Ghi chú</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="l"><b>Keymay Bag Co., Ltd.</b><br><span class="src">Jinhua, Chiết Giang · nhà máy từ 2002 · Verified by Intertek</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Oversized-Travel-Lady-Girl-Women-Large_1601709891385.html" target="_blank">Clear PVC beach/travel tote</a></td>
+              <td>$6,50–10/chiếc</td><td>300 bags</td><td>211 đã bán</td>
+              <td class="l">Giá theo bậc số lượng; hàng beach/travel PVC</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Shenzhen Shenhan Pilot Technology</b><br><span class="src">Shenzhen · Custom Manufacturer</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Fashion-Designer-Tote-Bag-Brand-Women_1601671330674.html" target="_blank">Designer ostrich-print tote (EVA)</a></td>
+              <td>$8,10–8,80/chiếc</td><td>10 pieces</td><td><b>594 đã bán</b> · 5,0★ · #1 best reviewed (Handbags Ostrich)</td>
+              <td class="l">MOQ thấp kiểu thử nghiệm, đánh giá tốt</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Guangzhou Pedra Leather Co.</b><br><span class="src">Quảng Châu</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/PEDRA-Women-Handbag-Set-Is-Suitable_1601672203168.html" target="_blank">PEDRA women handbag set</a></td>
+              <td>$11,90–12,80/chiếc</td><td>25 pieces</td><td>—</td>
+              <td class="l">Dòng "branded" giá trung bình khá</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Baoding Kasi Meng Bags</b><br><span class="src">Baoding, Hà Bắc</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Trendy-Latest-Females-Shoulder-Bags-Young_1601796771758.html" target="_blank">Trendy latest women shoulder bag</a></td>
+              <td>$4,90–5,30/chiếc</td><td>10 pieces</td><td>—</td>
+              <td class="l">Cập nhật mẫu theo xu hướng nhanh</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Guangzhou Aopiya Leather (CHRISBELLA)</b><br><span class="src">Quảng Châu</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Wholesale-CHRISBELLA-Women-s-Crossbody-Bag_1601565078312.html" target="_blank">Women's crossbody bag</a></td>
+              <td>$9,89–11,59/chiếc</td><td>24 pieces</td><td>—</td>
+              <td class="l">Túi crossbody nữ bán sỉ</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Laizhou Yiyou Handicrafts</b><br><span class="src">Yên Đài, Sơn Đông · 9 năm trên Alibaba</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Tote-Bags-for-Women-Leopard-Print_1601871009507.html" target="_blank">Leopard-print casual tote</a></td>
+              <td>$7,99–10,99/chiếc</td><td>50 pieces</td><td>—</td>
+              <td class="l">Kinh nghiệm lâu năm, in theo yêu cầu</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13.5px"><b>Đọc nhanh bảng so sánh:</b></p>
+      <ul>
+        <li><b>MOQ:</b> nhóm bán theo xu hướng chào MOQ rất thấp (10–50 chiếc, có nơi 2–3 chiếc) để khách dễ thử đơn; nhóm xưởng hàng utility giữ MOQ 300–500. So với đó, nhiều SP top của Middle Yellow đang để MOQ 500–1.000 → <span class="arrow">giảm MOQ là đòn bẩy cạnh tranh rõ ràng nhất</span>, giúp tăng CTR &amp; inquiry mà chưa cần giảm giá sâu.</li>
+        <li><b>Giá FOB tham chiếu:</b> tote/handbag nữ ~$5–12/chiếc (mức phổ biến); hãy đối chiếu giá Middle Yellow theo từng dòng để đảm bảo đứng giữa khoảng này khi khách so sánh.</li>
+        <li><b>Đơn hàng &amp; đánh giá công khai là minh chứng xã hội:</b> ví dụ Shenhan đạt 594 đơn + 5,0★ nhờ tập trung một ngách (ostrich-print tote). Gợi ý Middle Yellow chọn 2–3 dòng chủ lực (vd foldable backpack 20L, duffle weekender, tote tái sử dụng) để chạy đơn RTS nhỏ, lấy review và gắn nhãn "best reviewed" cho ngách tương ứng.</li>
+      </ul>
+      <p class="src">Nguồn bảng: apparel.alibaba.com/supplier/new-bags-for-women-manufacturer (25/08/2026) + trang sản phẩm alibaba.com (truy cập 07/09/2026). "—" = số liệu không công khai trên trang.</p>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 2 · CN ================= -->
+  <section class="panel mod2 cn">
+    <h2><span class="n">2</span>行业市场 · Luggage, Bags &amp; Cases &gt; Women's Bags</h2>
+    <p class="lead">范围：阿里巴巴国际站 Luggage, Bags &amp; Cases 类目下的女包（Women's Bags）细分市场，2026 方向。数据来自可引用的公开来源（页面更新 2026/08/25，访问 2026/09/07）。提示：平台口径的"热搜词"需在 Seller Center 关键词工具中二次验证。</p>
+    <div class="card">
+      <h3>2.1 2026 市场趋势与热词</h3>
+      <p style="font-size:13.5px">背景：全球手袋市场 2026 年预计达 <b>686.8 亿美元</b>（Fortune Business Insights）。B2B 采购正从 Y2K 花哨风转向"功能优雅 + 极简雕塑感"，且每季都有爆款新廓形 — 这对能快速跟款、支持 OEM/ODM 的工厂是明确机会。</p>
+      <div class="cols2">
+        <div>
+          <h4>2026 六大趋势（含搜索增长数据）</h4>
+          <ul>
+            <li><b>结构化肩包 / "East-West" 廓形</b> — 极简新主流；肩包（shoulder bag）2026 春季搜索动能 <b>+240%</b>；斜挎包（crossbody）仍为稳定基本盘。</li>
+            <li><b>Suede slouchy hobo（麂皮慵懒霍博包）</b> — <b>+600%</b>（Trendalytics）。</li>
+            <li><b>超大号手拿包（oversized clutch）</b> — <b>+152%</b>（Trendalytics）。</li>
+            <li><b>"Charm economy"（挂饰经济）</b> — 用挂饰/丝巾/徽章个性化包包：搜索 <b>+1,824%</b>（Trendalytics）。</li>
+            <li><b>编织（woven/intrecciato）与草编</b> — 夏季热门，含高端手工细分。</li>
+            <li><b>Y2K 退潮</b> → 复古手提包（top-handle）、化妆箱包（vanity case）、束口袋回归（WhoWhatWear "Dated Bag Trends 2026"）。</li>
+          </ul>
+        </div>
+        <div>
+          <h4>结合供应商侧信息</h4>
+          <p style="font-size:13.5px">apparel.alibaba.com 采购指南（2026/08/25）显示 2026 生产需求集中在：<b>puffer/quilted 面包包、编织皮斜挎、帆布托特、East-West 托特、金属色包</b>；买家明确在找支持 <b>灵活 MOQ + 按图 ODM/OEM</b> 的工厂。</p>
+          <div style="font-size:13px;background:var(--soft);border:1px solid #d9e6ef;border-radius:10px;padding:10px 14px">
+            <b>对 Middle Yellow 的启示：</b>六大趋势中 4 项落在现有产能内（束口袋/化妆包/旅行周末包/可重复使用托特/腰包类斜挎）— 关键是选对关键词、补充少量新廓形款。
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <div style="font-size:13.5px;font-weight:600;margin-bottom:4px">公开来源引用的搜索增长（%）</div>
+        <div class="chartbox" style="height:260px"><canvas id="m2t_cn"></canvas></div>
+        <p class="src">来源：Trendalytics Handbag Market Trends 2026 · WhoWhatWear · apparel.alibaba.com（阿里巴巴搜索数据，2026春）。各数据来自不同来源与时段，仅作方向参考，不作横向比较。</p>
+      </div>
+
+      <h3>热词（按 B2B 搜索意图分组）</h3>
+      <p class="lead" style="margin-bottom:6px">由热销 listing 标题、apparel.alibaba.com 趋势页及真实商品页归纳 — 优化前请用平台关键词工具校验搜索量。</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l" style="width:22%">意图分组</th><th class="l">2026 热词（建议写入标题）</th></tr></thead>
+          <tbody>
+            <tr><td class="l"><b>包型</b></td><td class="l">women shoulder bag · crossbody bag · East-West tote bag · suede hobo bag · oversized clutch · bucket bag · drawstring pouch · top-handle bag · vanity case · weekender duffle bag</td></tr>
+            <tr><td class="l"><b>材质</b></td><td class="l">canvas tote bag · woven leather crossbody · straw / rattan bag · PU leather handbag · quilted puffer bag · clear PVC tote · metallic bag</td></tr>
+            <tr><td class="l"><b>B2B 批发</b></td><td class="l">custom logo tote · wholesale handbags · OEM ODM bag manufacturer · promotional drawstring bag · reusable shopping bag · cosmetic travel organizer · women gym duffle</td></tr>
+            <tr><td class="l"><b>季节/状态</b></td><td class="l">2026 trending new arrival · hot selling women bag · ready to ship (RTS) · spring summer bag · leopard print tote</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="secbox" style="border-left:4px solid var(--brand2)">
+        <h4 style="margin-top:0">对 Middle Yellow 的落地建议</h4>
+        <ul style="margin-bottom:2px">
+          <li><b>立即：</b>给高曝光商品标题挂上趋势词（可折叠背包、束口袋、duffle weekender、托特）— 例如 "foldable drawstring pouch"、"women gym duffle weekender bag with shoe compartment"。</li>
+          <li><b>可试新款（贴合趋势）：</b>大容量 East-West 帆布托特、时尚版束口 pouch、麂皮/软布质感 hobo、vanity case — 报价欧美客户时突出 "Made in Vietnam"（EVFTA/CPTPP）优势。</li>
+          <li><b>搭售 "charm economy"：</b>随单附赠挂饰/丝巾小件，提升客单价。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>2.2 同类 Top 卖家参考（竞争对标）</h3>
+      <p class="lead">选自 "New Bags For Women Manufacturer"（apparel.alibaba.com 2026 趋势筛选供应商，更新 2026/08/25）并核验真实商品页（2026/09/07）。FOB 价与 MOQ 随时可能调整。</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">卖家（所在地）</th><th class="l">代表商品（链接）</th><th>FOB 价</th><th>MOQ</th><th>公开销量</th><th class="l">备注</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="l"><b>Keymay Bag Co., Ltd.</b><br><span class="src">浙江金华 · 2002年建厂 · Intertek认证</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Oversized-Travel-Lady-Girl-Women-Large_1601709891385.html" target="_blank">透明PVC沙滩/旅行托特</a></td>
+              <td>$6.50–10/个</td><td>300个</td><td>已售 211</td>
+              <td class="l">阶梯价；沙滩/旅行类</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Shenzhen Shenhan Pilot Technology</b><br><span class="src">深圳 · 定制制造商</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Fashion-Designer-Tote-Bag-Brand-Women_1601671330674.html" target="_blank">鸵鸟纹设计师托特（EVA）</a></td>
+              <td>$8.10–8.80/个</td><td>10件</td><td><b>已售 594</b> · 5.0★ · #1 best reviewed（鸵鸟纹手袋）</td>
+              <td class="l">低MOQ试单、口碑好</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Guangzhou Pedra Leather Co.</b><br><span class="src">广州</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/PEDRA-Women-Handbag-Set-Is-Suitable_1601672203168.html" target="_blank">PEDRA 女包套装</a></td>
+              <td>$11.90–12.80/个</td><td>25件</td><td>—</td>
+              <td class="l">品牌感较强、中高价位</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Baoding Kasi Meng Bags</b><br><span class="src">河北保定</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Trendy-Latest-Females-Shoulder-Bags-Young_1601796771758.html" target="_blank">2026 新款女式肩包</a></td>
+              <td>$4.90–5.30/个</td><td>10件</td><td>—</td>
+              <td class="l">快速跟款</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Guangzhou Aopiya Leather（CHRISBELLA）</b><br><span class="src">广州</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Wholesale-CHRISBELLA-Women-s-Crossbody-Bag_1601565078312.html" target="_blank">女式斜挎包</a></td>
+              <td>$9.89–11.59/个</td><td>24件</td><td>—</td>
+              <td class="l">女式斜挎批发</td>
+            </tr>
+            <tr>
+              <td class="l"><b>Laizhou Yiyou Handicrafts</b><br><span class="src">山东烟台 · 阿里巴巴9年</span></td>
+              <td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Tote-Bags-for-Women-Leopard-Print_1601871009507.html" target="_blank">豹纹休闲托特</a></td>
+              <td>$7.99–10.99/个</td><td>50件</td><td>—</td>
+              <td class="l">经验老到、可按需印花</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13.5px"><b>对标结论：</b></p>
+      <ul>
+        <li><b>MOQ：</b>趋势型卖家普遍 MOQ 10–50 件（部分 2–3 件）方便试单；utility 型工厂 300–500。Middle Yellow 多款 Top 商品 MOQ 为 500–1,000 → <span class="arrow">降 MOQ 是最直接的竞争力杠杆</span>，不必大幅降价即可拉动 CTR 与询盘。</li>
+        <li><b>FOB 参考：</b>女式托特/手袋常见 $5–12/个 — 请按产品线对照本店报价，确保横向比价时处于合理区间。</li>
+        <li><b>销量与评价是社交证明：</b>如 Shenhan 凭单品类深耕（鸵鸟纹托特）做到 594 单 + 5.0★。建议 Middle Yellow 选 2–3 个主打款（如 20L 可折叠背包、duffle weekender、环保托特）跑小单 RTS 积累评价，冲击细分 "best reviewed"。</li>
+      </ul>
+      <p class="src">表格来源：apparel.alibaba.com/supplier/new-bags-for-women-manufacturer（2026/08/25）+ alibaba.com 商品页（访问 2026/09/07）。"—" = 页面未公开。</p>
+    </div>
+  </section>
+
+  <div class="foot">
+    <b>Nguồn dữ liệu / 数据来源:</b>
+    <ul style="margin:6px 0">
+      <li><span class="vi">Dữ liệu gian hàng: CRM Alibaba (hiệu quả gian hàng 03–08/2026, Star Rating, Hiệu quả sản phẩm, Top sản phẩm, chỉ số người mua — ảnh chụp 07/09/2026).</span><span class="cn">店铺数据：阿里巴巴 CRM（店铺效果2026/03–08、星等级、商品效果、Top商品、买家指标 — 截图于2026/09/07）。</span></li>
+      <li><span class="vi">Hồ sơ gian hàng: middleyellow.trustpass.alibaba.com (truy cập 07/09/2026).</span><span class="cn">店铺档案：middleyellow.trustpass.alibaba.com（访问于2026/09/07）。</span></li>
+      <li><span class="vi">Thị trường: Fortune Business Insights · Trendalytics (Handbag Market Trends 2026) · WhoWhatWear · apparel.alibaba.com (25/08/2026) · trang sản phẩm Alibaba (07/09/2026).</span><span class="cn">市场：Fortune Business Insights · Trendalytics（2026手袋趋势报告）· WhoWhatWear · apparel.alibaba.com（2026/08/25）· 阿里巴巴商品页（2026/09/07）。</span></li>
+      <li><span class="vi">Số liệu ngành nguồn công khai có thể lệch với dữ liệu nội bộ nền tảng; giá/MOQ thay đổi theo thời điểm. Báo cáo phục vụ định hướng kinh doanh, không phải cam kết kết quả.</span><span class="cn">公开行业数据可能与平台内部数据存在差异；价格/MOQ 随时间变化。本报告用于经营参考，不构成结果承诺。</span></li>
+    </ul>
+    <div style="margin-top:6px">Báo cáo song ngữ · 双语报告 — 07/09/2026 · dành cho gian hàng MIDDLE YELLOW VIET NAM., LTD</div>
+  </div>
+</div>
+
+<script>
+  /* ---------- language & module switching ---------- */
+  function setLang(l){
+    document.body.dataset.lang = l;
+    document.getElementById('langvi').classList.toggle('on', l==='vi');
+    document.getElementById('langcn').classList.toggle('on', l==='cn');
+    initVisibleCharts();
+  }
+  function setMod(m){
+    document.body.dataset.mod = m;
+    document.getElementById('modbtn1').classList.toggle('on', m===1);
+    document.getElementById('modbtn2').classList.toggle('on', m===2);
+    initVisibleCharts();
+  }
+  /* ---------- charts (lazy init per panel so sizes are correct) ---------- */
+  Chart.defaults.font.family = "'Segoe UI','Noto Sans','Helvetica Neue',Arial,sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = '#5b6b77';
+  const MON = ['03','04','05','06','07','08'];
+  const months = MON.map(m=>'2026/'+m);
+  const expStore = [45476,91658,82808,95675,106808,79160];
+  const expInd   = [62502,59729,58936,56131,59311,65944];
+  const ctrStore = [1.62,1.53,1.54,1.69,1.54,1.64];
+  const ctrInd   = [2.14,2.16,2.17,2.16,2.21,2.17];
+  const trendV   = [1824,600,240,152];
+  const TR_VI = ['"Charm economy" (charm/phụ kiện)','Suede slouchy hobo','Shoulder bag (xuân 2026)','Oversized clutch'];
+  const TR_CN = ['"Charm economy" 挂饰配件','Suede slouchy hobo','Shoulder bag（2026春）','Oversized clutch'];
+  function makeChart(id, kind){
+    const el = document.getElementById(id);
+    if(!el || el.dataset.done) return;
+    const cn = id.slice(-3) === '_cn';
+    const A = cn ? ['本店','行业均值'] : ['Gian hàng','TB ngành'];
+    let cfg;
+    if(kind==='exp' || kind==='ctr'){
+      const s = kind==='exp' ? expStore : ctrStore;
+      const i = kind==='exp' ? expInd   : ctrInd;
+      const fmt = kind==='exp' ? v=>v.toLocaleString('en-US') : v=>v+'%';
+      cfg = {
+        type:'line',
+        data:{ labels:months, datasets:[
+          {label:A[0], data:s, borderColor:'#C56443', backgroundColor:'#C56443', tension:.3, pointRadius:4, borderWidth:2.5, yAxisID:'y'},
+          {label:A[1], data:i, borderColor:'#3E7096', backgroundColor:'#3E7096', borderDash:[5,4], tension:.3, pointRadius:3, borderWidth:2, yAxisID:'y'}
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
+          plugins:{legend:{position:'bottom'}, tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+(c.parsed.y===null?'–':fmt(c.parsed.y))}}},
+          scales:{ y:{grid:{color:'rgba(120,140,160,.15)'}}, x:{grid:{display:false}} } }
+      };
+    } else {
+      cfg = {
+        type:'bar',
+        data:{ labels:(cn?TR_CN:TR_VI), datasets:[{label: cn?'引用来源的搜索增长 (%)':'Mức tăng tìm kiếm được trích dẫn (%)', data:trendV, backgroundColor:['#C56443','#3E7096','#C68E31','#6F8854'], borderRadius:6, maxBarThickness:52}]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>' '+c.parsed.x+'%'}}},
+          scales:{ x:{beginAtZero:true, grid:{color:'rgba(120,140,160,.15)'}}, y:{grid:{display:false}} } }
+      };
+    }
+    el.dataset.done = '1';
+    new Chart(el, cfg);
+  }
+  function initVisibleCharts(){
+    const mod = document.body.dataset.mod, lang = document.body.dataset.lang;
+    if(mod==='1'){ makeChart('m1exp_'+lang,'exp'); makeChart('m1ctr_'+lang,'ctr'); }
+    else { makeChart('m2t_'+lang,'trend'); }
+  }
+  document.addEventListener('DOMContentLoaded', initVisibleCharts);
+</script>
+</body>
+</html>
