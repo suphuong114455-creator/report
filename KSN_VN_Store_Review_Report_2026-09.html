@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo cáo rà soát gian hàng – KSN VN CO., LTD | 09/2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy:#0f2b45; --navy2:#16405f; --ink:#22303f; --muted:#63707e;
+    --line:#e3e8ee; --bg:#f4f6f9; --card:#ffffff;
+    --acc:#e85d04; --acc-soft:#fdeee2; --blue:#2f6fb2; --blue-soft:#e7f0f9;
+    --green:#1f7a4d; --green-soft:#e6f4ec; --red:#c0392b; --red-soft:#fbeae7;
+    --amber:#9a6b00; --amber-soft:#fdf3dd; --violet:#5b4b8a; --violet-soft:#efebf7;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+       background:var(--bg); color:var(--ink); line-height:1.55; font-size:15px;}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 20px 60px;}
+  /* HERO */
+  header.hero{background:linear-gradient(120deg,#0c243c 0%,#174a6f 70%,#1d5d86 100%); color:#fff; padding:34px 0 26px;}
+  .hero .inner{max-width:1060px; margin:0 auto; padding:0 20px;}
+  .hero .kicker{font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; color:#ffd9b3; font-weight:600; margin-bottom:8px;}
+  .hero h1{font-size:27px; font-weight:700; line-height:1.25;}
+  .hero .sub{margin-top:8px; color:#dbe7f1; font-size:14px; max-width:860px;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+  .chip{background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22); border-radius:999px;
+        padding:5px 13px; font-size:12.5px; color:#eef4f9;}
+  .chip b{color:#fff; font-weight:600;}
+  .chip .warn{color:#ffd9b3;}
+  /* NAV */
+  nav.stick{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.94); backdrop-filter:blur(6px);
+            border-bottom:1px solid var(--line);}
+  nav.stick .inner{max-width:1060px; margin:0 auto; padding:0 20px; display:flex; gap:4px; overflow-x:auto;}
+  nav.stick a{display:inline-block; padding:12px 14px; font-size:13.5px; color:var(--muted); text-decoration:none;
+              white-space:nowrap; border-bottom:2px solid transparent; font-weight:500;}
+  nav.stick a:hover{color:var(--navy);}
+  /* LAYOUT */
+  section{margin-top:42px;}
+  h2.sec{font-size:21px; color:var(--navy); padding-bottom:10px; border-bottom:2px solid var(--navy2);
+         margin-bottom:18px; display:flex; align-items:center; gap:10px;}
+  h2.sec .no{background:var(--navy2); color:#fff; min-width:32px; height:32px; border-radius:8px;
+             display:inline-flex; align-items:center; justify-content:center; font-size:15px;}
+  h3{font-size:16.5px; color:var(--navy); margin:22px 0 10px;}
+  h4{font-size:14.5px; color:var(--navy2); margin:14px 0 8px;}
+  p{margin:8px 0;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin:14px 0;
+        box-shadow:0 1px 3px rgba(16,42,67,.05);}
+  .grid{display:grid; gap:14px;}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px;}
+  .kpi .lbl{font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.05em;}
+  .kpi .val{font-size:24px; font-weight:700; color:var(--navy); margin-top:6px;}
+  .kpi .note{font-size:12px; color:var(--muted); margin-top:4px;}
+  .up{color:var(--green); font-weight:600;} .down{color:var(--red); font-weight:600;}
+  /* TABLES */
+  table{width:100%; border-collapse:collapse; background:#fff; font-size:13.2px;}
+  th,td{border:1px solid var(--line); padding:7px 9px; text-align:right; white-space:nowrap;}
+  th{background:#eef2f7; color:var(--navy); font-weight:600;}
+  td:first-child, th:first-child{text-align:left;}
+  tbody tr:nth-child(even){background:#fafbfd;}
+  .ind td{color:#5d6a77; font-style:italic; background:#f6f8fb;}
+  .ind td:first-child{border-left:2px solid #cdd8e4;}
+  .ind .tag{color:#5d6a77; font-style:normal; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.04em;}
+  .row-hl td{background:#fff7ee !important; font-weight:600; color:#8a4a00;}
+  .tr-hl td{background:#fdeee2 !important;}
+  .badge{display:inline-block; padding:2px 9px; border-radius:999px; font-size:11.5px; font-weight:600;}
+  .b-acc{background:var(--acc-soft); color:#a03f00;} .b-blue{background:var(--blue-soft); color:#1d4e83;}
+  .b-green{background:var(--green-soft); color:var(--green);} .b-red{background:var(--red-soft); color:var(--red);}
+  .b-amber{background:var(--amber-soft); color:var(--amber);} .b-violet{background:var(--violet-soft); color:var(--violet);}
+  .b-gray{background:#eceff3; color:#4b5563;}
+  /* CALLOUT */
+  .call{display:flex; gap:12px; border-radius:12px; padding:14px 16px; margin:14px 0; font-size:13.8px; border:1px solid;}
+  .call b{display:block; margin-bottom:2px; font-size:13.5px;}
+  .c-info{background:var(--blue-soft); border-color:#bcd7ee; color:#1d3c5c;}
+  .c-ok{background:var(--green-soft); border-color:#bfe0cd; color:#155c38;}
+  .c-warn{background:var(--amber-soft); border-color:#ead9ae; color:#6b4a06;}
+  .c-danger{background:var(--red-soft); border-color:#ecc4bd; color:#7c2a20;}
+  .c-urgent{background:#fff1e6; border-color:#f3c9a8; color:#8a3c08;}
+  ul.clean{margin:8px 0 8px 20px;} ul.clean li{margin:5px 0;}
+  .small{font-size:12.5px; color:var(--muted);}
+  .muted{color:var(--muted);}
+  .fig{margin:16px 0;}
+  .fig img{width:100%; border:1px solid var(--line); border-radius:10px; display:block; background:#fff;}
+  .fig .cap{font-size:12.5px; color:var(--muted); margin-top:7px; text-align:center;}
+  .fig .cap b{color:var(--navy2);}
+  .flex2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:760px){.flex2{grid-template-columns:1fr;}}
+  .check{list-style:none; margin:0;}
+  .check li{display:flex; gap:10px; padding:11px 6px; border-bottom:1px dashed var(--line);}
+  .check li:last-child{border-bottom:none;}
+  .star{color:#c2410c; font-weight:700; font-family:Georgia,serif; font-size:13.5px; letter-spacing:1px;}
+  .prio{flex:0 0 46px; text-align:center;}
+  .task{flex:1;}
+  .task b{color:var(--navy);}
+  .when{flex:0 0 120px; text-align:right; font-size:12px; color:var(--muted);}
+  .chartbox{position:relative; height:300px; margin:10px 0;}
+  .chartbox.tall{height:330px;}
+  .src{font-size:11.5px; color:#98a2ad; margin-top:4px;}
+  .footnote{margin-top:40px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--muted);}
+  table.wide{min-width:100%;} .tbl-scroll{overflow-x:auto;}
+  .img-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:760px){.img-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <div class="kicker">Báo cáo rà soát gian hàng · Store Review Report</div>
+    <h1>KSN VN CO., LTD — Nhà máy vòi nước / phụ kiện phòng tắm (TP. Hồ Chí Minh)</h1>
+    <p class="sub">Phân tích hiệu quả gian hàng 6 tháng (03–08/2026) theo mô hình VCIO; đề xuất tối ưu bài đăng, vận hành và kế hoạch hành động nhằm nâng hạng sao lên 2★ và tạo đơn hàng Trade Assurance đầu tiên.</p>
+    <div class="chips">
+      <span class="chip">Thâm niên: <b>2 năm</b> (Gold Supplier)</span>
+      <span class="chip">Sản phẩm đang hoạt động: <b>652</b></span>
+      <span class="chip">Bài có lượt hiển thị: <b>280 (42,9%)</b></span>
+      <span class="chip">Bài Top: <b>8</b> · Super: <b>0</b></span>
+      <span class="chip">Hạng sao hiện tại: <b class="warn">1★</b> (dự báo 1★)</span>
+      <span class="chip">Phản hồi: <b>≤4h</b> · 85%</span>
+      <span class="chip">Đơn Trade Assurance 90 ngày: <b class="warn">0</b></span>
+    </div>
+  </div>
+</header>
+
+<nav class="stick"><div class="inner">
+  <a href="#s1">1 · Tổng quan gian hàng</a>
+  <a href="#s2">2 · VCIO &amp; Product Growth Center</a>
+  <a href="#s3">3 · Gợi ý vận hành</a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ===================== SECTION 1 ===================== -->
+<section id="s1">
+  <h2 class="sec"><span class="no">1</span> Tổng quan gian hàng</h2>
+
+  <div class="grid g4">
+    <div class="kpi"><div class="lbl">Tên công ty</div><div class="val" style="font-size:19px">KSN VN CO., LTD</div>
+      <div class="note">Nhà sản xuất (Manufacturer) · Việt Nam · 2 năm trên Alibaba</div></div>
+    <div class="kpi"><div class="lbl">Ngành hàng chính</div><div class="val" style="font-size:19px">Phụ kiện phòng tắm</div>
+      <div class="note">Bidet sprayer · Vòi chậu (Basin faucet) · Vòi bếp · Vòi sen · Siphon · Bib tap · Ống nước</div></div>
+    <div class="kpi"><div class="lbl">Năng lực cung ứng</div><div class="val" style="font-size:19px">100.000 pcs/tháng</div>
+      <div class="note">Dòng sản phẩm đa dạng theo model: KSLA, KSOM, KSTS, KSCS, KSVX, VN…</div></div>
+    <div class="kpi"><div class="lbl">Hạng sao hiện tại</div><div class="val" style="color:var(--amber)">1★ / 5★</div>
+      <div class="note">Product 3★ · Marketing 1★ · Service 2★ · Sales: chưa đạt (0 USD/90 ngày)</div></div>
+  </div>
+
+  <h3>1.1. Bảng dữ liệu hiệu quả gian hàng 6 tháng gần nhất (03 – 08/2026)</h3>
+  <p>Bảng dưới được <b>lập lại từ dữ liệu CRM</b> và <b>bổ sung 2 chỉ số mới</b> theo yêu cầu:</p>
+  <ul class="clean">
+    <li><b>CTR = Click ÷ Search exposures</b> (lượt bấm trực tiếp từ tìm kiếm / lượt hiển thị tìm kiếm) — đo sức hút của bài đăng ở tầng <i>Views → Clicks</i>.</li>
+    <li><b>BO Conversion rate = (Messages + Inquiries) ÷ Page Views</b> — đo khả năng chuyển đổi khách ghé trang thành hội thoại/tin nhắn ở tầng <i>Clicks → Inquiry/Message</i>.</li>
+  </ul>
+
+  <p>Mỗi chỉ số trình bày thành <b>2 dòng xếp chồng</b> để so sánh trực tiếp: dòng <b>Cửa hàng</b> (số liệu gian hàng KSN VN) và dòng <b>TB ngành</b> (trung bình ngành cùng kỳ) — đều lấy từ dữ liệu CRM 6 tháng.</p>
+
+  <div class="tbl-scroll card" style="padding:14px">
+  <table>
+    <thead>
+      <tr>
+        <th>Chỉ số</th><th>So sánh</th><th>03/2026</th><th>04/2026</th><th>05/2026</th><th>06/2026</th><th>07/2026</th><th>08/2026</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="r-top"><td><b>Search exposures</b><br><span class="small">lượt hiển thị tìm kiếm</span></td><td><b>Cửa hàng</b></td><td>2.536</td><td>4.580</td><td>4.622</td><td>4.576</td><td>4.241</td><td>4.434</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>32.783</td><td>30.056</td><td>28.851</td><td>25.958</td><td>26.218</td><td>28.452</td></tr>
+      <tr><td><b>Page views</b></td><td><b>Cửa hàng</b></td><td>654</td><td>702</td><td>943</td><td>221</td><td>342</td><td>536</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>3.067</td><td>2.765</td><td>2.663</td><td>2.521</td><td>2.647</td><td>2.739</td></tr>
+      <tr><td><b>Unique visitors (UV)</b></td><td><b>Cửa hàng</b></td><td>135</td><td>175</td><td>211</td><td>130</td><td>141</td><td>147</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>1.497</td><td>1.349</td><td>1.291</td><td>1.245</td><td>1.302</td><td>1.327</td></tr>
+      <tr><td><b>Direct clicks by search</b></td><td><b>Cửa hàng</b></td><td>32</td><td>126</td><td>52</td><td>48</td><td>84</td><td>91</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>762</td><td>697</td><td>665</td><td>581</td><td>596</td><td>639</td></tr>
+      <tr><td><b>Inquiry visitors</b></td><td><b>Cửa hàng</b></td><td>0</td><td>4</td><td>4</td><td>1</td><td>1</td><td>0</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>27</td><td>26</td><td>25</td><td>25</td><td>26</td><td>28</td></tr>
+      <tr><td><b>Inquiries</b></td><td><b>Cửa hàng</b></td><td>0</td><td>4</td><td>5</td><td>1</td><td>1</td><td>0</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>30</td><td>28</td><td>28</td><td>27</td><td>29</td><td>31</td></tr>
+      <tr><td><b>Messages (tin nhắn)</b></td><td><b>Cửa hàng</b></td><td>9</td><td>49</td><td>30</td><td>10</td><td>4</td><td>22</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>167</td><td>157</td><td>156</td><td>152</td><td>157</td><td>164</td></tr>
+      <tr><td><b>Timely response rate</b></td><td><b>Cửa hàng</b></td><td>77,78%</td><td>96,00%</td><td>83,87%</td><td>90,91%</td><td>60,00%</td><td>85,71%</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>92,14%</td><td>92,26%</td><td>91,88%</td><td>92,33%</td><td>92,67%</td><td>92,68%</td></tr>
+      <tr><td><b>Average reply duration (giờ)</b></td><td><b>Cửa hàng</b></td><td>5,6</td><td>2,0</td><td>6,8</td><td>4,2</td><td>10,0</td><td>3,6</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>3,7</td><td>3,7</td><td>3,8</td><td>3,6</td><td>3,5</td><td>3,6</td></tr>
+      <tr><td><b>Tổng sản phẩm</b></td><td><b>Cửa hàng</b></td><td>608</td><td>585</td><td>663</td><td>655</td><td>653</td><td>652</td></tr>
+      <tr><td><b>Tổng sản phẩm mới đăng</b></td><td><b>Cửa hàng</b></td><td>0</td><td>25</td><td>84</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td><b>Tổng sản phẩm cập nhật</b></td><td><b>Cửa hàng</b></td><td>508</td><td>108</td><td>193</td><td>14</td><td>50</td><td>193</td></tr>
+      <tr class="row-hl"><td><b>CTR</b> = Click ÷ Search exposure <span class="small">(chỉ số bổ sung)</span></td><td><b>Cửa hàng</b></td><td>1,26%</td><td>2,75%</td><td>1,13%</td><td>1,05%</td><td>1,98%</td><td>2,05%</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>2,32%</td><td>2,32%</td><td>2,30%</td><td>2,24%</td><td>2,27%</td><td>2,25%</td></tr>
+      <tr class="row-hl"><td><b>BO Conversion</b> = (Message + Inquiry) ÷ Page views <span class="small">(chỉ số bổ sung)</span></td><td><b>Cửa hàng</b></td><td>1,38%</td><td>7,55%</td><td>3,71%</td><td>4,98%</td><td>1,46%</td><td>4,10%</td></tr>
+      <tr class="ind"><td></td><td><span class="tag">TB ngành</span></td><td>6,42%</td><td>6,69%</td><td>6,91%</td><td>7,10%</td><td>7,03%</td><td>7,12%</td></tr>
+    </tbody>
+  </table>
+  <p class="src">Nguồn: dữ liệu CRM "Store's performance" 03–08/2026 — dòng <b>Cửa hàng</b> = cột Current value; dòng <b>TB ngành</b> = cột Industry average. CTR &amp; BO Conversion được tính thêm cho cả hai nhóm theo đúng công thức ở trên (CTR TB = Click TB ÷ Search TB; BO TB = (Message + Inquiry) TB ÷ Page view TB). Không có TB ngành cho 3 chỉ số sản phẩm (tổng / mới / cập nhật). 2 dòng bôi cam là chỉ số bổ sung.</p>
+  </div>
+
+  <div class="grid g3">
+    <div class="card"><h4>Xu hướng traffic &amp; tương tác</h4><div class="chartbox" style="height:250px"><canvas id="chartTraffic"></canvas></div></div>
+    <div class="card"><h4>Lượt hiển thị tìm kiếm 6 tháng</h4><div class="chartbox" style="height:250px"><canvas id="chartExpo"></canvas></div></div>
+    <div class="card"><h4>2 chỉ số bổ sung so với TB ngành (T8)</h4><div class="chartbox" style="height:250px"><canvas id="chartConv"></canvas></div></div>
+  </div>
+
+  <div class="grid g3">
+    <div class="kpi" style="border-top:3px solid var(--violet)">
+      <div class="lbl">Sản phẩm có PIS &gt; 5,5 (hiện tại 08/2026)</div>
+      <div class="val">78 bài</div>
+      <div class="note">Bài đạt điểm PIS trên ngưỡng — nguồn ứng viên nâng cấp lên cấp POTENTIAL / TOP trong Product Growth Center.</div>
+    </div>
+    <div class="kpi" style="border-top:3px solid var(--blue)">
+      <div class="lbl">Sản phẩm High Demand (hiện tại 08/2026)</div>
+      <div class="val">20 bài · 3%</div>
+      <div class="note">Nhóm sản phẩm nhu cầu cao trên sàn — ưu tiên tối ưu, bơm traffic &amp; quảng cáo để chuyển thành bài Top có inquiry/đơn.</div>
+    </div>
+  </div>
+
+  <h3>1.2. Chỉ số sao (Star Rating) — lịch sử 180 ngày</h3>
+  <div class="card">
+    <table>
+      <thead><tr><th>Tháng</th><th>Hạng sao tổng</th><th>Product</th><th>Marketing</th><th>Service</th></tr></thead>
+      <tbody>
+        <tr><td>03/2026</td><td><span class="badge b-amber">1★</span></td><td>3★</td><td>1★</td><td>1★</td></tr>
+        <tr><td>04/2026</td><td><span class="badge b-amber">1★</span></td><td>3★</td><td>1★</td><td>4★</td></tr>
+        <tr class="tr-hl"><td>05/2026</td><td><span class="badge b-green">2★</span></td><td>3★</td><td>2★</td><td>2★</td></tr>
+        <tr><td>06/2026</td><td><span class="badge b-amber">1★</span></td><td>3★</td><td>1★</td><td>1★</td></tr>
+        <tr><td>07/2026</td><td><span class="badge b-amber">1★</span></td><td>3★</td><td>1★</td><td>1★</td></tr>
+        <tr><td>08/2026</td><td><span class="badge b-amber">1★</span></td><td>3★</td><td>1★</td><td>2★</td></tr>
+      </tbody>
+    </table>
+    <div class="call c-warn" style="margin-top:14px"><div style="flex:1">
+      <b>Đọc nhanh: Marketing chính là "cửa ngõ" quyết định hạng sao tổng.</b>
+      <span>Trong 6 tháng, gian hàng chỉ đạt <b>2★ duy nhất vào tháng 05</b> — đúng tháng có Marketing 2★ (UV 211). Các tháng còn lại dù Product 3★ ổn định và có tháng Service 4★ (04/2026), hạng tổng vẫn 1★ vì Marketing chỉ 1★ (UV 30 ngày ≈ 138). Muốn lên 2★ trong tháng tới: đẩy UV 30 ngày lên ≥ ~200 (ngưỡng Marketing 2★) và giữ Service ≥ 2★.</span></div></div>
+  </div>
+  <figure class="fig"><img src="https://sc04.alicdn.com/kf/S8ec30faafac24a35a5f489c3d92c656as.jpg" alt="Dashboard star rating hiện tại" style="max-width:860px;margin:0 auto">
+    <figcaption class="cap"><b>Hình 1.</b> Star Rating hiện tại: tổng 1★ · Product 3★ (651 bài đạt PIS ≥ ngưỡng) · Marketing 1★ (138 UV/30 ngày) · Service 2★ (13 buyer đã phản hồi) · Sales 0 USD GMV/90 ngày — dự báo giữ 1★</figcaption></figure>
+
+  <h3>1.3. Điểm sáng của gian hàng</h3>
+  <div class="grid g3">
+    <div class="card" style="border-top:3px solid var(--green)">
+      <h4>Nhà sản xuất lớn tại Việt Nam</h4>
+      <p class="small">Nhà máy tại TP.HCM, 2 năm Gold Supplier, 9 nhóm danh mục với ~650 SKU, năng lực ~100.000 pcs/tháng. Có chuỗi model riêng (KSLA, KSOM, KSTS, KSVX…), hỗ trợ OEM/ODM, logo &amp; đóng gói riêng — lợi thế "Made in Vietnam" (EVFTA/CPTPP) khi chào khách EU/US.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green)">
+      <h4>Hình ảnh chuyên nghiệp + MOQ 1–2 set lấy traffic</h4>
+      <p class="small">Ảnh sản phẩm nền studio sạch, đúng chuẩn danh mục. Nhiều bài RTS có <b>MOQ 1 piece, giá từ ~0,65–3,8 USD</b> (ví dụ KSLA-10Xi MOQ 1) — cấu hình "giá thấp + MOQ nhỏ + RTS" đúng bài lấy click/traffic thương mại điện tử bán lẻ.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green)">
+      <h4>Phản hồi cải thiện rõ trong tháng 8</h4>
+      <p class="small">Average reply giảm từ <b>10,0h (07/2026) → 3,6h (08/2026)</b>; Timely response tăng từ 60% → 85,71%; tin nhắn tăng từ 4 → 22 (×5,5). Trên minisite công khai: response time ≤4h, response rate 85%.</p>
+    </div>
+  </div>
+
+  <h3>1.4. Hạn chế của gian hàng</h3>
+  <div class="card">
+    <table>
+      <thead><tr><th style="width:44%">Hạn chế</th><th style="width:30%">Bằng chứng số liệu</th><th>Hệ quả / Hướng xử lý</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>1. Traffic rất thấp so với TB ngành</b> — gốc rễ: <b>0 bài đăng mới</b> trong 3 tháng liên tiếp (06, 07, 08/2026); bài mới gần nhất là tháng 05 (+84) và 04 (+25)</td>
+          <td>08/2026: Search exposure 4.434 = <b>15,6%</b> TB ngành (28.452); Page views 536 = <b>19,6%</b> TB (2.739); UV 147 = <b>11,1%</b> TB (1.327)</td>
+          <td>Thuật toán sàn ưu tiên gian hàng có hoạt động đăng/cập nhật đều (xem VCIO – mục 2). Ưu tiên hiện tại: <b>tăng Views</b>.</td>
+        </tr>
+        <tr>
+          <td><b>2. Chỉ 280/652 bài có lượt hiển thị (42,9%)</b> — còn 372 bài (~57%) không có traffic</td>
+          <td>Sản phẩm có lượt hiển thị 280 (MOM <span class="down">−45,21%</span>); sản phẩm có click chỉ 39 (6,0%)</td>
+          <td>Rà soát bài "chết": gộp/xoá bài trùng lặp, cập nhật keyword + attribute + ảnh cho bài còn giá trị kinh doanh.</td>
+        </tr>
+        <tr>
+          <td><b>3. Bài Top chỉ 8 (1,2%), Super = 0</b> — thiếu bài chất lượng cao được sàn ưu tiên hiển thị</td>
+          <td>Top products = 8 · Super = 0 (Hiệu quả sản phẩm); 8 bài Top hiện mỗi bài chỉ có 0–5 click, 0 inquiry. Trong khi đó nguồn ứng viên sẵn có: <b>78 bài PIS &gt; 5,5</b> và <b>20 bài High Demand (3%)</b> — cần khai thác để nâng số bài Top/Super.</td>
+          <td>Top/Super được tăng traffic tìm kiếm, vị trí hiển thị độc quyền &amp; tiếp cận khách mục tiêu → cần nâng số bài Top/Super (PIS ≥ 5,5 + UV &amp; Active Buyer thuộc Top 50% ngành theo Product Growth Rules 07/2026).</td>
+        </tr>
+        <tr>
+          <td><b>4. Hạng sao = 1★ (5/6 tháng)</b> — cần lên 2★ trong tháng tới</td>
+          <td>Marketing 1★ (UV 30 ngày 138); Sales chưa đạt (GMV 90 ngày = 0 USD); Service 2★</td>
+          <td>Tháng 05 từng đạt 2★ khi Marketing 2★ (UV 211) → tái lập bằng cách tăng UV ≥ ~200/tháng + có giao dịch TA đầu tiên.</td>
+        </tr>
+        <tr>
+          <td><b>5. Không khai thác RFQ</b> &amp; nền khách hàng mỏng</td>
+          <td>Inquiries tháng 08 = 0; Messages 22 (TB ngành 140); Cơ hội kinh doanh 22 (TB 172); Buyer L2+ 14 (TB 116)</td>
+          <td>Bắt đầu trả lời RFQ hàng tuần kèm catalog; tận dụng 22 buyer hiện hữu (5 paid, 2 buyer ≥10.000 USD) để chốt đơn mẫu.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="img-row">
+    <figure class="fig"><img src="https://sc04.alicdn.com/kf/S877535fb54874e4db7eff74b6aa506e4W.jpg" alt="Hiệu quả sản phẩm">
+      <figcaption class="cap"><b>Hình 2.</b> Hiệu quả sản phẩm: 652 hoạt động · 280 có hiển thị · 39 có click · 6 yêu cầu báo giá · 0 bài mới · Top 8 · Super 0</figcaption></figure>
+    <figure class="fig"><img src="https://sc04.alicdn.com/kf/S66f00450f0da4333a5445ebbb46ebb9a7.jpg" alt="Hiệu quả Trade Assurance">
+      <figcaption class="cap"><b>Hình 3.</b> Trade Assurance: 101 bài RTS · 74 có hiển thị · 18 có click · <b>0 đơn hàng · 0 USD</b> — kích hoạt đơn TA là ưu tiên GMV</figcaption></figure>
+    <figure class="fig"><img src="https://sc04.alicdn.com/kf/Sb57f4bcd812e473398e62f512a66dfbeb.jpg" alt="Phân tích sản phẩm Top">
+      <figcaption class="cap"><b>Hình 4.</b> Phân tích sản phẩm Top: bài có hiển thị cao nhất mới 62–175 lượt, hầu hết 0 inquiry — ví dụ KSLA-10Xi (ID 10000026547347) 151 hiển thị / 5 click / 0 inquiry</figcaption></figure>
+    <figure class="fig"><img src="https://sc04.alicdn.com/kf/S196de2728e5d481f98e14e3d0b355c001.jpg" alt="Chân dung khách hàng">
+      <figcaption class="cap"><b>Hình 5.</b> Khách hàng 30 ngày: 22 cơ hội (TB 172) · 22 tin nhắn (TB 140) · 14 buyer L2+ · 5 paid buyers · 2 buyer ≥ 10.000 USD — nguồn chốt đơn tiềm năng</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== SECTION 2 ===================== -->
+<section id="s2">
+  <h2 class="sec"><span class="no">2</span> Mô hình VCIO &amp; Product Growth Center</h2>
+
+  <h3>2.1. VCIO — "Hành trình mua của khách hàng B2B"</h3>
+  <p>VCIO là mô hình phễu 4 tầng mà Alibaba dùng để mô tả hành trình khách: <b>Views (nhìn thấy)</b> → <b>Clicks (nhấn vào)</b> → <b>Inquiry/Message</b> → <b>Order</b>. Mỗi bước chuyển tầng được đo bằng một tỷ lệ riêng: <b>CTR</b> (Views→Clicks) và <b>BO Conversion Rate</b> (Clicks→Inquiry/Message) — chính là 2 chỉ số đã bổ sung ở mục 1.1.</p>
+
+  <div class="grid g3">
+    <div class="card" style="border-top:3px solid #1a7fb5">
+      <h4>Tầng 1 · Views (NHÌN THẤY)</h4>
+      <p class="small">Nguồn traffic: <b>Free</b> — số lượng bài đăng, chất lượng bài (PIS), từ khoá; <b>Paid</b> — quảng cáo; <b>Hoạt động</b> — Livestream, Super September, March Expo.</p>
+      <p class="small"><b>KSN đang kẹt tại đây:</b> 0 bài mới × 3 tháng, 57% bài không hiển thị, Top chỉ 8 → Views rất thấp (UV = 11% TB ngành).</p>
+    </div>
+    <div class="card" style="border-top:3px solid #6a5a9e">
+      <h4>Tầng 2 · Clicks (NHẤN VÀO)</h4>
+      <p class="small">Yếu tố quyết định: tiêu đề – giá – MOQ – ảnh; star rating – thâm niên; số lượng đã bán – feedback; nhãn khuyến mãi.</p>
+      <p class="small"><b>KSN:</b> CTR 2,05% (T8) gần TB ngành 2,25% — nhưng bị thiếu "bằng chứng xã hội": 0 review, 0 đơn TA, attribute chưa đồng bộ.</p>
+    </div>
+    <div class="card" style="border-top:3px solid #cf5a4a">
+      <h4>Tầng 3 · Inquiry / Message</h4>
+      <p class="small">Nội dung bên trong trang sản phẩm/minisite: thông tin đầy đủ (hình, thông số, chất liệu, nhà máy), USP, OEM/ODM.</p>
+      <p class="small"><b>KSN:</b> BO Conversion 4,10% (T8) vẫn thấp hơn TB 7,12%; lượng tuyệt đối rất nhỏ — 0 inquiry, 22 messages.</p>
+    </div>
+    <div class="card" style="border-top:3px solid #d9822b; grid-column:1/-1">
+      <h4>Tầng 4 · ORDER</h4>
+      <p class="small">Yếu tố chốt đơn: kỹ năng bán hàng; chất lượng sản phẩm – giá; phương thức thanh toán/vận chuyển – thời gian giao hàng. <b>KSN: 0 đơn TA, GMV 90 ngày = 0 USD</b> — đây là mắt xích yếu nhất và cũng là nơi tạo doanh thu bền vững.</p>
+    </div>
+  </div>
+
+  <figure class="fig"><img src="https://sc04.alicdn.com/kf/Sead629c54b6c423ba73461c173e01675C.jpg" alt="Sơ đồ VCIO">
+    <figcaption class="cap"><b>Hình 6.</b> Mô hình VCIO — Hành trình mua của khách hàng B2B trên Alibaba.com (nguồn: tài liệu đính kèm)</figcaption></figure>
+
+  <h3>2.2. Product Growth Center &amp; Product Level (PIS) — hiệu lực từ 07/2026</h3>
+  <p>Hệ thống mới tập trung vào chỉ số <b>PIS</b>, phân sản phẩm thành 5 cấp: <b>SUPER (PIS ≥ 5,5 + UV/Active Buyer/AB Conversion Top ngành)</b> → <b>TOP (PIS ≥ 5,5 + UV &amp; Active Buyer Top 50%)</b> → <b>POTENTIAL (PIS ≥ 5,2 hoặc UV Top 50%)</b> → <b>BASIC (PIS ≥ 5,0)</b> → <b>LOW-SCORE (PIS &lt; 4,2)</b>. Bài đạt TOP/SUPER được: tăng lưu lượng tìm kiếm, vị trí hiển thị độc quyền (Worldwide tab, March Expo, Super September…) và chủ động tiếp cận khách mục tiêu. Chính sách bảo vệ 2 tháng đang áp dụng — thời điểm vàng để tối ưu trước khi hết hạn bảo vệ.</p>
+  <figure class="fig"><img src="https://sc04.alicdn.com/kf/S8d0ed3d34be645ad8564b1a4cd8f7bacu.jpg" alt="Product Growth Rules 07/2026">
+    <figcaption class="cap"><b>Hình 7.</b> Product Growth Rules (mới, 07/2026): 5 cấp Product Level theo PIS + lợi ích TOP/SUPER + lộ trình triển khai &amp; chính sách bảo vệ 2 tháng. Đường dẫn: My Alibaba &gt; Products &gt; All — di chuột vào nhãn Product Level để xem điểm PIS (Product Growth Center).</figcaption></figure>
+
+  <div class="call c-urgent">
+    <div style="flex:1">
+      <b>Nhiệm vụ khẩn cấp — Tăng VIEWS (tầng 1 của VCIO):</b>
+      ① Đăng sản phẩm mới <b>đều đặn hàng tháng</b> (100–200 bài, ưu tiên bài PIS &gt; 5,0; RTS ≥ 5,7; Customize ≥ 5,5);
+      ② <b>Cập nhật keyword hot</b> + ảnh + attribute vào các bài cũ (đặc biệt 372 bài đang không hiển thị);
+      ③ Cân nhắc sử dụng <b>gói quảng cáo (P4P)</b> cho 8 bài Top &amp; bài tiềm năng để bơm UV ngay, đưa Marketing lên 2★ và hạng sao tổng lên 2★.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 3 ===================== -->
+<section id="s3">
+  <h2 class="sec"><span class="no">3</span> Gợi ý vận hành</h2>
+
+  <h3>3.1. Gợi ý sửa đổi bài đăng cụ thể</h3>
+  <p>Bài đăng được chọn làm mẫu: <a href="https://www.alibaba.com/product-detail/Vietnam-Factory-Easy-Install-Chrome-Basin_10000026547347.html" target="_blank">Vietnam Factory Easy Install Chrome Basin Faucet Single Handle Wash Sink Tap for Bathroom KSLA-10Xi hot sale</a> (ID <b>10000026547347</b>). Đây cũng là bài nằm trong Top sản phẩm có hiển thị của gian hàng (151 hiển thị / 5 click / 0 inquiry trong bảng Phân tích sản phẩm Top) và đang giữ thứ hạng <b>#12 "most popular in Easy to Install Basin Faucets"</b> — tối ưu bài này sẽ kéo traffic cho cả gian hàng.</p>
+
+  <h4>3.1.1. Nhận xét bài đăng hiện tại</h4>
+  <div class="tbl-scroll card" style="padding:14px">
+  <table>
+    <thead><tr><th style="width:22%">Hạng mục</th><th style="width:44%">Hiện trạng quan sát được</th><th>Nhận xét</th></tr></thead>
+    <tbody>
+      <tr><td>Tiêu đề (title)</td><td>"Vietnam Factory Easy Install Chrome Basin Faucet Single Handle Wash Sink Tap for Bathroom KSLA-10Xi <b>hot sale</b>"</td>
+        <td>Chưa tối ưu thứ tự từ khoá: thiếu các cụm mua hàng chính <b>ABS plastic, single cold water, deck mounted, single hole, ready to ship</b>; "hot sale" là từ đệm vô nghĩa; "Chrome" (mạ crome) ở tiêu đề nhưng attribute lại ghi White (xem dưới).</td></tr>
+      <tr><td>Key attributes</td><td>Surface Treatment: <b>White</b>; Sensor Type: <b>Touch</b>; Material: "High-quality ABS plastic, brass legs"; Warranty: <b>N/A</b>; After-sale Service: Other; Valve core: Ceramic ✓</td>
+        <td><b>2 lỗi nghiêm trọng:</b> ① Sản phẩm mạ crome nhưng khai "Surface Treatment = White" — lệch với tiêu đề "Chrome", mất khớp khi buyer lọc theo màu/hoàn thiện; ② <b>Sensor Type = Touch là SAI</b> — KSLA-10Xi là vòi tay gạt cơ, cảm ứng chỉ có ở KSLA-07 → sai thuộc tính khiến bài bị loại khỏi kết quả lọc đúng &amp; hạ điểm hoàn thiện/PIS. Warranty nên khai có thời hạn (2 năm như các bài KSN khác).</td></tr>
+      <tr><td>Hình ảnh</td><td>Ảnh nền studio trắng rõ nét (tốt); chưa thấy ảnh kích thước, ảnh cảnh đời sống, ảnh đóng gói/logo hay video lắp đặt</td>
+        <td>Đủ "sạch" nhưng chưa đủ "bán hàng": tham khảo bài top cùng phân khúc — cần bộ 6 ảnh gồm ảnh chính có tag (RTS · MOQ 1), ảnh thông số kỹ thuật, ảnh USP (tiết kiệm nước, van gốm, chống ăn mòn), ảnh ứng dụng thực tế (khách sạn/nhà tắm), ảnh đóng gói/OEM + video lắp đặt 15–30 giây.</td></tr>
+      <tr><td>Giá / MOQ</td><td>$3,80 (1–199) → $2,74 (≥2.000); MOQ 1 piece; bậc giá rõ ràng ✓</td>
+        <td>Cấu trúc giá tốt (giảm dần theo lượng). Giữ nguyên; có thể thêm tùy chọn "Sample order" để lấy đơn thử.</td></tr>
+      <tr><td>Bằng chứng xã hội</td><td>0 review · 0 đơn đã bán · chưa có số liệu "đã bán/feedback"</td>
+        <td>Điểm yếu lớn nhất so với bài top (thường có reviews + số đã bán + reorder rate). Cần đơn TA đầu tiên + đề nghị review để tạo vòng xoáy tin cậy.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>3.1.2. Gợi ý tối ưu (tham khảo cấu trúc bài top-ranking trên sàn)</h4>
+  <p class="small">Quan sát các bài đang xếp hạng/được ưa chuộng cùng phân khúc ABS basin faucet trên Alibaba cho thấy cụm từ khoá mua hàng thường được xếp theo thứ tự: <i>[Nhãn giao dịch: Ready to Ship / Wholesale / OEM-ODM] → [Vật liệu: ABS/Plastic] → [Loại vòi + tính năng: Basin Faucet / Pillar Cock, single cold water] → [Kiểu lắp: Deck Mounted / Single Hole] → [Công dụng: Bathroom / Wash Sink] → [Model]</i>. Đối thủ cùng phân khúc (Ningbo Pntek – 7 năm, HONGKE – Chiết Giang) đều khai gần như 100% thuộc tính kèm <b>Warranty 3–5 năm</b>, after-sale service và thông số kỹ thuật bổ sung (thread chuẩn, áp suất, nhiệt độ…).</p>
+
+  <div class="flex2">
+    <div class="card" style="border-top:3px solid var(--green)">
+      <h4>Gợi ý tiêu đề mới (chọn 1 trong 2)</h4>
+      <p class="small"><b>Bản A – nhắm khách RTS/đơn nhỏ (giữ MOQ 1):</b></p>
+      <div class="call c-ok" style="margin:6px 0"><div style="flex:1"><b>Ready to Ship Chrome Basin Faucet ABS Plastic Single Cold Water Deck Mounted Single Hole Wash Sink Tap Easy Install for Bathroom KSLA-10Xi</b></div></div>
+      <p class="small"><b>Bản B – nhắm khách sỉ/OEM:</b></p>
+      <div class="call c-ok" style="margin:6px 0"><div style="flex:1"><b>Wholesale OEM/ODM Vietnam Chrome Basin Faucet ABS Plastic Single Cold Water Deck Mounted Sink Tap KSLA-10Xi for Bathroom Hotels</b></div></div>
+      <p class="small">Giữ "Vietnam" (định vị Made-in-Vietnam) ở thân tiêu đề thay vì đầu; bỏ "hot sale". Độ dài mỗi bản ~110–120 ký tự, trong giới hạn 128.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue)">
+      <h4>Gợi ý sửa Key Attributes (bắt buộc)</h4>
+      <ul class="clean small">
+        <li>Surface Treatment: <b>White → Chrome/Polished Chrome</b> (đồng bộ với tiêu đề &amp; thực tế sản phẩm).</li>
+        <li>Sensor Type: <b>Touch → bỏ/N.A.</b> (sản phẩm là tay gạt cơ — chỉ giữ Touch nếu là KSLA-07).</li>
+        <li>Warranty: <b>N/A → 2 years</b> (đồng bộ chuỗi "2-Year Warranty" các bài KSN khác).</li>
+        <li>Bổ sung các trường còn trống: Feature (water-saving aerator, corrosion-resistant…), After-sale Service (Online technical support, Return and Replacement), Size/Weight chuẩn, Video.</li>
+        <li>Giữ nguyên: Material ABS + brass legs, Valve core Ceramic, Deck Mounted, Single Hole, Flow 1.5 gpm, Place of Origin Vietnam.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Kế hoạch ảnh + nội dung chi tiết (6 ảnh / 1 video)</h4>
+    <div class="grid g3">
+      <div><b class="small">Ảnh 1 · Main</b><p class="small">Sản phẩm chính diện nền trắng, tag nổi "Ready to Ship · MOQ 1 pc · 2-Year Warranty" để tăng CTR ngay trên trang kết quả tìm kiếm.</p></div>
+      <div><b class="small">Ảnh 2 · Thông số</b><p class="small">Bản vẽ kích thước (dài 14 cm…), trọng lượng 116 g, kiểu lắp 1 lỗ deck-mounted — đúng nhu cầu buyer B2B cần thông số để đối chiếu.</p></div>
+      <div><b class="small">Ảnh 3 · USP</b><p class="small">Close-up: van gốm, sục khí tiết kiệm nước, lớp mạ chống ăn mòn, ren đồng — tạo khác biệt kỹ thuật.</p></div>
+      <div><b class="small">Ảnh 4 · Đời sống</b><p class="small">Bối cảnh phòng tắm khách sạn/căn hộ hiện đại (chuẩn lifestyle như ảnh các bài Top ngành) — tăng cảm xúc mua.</p></div>
+      <div><b class="small">Ảnh 5 · Đóng gói/OEM</b><p class="small">Hộp/logo KSN + tùy chọn logo riêng (Min. 2.000 pcs), số lượng kiện/gross weight 0,5 kg — trả lời sớm câu hỏi logistics.</p></div>
+      <div><b class="small">Ảnh 6 + Video</b><p class="small">Chứng nhận/QC nhà máy + video lắp đặt 15–30s ("Easy Install" là USP chính của bài — nên minh hoạ bằng video).</p></div>
+    </div>
+    <p class="small" style="margin-top:10px">Sau khi sửa: kiểm tra lại điểm <b>PIS</b> trong Product Growth Center — mục tiêu bài này đạt <b>PIS ≥ 5,5</b> (ngưỡng TOP/POTENTIAL), đồng thời theo dõi CTR tuần đầu (mục tiêu ≥ 2,5%).</p>
+  </div>
+
+  <h3>3.2. Hành động cụ thể — Checklist theo mức độ khẩn cấp</h3>
+  <p class="small">Thang ưu tiên: <span class="star">★★★★</span> = khẩn cấp / làm ngay trong 1–2 tuần; <span class="star">★★★</span> = quan trọng trong tháng; <span class="star">★★</span> = duy trì liên tục. Mục tiêu: <b>UV 30 ngày ≥ 200 → Marketing 2★ → hạng sao 2★ trong tháng 09/2026</b>, và có <b>đơn Trade Assurance đầu tiên</b> để mở khoá doanh thu (GMV).</p>
+
+  <div class="card">
+    <h4>Nhóm A · Tăng Views &amp; nâng hạng sao</h4>
+    <ul class="check">
+      <li><div class="prio"><span class="star">★★★★</span></div><div class="task"><b>Tăng bài đăng mới 100–200 bài/tháng</b> — đăng ngay trong tháng 09. Ưu tiên (1) duplicate/cải tiến các bài Top đang có traffic/inquiry, (2) đăng mẫu mã mới. <b>Lưu ý chuẩn PIS khi đăng:</b> bài cần PIS &gt; 5,0; tốt nhất <b>RTS ≥ 5,7</b>, <b>Customize ≥ 5,5</b> (đăng dạng RTS để lấy traffic nhanh; 101 bài RTS hiện có là nền để nhân bản). Cập nhật sản phẩm đều đặn để "đánh thức" thuật toán (bài mới tháng gần nhất mới là 05/2026: +84).</div><div class="when">Tuần 1–2 T09<br><span class="small">duy trì mỗi tháng</span></div></li>
+      <li><div class="prio"><span class="star">★★★★</span></div><div class="task"><b>Rà soát bài non-performance</b> — xử lý 372 bài (~57%) không có lượt hiển thị + các bài cũ 6 tháng: cập nhật <b>từ khoá hot / hình ảnh / attribute</b>; gộp hoặc xoá bài trùng lặp (hiện 0 bài trùng – cần giữ sạch khi nhân bản số lượng lớn). Mục tiêu: nâng tỷ lệ bài có hiển thị từ 42,9% lên ≥ 60%.</div><div class="when">Tuần 1–3 T09</div></li>
+      <li><div class="prio"><span class="star">★★★★</span></div><div class="task"><b>Tăng số bài TOP/SUPER</b> — ý nghĩa: bài Top/Super được sàn ưu tiên hiển thị (traffic tìm kiếm, vị trí độc quyền, chủ động tiếp cận khách) nên 1 bài Top có giá trị bằng hàng chục bài thường. Từ 8 bài Top hiện có, nâng lên 15–20 bài trong 2 tháng, khai thác nguồn sẵn có: <b>78 bài PIS &gt; 5,5</b> và <b>20 bài High Demand (3%)</b> — chọn bài có UV tốt, tối ưu PIS ≥ 5,5 và chỉ số UV/Active Buyer (theo Product Growth Rules 07/2026, đang trong thời gian bảo vệ 2 tháng).</div><div class="when">Tuần 1 T09<br><span class="small">→ hết T10</span></div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4>Nhóm B · Tạo Inquiry &amp; Đơn hàng (GMV)</h4>
+    <ul class="check">
+      <li><div class="prio"><span class="star">★★★</span></div><div class="task"><b>Kích hoạt RFQ trong tháng</b> — trả lời ít nhất 5–10 RFQ/tuần trong danh mục (vòi chậu, vòi bếp, bidet sprayer, shower head…); <b>luôn đính kèm Catalog</b> (file PDF gian hàng) + bảng giá theo bậc + lead time 7 ngày (1–1.000 pcs). RFQ là kênh inquiry "miễn phí" duy nhất KSN chưa dùng (Inquiries T8 = 0).</div><div class="when">Hàng tuần<br><span class="small">từ tuần 1 T09</span></div></li>
+      <li><div class="prio"><span class="star">★★★</span></div><div class="task"><b>Chốt đơn Trade Assurance đầu tiên (GMV &gt; 0)</b> — tấn công 22 buyer hiện hữu đã nhắn (14 buyer L2+, 5 paid, 2 buyer ≥ 10.000 USD) bằng gói "sample order/combine shipping": gửi catalog + giá FOB/CIF + đề nghị mẫu có phí hoàn lại khi đặt lô. Đơn TA đầu tiên sẽ kéo theo: số "đã bán", review, điểm tin cậy ở tầng Clicks và mở đường GMV 90 ngày cho tiêu chí Sales.</div><div class="when">Tuần 1–2 T09</div></li>
+      <li><div class="prio"><span class="star">★★★</span></div><div class="task"><b>Chạy P4P/ADS thử nghiệm 2 tuần</b> — chọn 8 bài Top + 5–10 bài đang có click (39 bài) với keyword hot; ngân sách nhỏ, theo dõi ROI theo ngày; không dừng hẳn, chỉ tinh chỉnh từ khoá/giá thầu. Dùng P4P để bơm UV ngay lập tức hỗ trợ mục tiêu Marketing 2★.</div><div class="when">Tuần 2–4 T09</div></li>
+      <li><div class="prio"><span class="star">★★</span></div><div class="task"><b>Nâng chất lượng phản hồi (Service ổn định ≥ 2★)</b> — duy trì response ≤ 4h (mục tiêu ≤ 2h), timely response ≥ 92% (T8: 85,71%); bật Smart Assistant/AIM ngoài giờ; soạn sẵn template trả lời chuẩn (giá bậc, MOQ, lead time, OEM logo ≥ 2.000 pcs, chứng nhận, video nhà máy).</div><div class="when">Liên tục</div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4>Nhóm C · Duy trì &amp; đo lường</h4>
+    <ul class="check">
+      <li><div class="prio"><span class="star">★★</span></div><div class="task"><b>Hoàn thiện minisite + nội dung thương hiệu</b> — cập nhật company profile (ảnh nhà máy, dây chuyền, QC), video giới thiệu, chứng nhận, catalog tải về; gắn banner chiến dịch Super September cho bài RTS. Mục tiêu: nâng BO Conversion từ 4,10% → ≥ 6% (TB 7,12%) nhờ trang sản phẩm đầy đủ thông tin (đúng tiêu chí tầng Inquiry của VCIO).</div><div class="when">Tuần 2–3 T09</div></li>
+      <li><div class="prio"><span class="star">★★</span></div><div class="task"><b>Lịch vận hành + báo cáo tuần</b> — chốt lịch đăng bài cố định (ví dụ: mỗi tuần 25–50 bài), phân công người phụ trách RFQ và follow-up khách; họp nhanh mỗi tuần kiểm tra: bài mới đăng, UV 30 ngày, Messages, RFQ đã trả lời, đơn TA, PIS của 10 bài trọng điểm.</div><div class="when">Từ tuần 1 T09</div></li>
+    </ul>
+  </div>
+
+  <div class="call c-urgent">
+    <div style="flex:1"><b>Tổng kết ưu tiên tháng 09/2026 (KSN):</b>
+      Đăng mới 100+ bài (RTS PIS ≥ 5,7) + sửa attribute 8 bài Top (đặc biệt KSLA-10Xi) → đẩy UV ≥ 200 → Marketing 2★ → <b>hạng sao 2★</b>;
+      song song trả lời RFQ kèm catalog + chốt <b>đơn Trade Assurance đầu tiên</b> từ 22 buyer hiện hữu → có GMV và bằng chứng xã hội cho tầng Clicks/Inquiry.</div>
+  </div>
+</section>
+
+<div class="footnote">
+  <p><b>Nguồn dữ liệu:</b> (1) Ảnh dữ liệu CRM gian hàng 6 tháng 03–08/2026, Star Rating 180 ngày, Hiệu quả sản phẩm, Hiệu quả Trade Assurance, Phân tích sản phẩm Top, chân dung khách hàng do khách hàng cung cấp; (2) Minisite công khai KSN VN CO., LTD (trustpass.alibaba.com) và trang sản phẩm mẫu ID 10000026547347; (3) Tài liệu VCIO và Product Growth Rules (07/2026) đính kèm. Hai chỉ số CTR và BO Conversion rate được tính thêm từ dữ liệu gốc. Các mốc TB ngành/DN dẫn đầu theo cột benchmark của CRM. Đề xuất chiến dịch quảng cáo chỉ mang tính tối ưu hiệu quả, không khuyến nghị dừng chi.</p>
+  <p>Báo cáo lập ngày 08/09/2026 · Bản tiếng Việt · Dùng cho đối soát vận hành gian hàng KSN VN CO., LTD.</p>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+const C = {blue:'#2f6fb2', orange:'#e85d04', green:'#1f7a4d', red:'#c0392b', gray:'#9aa6b2', navy:'#0f2b45'};
+Chart.defaults.font.family = '-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#4b5563';
+
+new Chart(document.getElementById('chartTraffic'), {
+  type:'line',
+  data:{labels:['03/26','04/26','05/26','06/26','07/26','08/26'],
+    datasets:[
+      {label:'Page views', data:[654,702,943,221,342,536], borderColor:C.blue, backgroundColor:'rgba(47,111,178,.12)', fill:true, tension:.3, pointRadius:4},
+      {label:'Unique visitors', data:[135,175,211,130,141,147], borderColor:C.green, backgroundColor:'transparent', tension:.3, pointRadius:4},
+      {label:'Clicks (search)', data:[32,126,52,48,84,91], borderColor:C.orange, backgroundColor:'transparent', tension:.3, pointRadius:4}
+    ]},
+  options:{responsive:true, maintainAspectRatio:false,
+    scales:{y:{beginAtZero:true, grid:{color:'#eef1f5'}}},
+    plugins:{legend:{position:'bottom'}}}
+});
+
+new Chart(document.getElementById('chartExpo'), {
+  type:'bar',
+  data:{labels:['03/26','04/26','05/26','06/26','07/26','08/26'],
+    datasets:[
+      {label:'Search exposures', data:[2536,4580,4622,4576,4241,4434], backgroundColor:C.blue, borderRadius:4},
+      {label:'TB ngành (T8: 28.452)', data:[null,null,null,null,null,28452], type:'line', borderColor:C.red, borderDash:[6,4], pointRadius:0, fill:false}
+    ]},
+  options:{responsive:true, maintainAspectRatio:false,
+    scales:{y:{beginAtZero:true, grid:{color:'#eef1f5'}}},
+    plugins:{legend:{position:'bottom'}}}
+});
+
+new Chart(document.getElementById('chartConv'), {
+  type:'line',
+  data:{labels:['03/26','04/26','05/26','06/26','07/26','08/26'],
+    datasets:[
+      {label:'CTR (%)', data:[1.26,2.75,1.13,1.05,1.98,2.05], borderColor:C.orange, backgroundColor:'transparent', tension:.3, pointRadius:4},
+      {label:'BO Conversion (%)', data:[1.38,7.55,3.71,4.98,1.46,4.10], borderColor:C.navy, backgroundColor:'transparent', tension:.3, pointRadius:4},
+      {label:'TB ngành CTR 2,25%', data:[2.25,2.25,2.25,2.25,2.25,2.25], borderColor:C.green, borderDash:[6,4], pointRadius:0},
+      {label:'TB ngành BO 7,12%', data:[7.12,7.12,7.12,7.12,7.12,7.12], borderColor:C.red, borderDash:[6,4], pointRadius:0}
+    ]},
+  options:{responsive:true, maintainAspectRatio:false,
+    scales:{y:{beginAtZero:true, grid:{color:'#eef1f5'}}},
+    plugins:{legend:{position:'bottom'}}}
+});
+</script>
+</body>
+</html>
