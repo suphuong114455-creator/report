@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo cáo Rich Star tháng 9/2026 · CN/VI</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#26313a; --muted:#5b6b77; --line:#e3e8ec; --card:#ffffff;
+    --brand:#7a4a1f; --brand2:#3f6f7a; --ok:#2e7d5b; --warn:#b3541e;
+    --soft:#f6f0e9; --bg:#f7f5f2; --gold:#b98a2f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",-apple-system,"Noto Sans","Helvetica Neue",Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 60px}
+  .hero{background:linear-gradient(120deg,#3a2413 0%,#7a4a1f 55%,#9a6634 100%);color:#fff;padding:34px 0 30px}
+  .hero .topline{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12.5px;margin-bottom:10px}
+  .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:2px 10px;border-radius:20px;font-weight:500}
+  .badge.gold{background:#b98a2f;border-color:#d8b45c}
+  .badge.alert{background:#b3541e;border-color:#dd8b5e}
+  h1{font-size:26px;margin:6px 0 2px;letter-spacing:.2px;font-weight:600}
+  .sub{font-size:14px;opacity:.93;margin-bottom:14px}
+  .meta{font-size:12.5px;opacity:.87;display:flex;flex-wrap:wrap;gap:14px}
+  .controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:22px 0 18px;justify-content:space-between}
+  .tabs{display:inline-flex;background:#ebe3d9;border-radius:12px;padding:4px;gap:4px}
+  .tabs button{border:0;background:transparent;padding:8px 20px;border-radius:9px;font-size:14px;font-weight:600;color:#4a4038;cursor:pointer}
+  .tabs button.on{background:#fff;color:var(--brand);box-shadow:0 1px 4px rgba(60,40,20,.16)}
+  .langswitch{display:inline-flex;background:#ebe3d9;border-radius:12px;padding:4px;gap:4px}
+  .langswitch button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-size:13.5px;font-weight:600;color:#4a4038;cursor:pointer}
+  .langswitch button.on{background:var(--brand);color:#fff}
+  .panel{display:none}
+  body[data-mod="1"] .mod1{display:block}
+  body[data-mod="2"] .mod2{display:block}
+  body[data-lang="vi"] .cn{display:none!important}
+  body[data-lang="cn"] .vi{display:none!important}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:16px 0;box-shadow:0 1px 3px rgba(60,40,20,.05)}
+  h2{font-size:19px;margin:26px 0 4px;color:var(--brand);display:flex;align-items:center;gap:10px}
+  h2 .n{background:var(--brand);color:#fff;font-size:13px;width:26px;height:26px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 26px}
+  h3{font-size:15.5px;margin:18px 0 8px}
+  h4{font-size:14px;margin:14px 0 6px}
+  p{margin:8px 0;font-size:14px}
+  .lead{font-size:13.5px;color:var(--muted);margin:2px 0 10px}
+  ul,ol{margin:8px 0;padding-left:22px;font-size:14px}
+  li{margin:5px 0}
+  .tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:12px;margin-right:6px;margin-bottom:6px}
+  .tag.g{background:#e8f3ec;color:var(--ok);border:1px solid #c2e0cf}
+  .tag.w{background:#fbeadf;color:var(--warn);border:1px solid #f0cbb2}
+  .tag.b{background:var(--soft);color:var(--brand);border:1px solid #e0d2c2}
+  .cols2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:860px){.cols2{grid-template-columns:1fr}}
+  .good{color:var(--ok);font-weight:600}.bad{color:var(--warn);font-weight:600}
+  .twrap{overflow-x:auto;margin:12px 0}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:middle}
+  th{background:#f3ece4;color:#4a4038;font-weight:600;white-space:nowrap}
+  td.r,th.r{text-align:right}
+  .hl{background:#fdf6ec!important}
+  figure{margin:14px 0 4px;text-align:center}
+  figure img{max-width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+  figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+  .imgs2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.imgs2{grid-template-columns:1fr}}
+  .chartbox{position:relative;height:300px;margin:6px 0}
+  .link{color:var(--brand);text-decoration:none;font-weight:600;word-break:break-all}
+  .link:hover{text-decoration:underline}
+  .src{font-size:11.5px;color:#8a97a1}
+  .note{background:#fbf7ef;border:1px solid #ecdfc9;border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0}
+  .note.blue{background:#eef4f6;border-color:#cfe0e4}
+  .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:#8a97a1}
+  .grid-prof{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:10px;margin:10px 0}
+  .prof-item{background:var(--soft);border:1px solid #e6dbcd;border-radius:10px;padding:8px 12px;font-size:13px}
+  .prof-item b{display:block;color:var(--brand);font-size:13.5px}
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}
+  @media(max-width:860px){.statrow{grid-template-columns:1fr 1fr}}
+  .stat{background:var(--soft);border:1px solid #e6dbcd;border-radius:10px;padding:9px 12px}
+  .stat .v{font-size:16px;font-weight:700;color:var(--brand)}
+  .stat .k{font-size:11.5px;color:var(--muted);line-height:1.35}
+  .stat.warn{background:#fbeee4;border-color:#f0d3bc}
+  .stat.warn .v{color:var(--brand2)}
+  .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:10px;margin-left:6px}
+  .pill.p0{background:#a03d18;color:#fff}.pill.p1{background:#c68e31;color:#fff}.pill.p2{background:#6f8854;color:#fff}
+  .task{background:#fff;border:1px solid var(--line);border-left:4px solid var(--brand2);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:13.5px}
+  .task b{color:var(--brand)}
+  .mult{display:inline-block;background:#e8f3ec;color:var(--ok);border:1px solid #c2e0cf;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:10px;margin-left:6px}
+</style>
+</head>
+<body data-lang="vi" data-mod="1">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="topline">
+      <span class="badge gold">GOLD SUPPLIER · 3 YRS</span>
+      <span class="badge">Trade Assurance</span>
+      <span class="badge">Tây Ninh, Vietnam · Manufacturer</span>
+      <span class="badge">Apparel &amp; Accessories · Phụ liệu may mặc</span>
+      <span class="badge"><span class="vi">Không chạy quảng cáo (P4P)</span><span class="cn">未投放广告（P4P）</span></span>
+      <span class="badge alert" style="margin-left:auto"><span class="vi">Star Rating T9/2026: 1★</span><span class="cn">2026年9月星等级：1★</span></span>
+    </div>
+    <h1>RICH STAR TECHNOLOGY COMPANY LIMITED</h1>
+    <div class="sub"><span class="vi">Báo cáo gian hàng &amp; thị trường ngành · tháng 9/2026 (có bổ sung số liệu ngành)</span><span class="cn">店铺与行业市场报告 · 2026年9月（含行业数据补充）</span></div>
+    <div class="meta">
+      <span><span class="vi">Ngày lập:</span><span class="cn">报告日期:</span> 07/10/2026</span>
+      <span><span class="vi">Chu kỳ dữ liệu:</span><span class="cn">数据周期:</span> 07–09/2026 (CRM)</span>
+      <span><span class="vi">Sản phẩm hợp lệ:</span><span class="cn">有效商品:</span> 359</span>
+      <span><span class="vi">Gia hạn:</span><span class="cn">续约:</span> <span class="vi">hết hạn 16/04/2027 · còn ~195 ngày</span><span class="cn">2027/04/16 到期 · 剩余约195天</span></span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="tabs" role="tablist">
+      <button id="modbtn1" class="on" onclick="setMod(1)"><span class="vi">Module 1 · Tổng quan gian hàng</span><span class="cn">模块一 · 店铺总览</span></button>
+      <button id="modbtn2" onclick="setMod(2)"><span class="vi">Module 2 · Thị trường &amp; số liệu ngành</span><span class="cn">模块二 · 行业市场与数据</span></button>
+    </div>
+    <div class="langswitch">
+      <button id="langvi" class="on" onclick="setLang('vi')">Tiếng Việt</button>
+      <button id="langcn" onclick="setLang('cn')">中文</button>
+    </div>
+  </div>
+
+  <!-- ================= MODULE 1 · VI ================= -->
+  <section class="panel mod1 vi">
+    <h2><span class="n">1</span><span>Tổng quan gian hàng · Tháng 9/2026</span></h2>
+    <p class="lead">Nguồn: CRM Alibaba (Service Report kỳ 09/2026, Star Rating, Operation Data, Membership) — đối chiếu trực tiếp với ảnh chụp màn hình ngày 07/10/2026; hồ sơ công khai trên minisite (truy cập 07/10/2026).</p>
+
+    <div class="card">
+      <h3>1.1 Hồ sơ gian hàng</h3>
+      <div class="grid-prof">
+        <div class="prof-item"><b>Pháp nhân</b>RICH STAR TECHNOLOGY COMPANY LIMITED (CÔNG TY TNHH RICH STAR TECHNOLOGY) · Tây Ninh, Việt Nam · Manufacturer · Member ID vn1567786604rclk</div>
+        <div class="prof-item"><b>Cấp độ &amp; gói</b>Gold Supplier 3 năm · Trade Assurance đang bật · gói pe017 (3 Years) · thành viên từ 16/04/2024</div>
+        <div class="prof-item"><b>Ngành &amp; nhóm sản phẩm</b>Apparel &amp; Accessories → phụ liệu may mặc: Jeans Button &amp; Rivets · Shank Button · Snap Button · Zipper &amp; Slider · Stopper · Buckle · Cord · Metal Tag</div>
+        <div class="prof-item"><b>Chứng nhận nêu trên sản phẩm</b>ISO9001 · GRS · OEKO-TEX · SGS · Nickel-Free / Eco-Friendly (theo tiêu đề sản phẩm trên minisite)</div>
+        <div class="prof-item"><b>Giá &amp; MOQ công khai</b>US$0,01–0,35 · MOQ phổ biến 100 pcs/sets (một số sản phẩm 500 pcs)</div>
+        <div class="prof-item"><b>Chỉ số dịch vụ công khai</b>Phản hồi ≤4h · Tỷ lệ phản hồi 92,11% · Phụ trách dịch vụ: Dương, Việt Hải</div>
+      </div>
+      <div class="note blue"><b>Điểm tích cực nổi bật:</b> doanh nghiệp mới tham gia sàn từ 2024 nhưng <b>doanh số Trade Assurance 180 ngày đạt US$1.285,1 — cao hơn trung bình ngành (US$1.242,8)</b>, với 4 đơn TA (TB ngành 3,4). Đây là nền tảng giao dịch tốt để mở rộng. <span class="src">[CRM — báo cáo gia hạn, mục Core Metrics]</span></div>
+    </div>
+
+    <div class="card">
+      <h3>1.2 Số liệu tháng 9/2026 (ảnh CRM)</h3>
+      <div class="statrow">
+        <div class="stat warn"><div class="v">12.067</div><div class="k">Lượt hiển thị tìm kiếm T9 (TB ngành 80.274 · dẫn đầu 709.575) — <b>đến từ kênh miễn phí, không chạy quảng cáo</b></div></div>
+        <div class="stat"><div class="v">1.024</div><div class="k">Lượt xem trang (PV) T9 · +56% MoM; UV 473</div></div>
+        <div class="stat"><div class="v">163</div><div class="k">Click từ tìm kiếm T9 · CTR ~1,35% (TB ngành ~2,35%)</div></div>
+        <div class="stat"><div class="v">6</div><div class="k">Inquiry T9 (TB ngành 65) · 69 tin nhắn · 6 khách có inquiry</div></div>
+        <div class="stat warn"><div class="v">87,67%</div><div class="k">Tỷ lệ phản hồi T9 (TB ngành 92,55%) · phản hồi 4,73h (TB 3,78h)</div></div>
+        <div class="stat"><div class="v">359</div><div class="k">SP hợp lệ (PIS ≥5: 359 · ≥5,5: 193) · RTS 1 · Top 13 · Super 0 · <b>SP mới 30 ngày: 0</b></div></div>
+        <div class="stat"><div class="v">76</div><div class="k">Cơ hội kinh doanh (+18,75% MoM) · 73 người mua hoạt động · 55 khách L2+ · 54 khách trả phí</div></div>
+        <div class="stat warn"><div class="v">0 đồng</div><div class="k"><b>Gian hàng không chạy quảng cáo (P4P)</b> — toàn bộ traffic đến từ kênh miễn phí &amp; tự nhiên</div></div>
+      </div>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/Sf81fa82747284104a959db0cd7baca288.jpg" alt="Star Rating panel 09/2026"><figcaption><b>Star Rating (panel CRM)</b>: hiện tại <b>1★</b> và dự báo <b>1★</b>, trạng thái "Healthy". Product 1♥ — <b>359 sản phẩm</b> đạt PIS (thang mốc tới 1.500); Marketing 2♥ — <b>561 khách</b> truy cập/30 ngày; Service 4♥ — <b>53 người mua</b> đã được phản hồi.</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/Sa4ce94ccf60a473ab65e47bfbdc33da25.jpg" alt="Store's performance 07-09/2026"><figcaption><b>Store's performance</b> (07–09/2026) — TB ngành / Dẫn đầu / Gian hàng: lượt hiển thị tìm kiếm T9 <b>12.067</b> so với TB ngành <b>80.274</b> và nhóm dẫn đầu <b>709.575</b>; PV 1.024 (+56% MoM) và UV 473.</figcaption></figure>
+      </div>
+      <div class="note"><b>Bình luận 2 ảnh trên:</b>
+        <ul>
+          <li><b>Hạng sao:</b> hiện tại và dự báo đều <b>1★</b>; nút thắt nằm ở <b>Product</b> (1♥) và <b>Marketing</b> (2♥) — hai tiêu chí quyết định lượng hiển thị, trong khi <b>Service đã 4/5</b> nên đây là điểm mạnh cần giữ.</li>
+          <li><b>Hiệu quả gian hàng:</b> hiển thị tìm kiếm chỉ khoảng 15% trung bình ngành; bù lại <b>PV tăng +56% và UV lên 473 dù gian hàng không chạy quảng cáo</b> → nguồn tự nhiên đang tốt lên. Hai chỉ số cần kéo lên là tỷ lệ phản hồi 87,67% và thời gian phản hồi 4,73h (đều dưới trung bình ngành).</li>
+        </ul>
+      </div>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/S014639f4165d4695b587b19c588c7aeea.jpg" alt="Membership Privileges"><figcaption><b>Membership Privileges</b> (3 năm hoạt động · Trade Assurance: on): RFQ <b>52/52 (100%)</b>, Showcase <b>20/20 (100%)</b>; bộ công cụ AI 660 điểm — <b>0% đã dùng</b> (ảnh 50, video 5, phân tích 5, nội dung 600).</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/S255b47500a074983be6c1dd0eca8285cx.jpg" alt="Product Performance"><figcaption><b>Product Performance</b>: 359 SP hoạt động (−0,55%) · 347 SP có hiển thị (+2,66%) · 88 SP có click (−2,22%) · <b>16 SP có yêu cầu báo giá (−27,27%)</b> · <b>0 SP mới đăng (−100%)</b> · 0 SP Super · 13 SP Top · 0 SP trùng lặp.</figcaption></figure>
+      </div>
+      <div class="note"><b>Bình luận 2 ảnh trên:</b>
+        <ul>
+          <li><b>Kênh miễn phí đã dùng tối đa:</b> RFQ và Showcase đều 100% — nhưng <b>660 điểm AI vẫn bỏ trống</b>, đây là nguồn lực miễn phí có thể dùng ngay để làm ảnh/video cho sản phẩm mới và viết mô tả đa ngôn ngữ.</li>
+          <li><b>Danh mục đang "đứng yên":</b> 0 sản phẩm mới trong 30 ngày và số sản phẩm có yêu cầu báo giá giảm 27,27% → thuật toán thiếu tín hiệu làm mới, đây là nguyên nhân trực tiếp khiến hiển thị ở mức thấp (12.067 so với 80.274 TB ngành).</li>
+        </ul>
+      </div>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/S15f7662817a643e78980359b5fa1b0e5z.jpg" alt="Buyer & Business Opportunities"><figcaption><b>Chỉ số người mua</b>: 76 cơ hội kinh doanh (TB ngành 436) · 6 inquiry (TB 50) · 69 tin nhắn (TB 357) · tỷ lệ phản hồi <b>94,92%</b> (TB 85,09%) · 73 người mua hoạt động · 55 khách L2+ · 54 khách trả phí · <b>26 khách có tổng đơn ≥ 10.000 USD</b> (TB 72).</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/S7867d4da2f6643559fe3f30e9cfeebd4J.jpg" alt="Product Aggregation 20-09 to 05-10"><figcaption><b>Product Aggregation</b> (20/09 → 05/10): tổng SP 361 → 359; <b>SP Top tăng từ 11 lên 12–14</b> rồi ổn định 12–13; PIS ≥ 5,5 dao động 192–194; RTS vẫn <b>1</b>; Super vẫn 0; ngày 04/10 có 46 SP có lượt ghé và 2 SP có đơn.</figcaption></figure>
+      </div>
+      <div class="note"><b>Bình luận 2 ảnh trên:</b>
+        <ul>
+          <li><b>Chất lượng khách tốt nhưng quy mô nhỏ:</b> tỷ lệ phản hồi 94,92% cao hơn trung bình ngành; 55 khách L2+ và 26 khách ≥ 10.000 USD là nền tảng khai thác đơn hàng. Tuy nhiên 6 inquiry và 76 cơ hội chỉ bằng ~1/6 trung bình ngành → dư địa mở rộng rất lớn.</li>
+          <li><b>Tín hiệu tích cực trong 2 tuần gần nhất:</b> nhóm SP Top tăng từ 11 lên 13–14 và đã có 2 SP phát sinh đơn (04/10) — cho thấy chỉ cần bổ sung sản phẩm mới và RTS là hiển thị sẽ cải thiện. Lưu ý chỉ số phản hồi ở panel này (94,92%) khác với bảng Store's performance tháng 9 (87,67%) do khác kỳ đo — nên chốt kỳ đo khi báo cáo chính thức.</li>
+        </ul>
+      </div>
+
+      <h4>Hai khoảng cách lớn nhất: hiển thị tìm kiếm &amp; chuyển đổi</h4>
+      <div class="chartbox"><canvas id="imp_vi"></canvas></div>
+      <p class="src">Biểu đồ dựng từ bảng "Store's performance" trong CRM (3 tháng 07–09/2026): giá trị gian hàng so với trung bình ngành — chênh lệch chủ yếu đến từ độ phủ hiển thị.</p>
+
+      <h4>Tiêu chí Star Rating hiện tại (kỳ 09/2026)</h4>
+      <div class="chartbox" style="height:250px"><canvas id="star_vi"></canvas></div>
+      <p class="src">Nguồn: panel Star Rating (07/10/2026) — Product 1/5 với 359 sản phẩm đạt PIS; Marketing 2/5 với 561 khách truy cập/30 ngày; Service 4/5 với 53 người mua đã phản hồi; hiện tại và dự báo đều 1★. Báo cáo dịch vụ kỳ 09/2026 ghi Marketing 1/5 với 473 khách/30 ngày — hai nguồn dùng kỳ đo khác nhau, nên chốt kỳ đo khi báo cáo chính thức.</p>
+
+      <h4>Diễn biến sản phẩm 20/09 → 05/10 (Product Aggregation)</h4>
+      <div class="chartbox" style="height:260px"><canvas id="prod_vi"></canvas></div>
+      <p class="src">Biểu đồ dựng từ bảng Product Aggregation theo ngày (CRM): tổng sản phẩm giảm nhẹ 361 → 359, trong khi nhóm SP Top tăng từ 11 lên 12–14 — chất lượng danh mục đi lên nhưng số lượng chưa được mở rộng.</p>
+    </div>
+
+    <div class="card">
+      <h3>1.3 Điểm sáng</h3>
+      <h4><span class="tag g">Điểm sáng 1</span> Lưu lượng truy cập đang tăng và có nhiều nguồn</h4>
+      <ul>
+        <li><b>Lượt xem trang T9 tăng +56% MoM (1.024 lượt)</b>, khách ghé thăm tăng lên 473 UV — tín hiệu tốt cho thấy gian hàng bắt đầu được nhìn thấy.</li>
+        <li>Nguồn traffic đa dạng: <b>Đề xuất 36,85%</b>, <b>Tìm kiếm 27,64%</b>, Trong gian hàng 13,93% — không phụ thuộc một kênh duy nhất. <span class="src">[CRM — hiệu quả cơ hội kinh doanh 09/2026]</span></li>
+      </ul>
+      <h4><span class="tag g">Điểm sáng 2</span> Chất lượng niêm yết sản phẩm ở mức tốt</h4>
+      <ul>
+        <li><b>359/359 sản phẩm hợp lệ đều đạt điểm PIS ≥ 5</b>, trong đó <b>193 sản phẩm đạt PIS ≥ 5,5</b> (54%) — nền tảng nội dung sản phẩm vững, chỉ cần mở rộng số lượng để nâng tiêu chí Product.</li>
+        <li><b>Sản phẩm Top tăng +30% (13 sản phẩm)</b>, 0 sản phẩm rủi ro — bộ sản phẩm chủ lực đã hình thành. <span class="src">[CRM — Product Aggregation 09/2026]</span></li>
+      </ul>
+      <h4><span class="tag g">Điểm sáng 3</span> Vận hành giao dịch ổn định</h4>
+      <ul>
+        <li><b>Giao hàng đúng hạn 30 ngày: 100%</b>, 0 đơn bị huỷ bởi người bán — uy tín giao hàng rất tốt.</li>
+        <li>Doanh số TA 180 ngày (US$1.285,1) và số đơn TA 180 ngày (4) đều <b>nhỉnh hơn trung bình ngành</b> (US$1.242,8 / 3,4 đơn). <span class="src">[CRM — báo cáo gia hạn, Core Metrics]</span></li>
+      </ul>
+      <h4><span class="tag g">Điểm sáng 4</span> Đã dùng gần hết quyền lợi thành viên</h4>
+      <ul>
+        <li><b>Showcase 20/20 (100%)</b> và <b>RFQ 52/52 (100%)</b>, 5/5 tài khoản phụ — gian hàng tận dụng tốt các kênh miễn phí.</li>
+        <li>Tỷ lệ phản hồi trong 24h đạt <b>95%</b> (TB ngành 85%) — dịch vụ đúng hạn tốt hơn trung bình. <span class="src">[CRM — Membership &amp; Buyer analysis]</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>1.4 Điểm cần cải thiện (kèm nhiệm vụ có sẵn trong CRM)</h3>
+      <p style="font-size:13.5px">CRM hiển thị <b>13 nhiệm vụ tăng trưởng (Growth tasks)</b> kèm <b>hệ số thưởng hiển thị</b> — đây là lộ trình sẵn có, hoàn thành sẽ trực tiếp cải thiện lượt hiển thị và hạng sao. Dưới đây là các nhóm ưu tiên:</p>
+      <h4><span class="tag w">Cải thiện 1</span> Độ phủ hiển thị tìm kiếm còn rất thấp</h4>
+      <ul>
+        <li>Lượt hiển thị tìm kiếm T9 chỉ <b>12.067</b> so với trung bình ngành <b>80.274</b> (~15%), trong khi 359 sản phẩm đã đạt chất lượng tốt — nghĩa là <b>vấn đề nằm ở độ phủ, không phải chất lượng nội dung</b>.</li>
+        <li><b>Cách làm:</b> hoàn thành nhiệm vụ <b>"Optimize 30/80 Competitive Products"</b> (thưởng Impressions ×2) và <b>"List 10 new RTS products (PIS≥4.2)"</b> (×3) — đây là hai nhiệm vụ tác động trực tiếp nhất tới hiển thị.</li>
+      </ul>
+      <h4><span class="tag w">Cải thiện 2</span> Sản phẩm mới &amp; RTS gần như đứng yên</h4>
+      <ul>
+        <li><b>0 sản phẩm mới trong 30 ngày (−100%)</b> và chỉ <b>1 sản phẩm RTS</b> trên 359 sản phẩm — trong khi RTS giúp tỷ lệ chuyển đổi cao hơn ~1,3 lần và 80% người mua ưu tiên RTS khi quyết định. <span class="src">[CRM — guidance của nhiệm vụ]</span></li>
+        <li><b>Cách làm:</b> đăng tối thiểu 10 sản phẩm RTS đạt PIS ≥ 4,2 và duy trì nhịp 20–30 sản phẩm mới/tháng; ưu tiên các dòng đang có nhu cầu (nút jeans, snap button, khoá kéo).</li>
+      </ul>
+      <h4><span class="tag w">Cải thiện 3</span> Tiêu chí Product &amp; Marketing đang kéo hạng sao xuống</h4>
+      <ul>
+        <li>Star Rating hiện <b>1★</b> (dự báo cũng 1★): <b>Product 1/5</b> — 359 sản phẩm, cần thêm khoảng <b>+141 sản phẩm đạt chuẩn PIS</b> để chạm mốc 500; <b>Marketing 2/5</b> — 561 khách/30 ngày, chỉ cần thêm khoảng <b>+27 khách</b> để lên mức kế tiếp; riêng <b>Service đã 4/5</b>.</li>
+        <li><b>Cách làm:</b> tăng số sản phẩm đạt chuẩn PIS (đăng mới đều đặn + tối ưu 30/80 sản phẩm cạnh tranh) song song tăng khách truy cập bằng nội dung, Showcase và tối ưu từ khoá tự nhiên. Hạng sao ảnh hưởng trực tiếp tới hệ số hiển thị.</li>
+      </ul>
+      <h4><span class="tag w">Cải thiện 4</span> Gian hàng không chạy quảng cáo — cần tối đa hoá kênh miễn phí</h4>
+      <ul>
+        <li><b>Gian hàng hiện không chạy quảng cáo (P4P)</b>: toàn bộ 12.067 lượt hiển thị và 1.024 lượt xem trang đến từ <b>kênh miễn phí và tự nhiên</b> — điểm đáng ghi nhận vì PV tăng +56% mà không tốn chi phí.</li>
+        <li>Để tăng hiển thị <b>mà không tăng chi phí</b>, ưu tiên các đòn bẩy miễn phí: (1) đăng sản phẩm mới đều đặn (hiện 0 SP), (2) bổ sung sản phẩm RTS (hiện chỉ 1 SP), (3) bật Auto reception để không mất khách, (4) dùng <b>660 điểm AI</b> làm ảnh/video/mô tả, (5) hoàn thành các nhiệm vụ tăng trưởng có hệ số thưởng hiển thị.</li>
+        <li>Nếu cần tăng tốc, có thể cân nhắc <b>ngân sách rất nhỏ (2,5 triệu VND/tháng theo nhiệm vụ thưởng ×3)</b> cho vài từ khoá chủ lực (<i>jeans button, metal shank button, custom snap button, zipper puller</i>) — đây là lựa chọn tăng tốc, không phải điều kiện bắt buộc.</li>
+      </ul>
+      <h4><span class="tag w">Cải thiện 5</span> Tốc độ &amp; tỷ lệ phản hồi và tỷ lệ chuyển đổi đơn</h4>
+      <ul>
+        <li>Tỷ lệ phản hồi T9 <b>87,67%</b> (TB ngành 92,55%) và thời gian phản hồi <b>4,73 giờ</b> (TB ngành 3,78 giờ); chuyển đổi <b>visit→order 0%</b>, <b>AB→payment 0%</b> (lead→order 4,44%).</li>
+        <li><b>Cách làm:</b> hoàn thành nhiệm vụ <b>"Reply to pending inquiries (−4h response)"</b>, bật <b>Auto reception</b> (×1) để không bỏ lỡ tin nhắn, và chủ động mời đơn thử/nhỏ cho 55 khách L2+ hiện có.</li>
+      </ul>
+      <h4><span class="tag w">Cải thiện 6</span> Phụ thuộc thị trường Trung Quốc</h4>
+      <ul>
+        <li>41,04% lượt xem đến từ Trung Quốc trong khi ngành dẫn đầu ở <b>Mỹ (27,5%)</b>; các thị trường trả giá tốt (Mỹ 15,67%, Ấn Độ 4,1%…) còn nhỏ.</li>
+        <li><b>Cách làm:</b> đẩy nội dung và tối ưu từ khoá tự nhiên hướng Mỹ/EU (kênh miễn phí, không cần quảng cáo), kèm chứng nhận phù hợp (GRS, OEKO-TEX, REACH) — xem thêm Module 2.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>1.5 Nhiệm vụ tăng trưởng ưu tiên (theo Task center của CRM)</h3>
+      <div class="task"><b>Optimize 80 Competitive Products</b> (Trendiness/Price strength/Service strength)<span class="mult">Impressions ×2</span><br>Sản phẩm "competitive" cho 2,3 lần người mua, chuyển đổi cao hơn 1,5 lần và chốt đơn nhanh hơn 28%.</div>
+      <div class="task"><b>Optimize 30 Competitive Products</b><span class="mult">Impressions ×2</span><br>Phiên bản rút gọn — nên làm trước để có kết quả nhanh trong tuần đầu.</div>
+      <div class="task"><b>List 10 new RTS products (PIS ≥ 4,2)</b><span class="mult">Impressions ×3</span><br>Bổ sung nguồn sản phẩm RTS — vừa tăng hiển thị, vừa tăng khả năng chốt đơn nhanh.</div>
+      <div class="task"><b>Complete Trade Assurance orders this month</b><span class="mult">Impressions ×5</span><br>Hệ số thưởng cao nhất — ưu tiên chốt các cơ hội đang mở với 55 khách L2+.</div>
+      <div class="task"><b>Spend VND 2.500.000 on Keyword Advertising</b><span class="mult">Impressions ×3</span><br>Gian hàng hiện không chạy quảng cáo — nếu muốn tăng tốc có thể thử ngân sách nhỏ này; nên làm các đòn bẩy miễn phí (SP mới, RTS, Auto reception, điểm AI) trước.</div>
+      <div class="task"><b>Enable the Auto reception function</b><span class="mult">Impressions ×1</span><br>Trả lời tự động giúp không bỏ lỡ tin nhắn ngoài giờ.</div>
+      <div class="task"><b>Post new trending products in RTS themes</b><span class="mult">Impressions ×2</span><br>Bám chủ đề đang lên của ngành phụ liệu (xem Module 2).</div>
+      <div class="task"><b>Reply to pending inquiries (−4h response)</b> · <b>Sign Jewels REACH self-declaration (EU/UK)</b> · <b>Sign Cosmetics Self-Declaration (EU)</b><br>Cải thiện chỉ số dịch vụ và bổ sung chứng nhận — đặc biệt cần thiết nếu muốn mở rộng sang EU.</div>
+      <div class="note"><b>Thứ tự gợi ý trong tháng 10 (ưu tiên kênh miễn phí vì gian hàng không chạy quảng cáo):</b> (1) Optimize 30 Competitive Products → (2) List 10 RTS products → (3) Complete TA orders → (4) Auto reception + xử lý phản hồi tồn đọng → (5) Đăng sản phẩm mới đều đặn &amp; dùng 660 điểm AI cho ảnh/video/mô tả → (6) Bổ sung chứng nhận EU. Quảng cáo chỉ là lựa chọn tăng tốc, không bắt buộc. Hệ số hiển thị có thể cộng dồn theo từng nhiệm vụ hoàn thành.</div>
+      <div class="note blue"><b>Mục tiêu đề xuất cho kỳ tới (không phải cam kết kết quả):</b> Star Rating 1★ → 2★ (Product +141 sản phẩm chất lượng; Marketing +27 khách/30 ngày) · ≥10 sản phẩm RTS · ≥20 sản phẩm mới trong tháng · ≥1 đơn Trade Assurance · thời gian phản hồi &lt;2h.</div>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 1 · CN ================= -->
+  <section class="panel mod1 cn">
+    <h2><span class="n">1</span><span>店铺总览 · 2026年9月</span></h2>
+    <p class="lead">数据来源：阿里巴巴 CRM（2026年9月 Service Report、Star Rating、Operation Data、Membership）— 已与 2026/10/07 的截图逐项核对；店铺公开资料取自 minisite（访问 2026/10/07）。</p>
+    <div class="card">
+      <h3>1.1 店铺档案</h3>
+      <div class="grid-prof">
+        <div class="prof-item"><b>主体</b>RICH STAR TECHNOLOGY COMPANY LIMITED（越南西宁省）· 生产厂家 · Member ID vn1567786604rclk</div>
+        <div class="prof-item"><b>资质与套餐</b>金品诚企3年 · 信保已开通 · 套餐 pe017（3 Years）· 2024/04/16 入驻</div>
+        <div class="prof-item"><b>行业与产品线</b>Apparel &amp; Accessories → 服装辅料：牛仔扣与铆钉 · 柄扣 · 四合扣 · 拉链与拉头 · 止扣 · 扣具 · 绳带 · 金属标</div>
+        <div class="prof-item"><b>商品标注认证</b>ISO9001 · GRS · OEKO-TEX · SGS · 无镍/环保（依据 minisite 商品标题）</div>
+        <div class="prof-item"><b>公开价格与 MOQ</b>US$0.01–0.35 · MOQ 多为 100 pcs/sets（部分 500 pcs）</div>
+        <div class="prof-item"><b>公开服务指标</b>响应 ≤4h · 响应率 92.11% · 服务负责人：Dương, Việt Hải</div>
+      </div>
+      <div class="note blue"><b>突出亮点：</b>企业 2024 年才入驻，但 <b>近180天信保成交额 US$1,285.1，高于行业平均 US$1,242.8</b>，信保订单 4 笔（行业均值 3.4 笔）。这是继续放量的良好交易基础。<span class="src">[CRM — 续约报告 Core Metrics]</span></div>
+    </div>
+    <div class="card">
+      <h3>1.2 2026年9月数据（CRM 截图）</h3>
+      <div class="statrow">
+        <div class="stat warn"><div class="v">12,067</div><div class="k">9月搜索曝光（行业均值80,274 · 领先709,575）— <b>来自免费渠道，未投放广告</b></div></div>
+        <div class="stat"><div class="v">1,024</div><div class="k">9月浏览量 PV · 环比 +56%；UV 473</div></div>
+        <div class="stat"><div class="v">163</div><div class="k">9月搜索点击 · CTR 约1.35%（行业约2.35%）</div></div>
+        <div class="stat"><div class="v">6</div><div class="k">9月询盘（行业均值65）· 消息69 · 有询盘买家6</div></div>
+        <div class="stat warn"><div class="v">87.67%</div><div class="k">9月回复率（行业均值92.55%）· 响应4.73h（行业3.78h）</div></div>
+        <div class="stat"><div class="v">359</div><div class="k">有效商品（PIS ≥5：359 · ≥5.5：193）· RTS 1 · Top 13 · Super 0 · <b>30天新品 0</b></div></div>
+        <div class="stat"><div class="v">76</div><div class="k">商机（环比 +18.75%）· 活跃买家73 · L2+ 55 · 付费买家54</div></div>
+        <div class="stat warn"><div class="v">0</div><div class="k"><b>本店未投放广告（P4P）</b> — 全部流量来自免费渠道与自然流量</div></div>
+      </div>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/Sf81fa82747284104a959db0cd7baca288.jpg" alt="星等级面板 2026/09"><figcaption><b>Star Rating（CRM 面板）</b>：当前 <b>1★</b>、预测 <b>1★</b>，状态 "Healthy"。商品力 1♥ — <b>359 款</b>达标 PIS（刻度至 1,500）；营销力 2♥ — 30 天 <b>561 位访客</b>；服务力 4♥ — <b>53 位买家</b>已获回复。</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/Sa4ce94ccf60a473ab65e47bfbdc33da25.jpg" alt="店铺效果 07-09/2026"><figcaption><b>Store's performance</b>（2026年7–9月）— 行业均值 / 行业领先 / 本店：9月搜索曝光 <b>12,067</b>，行业均值 <b>80,274</b>，行业领先 <b>709,575</b>；PV 1,024（环比 +56%）、UV 473。</figcaption></figure>
+      </div>
+      <div class="note"><b>以上两图点评：</b>
+        <ul>
+          <li><b>星等级：</b>当前与预测均为 <b>1★</b>；瓶颈在 <b>商品力</b>（1♥）与 <b>营销力</b>（2♥）——这两项直接决定曝光量，而 <b>服务力已达 4/5</b>，是应当保持的优势。</li>
+          <li><b>店铺效果：</b>搜索曝光仅为行业均值的约 15%；但 <b>PV 增长 56%、UV 升至 473，且本店并未投放广告</b> → 自然流量正在改善。需提升的两项是回复率 87.67% 与响应时间 4.73 小时（均低于行业均值）。</li>
+        </ul>
+      </div>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/S014639f4165d4695b587b19c588c7aeea.jpg" alt="会员权益"><figcaption><b>Membership Privileges</b>（3年会员 · 信保：on）：RFQ <b>52/52（100%）</b>、橱窗 <b>20/20（100%）</b>；AI 工具 660 分 — <b>使用率 0%</b>（生图 50、视频 5、数据分析 5、文本 600）。</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/S255b47500a074983be6c1dd0eca8285cx.jpg" alt="商品表现"><figcaption><b>Product Performance</b>：在线 359（−0.55%）· 有曝光 347（+2.66%）· 有点击 88（−2.22%）· <b>有报价请求 16（−27.27%）</b> · <b>新发 0（−100%）</b> · Super 0 · Top 13 · 重复 0。</figcaption></figure>
+      </div>
+      <div class="note"><b>以上两图点评：</b>
+        <ul>
+          <li><b>免费渠道已用满：</b>RFQ 与橱窗均为 100% — 但 <b>660 分 AI 额度仍为 0</b>，这是可立即使用的免费资源，可用于新品图片/视频与多语言描述。</li>
+          <li><b>商品结构停滞：</b>30 天新品为 0，有报价请求商品下降 27.27% → 算法缺少"更新信号"，这正是曝光偏低（12,067 vs 行业均值 80,274）的直接原因。</li>
+        </ul>
+      </div>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/S15f7662817a643e78980359b5fa1b0e5z.jpg" alt="买家与商机指标"><figcaption><b>买家指标</b>：商机 76（行业均值 436）· 询盘 6（行业 50）· 消息 69（行业 357）· 回复率 <b>94.92%</b>（行业 85.09%）· 活跃买家 73 · L2+ 55 · 付费买家 54 · <b>累计订单 ≥10,000 USD 的买家 26 位</b>（行业 72）。</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/S7867d4da2f6643559fe3f30e9cfeebd4J.jpg" alt="商品汇总 09/20-10/05"><figcaption><b>Product Aggregation</b>（09/20 → 10/05）：商品总数 361 → 359；<b>Top 商品由 11 升至 12–14</b> 后稳定在 12–13；PIS ≥5.5 在 192–194 波动；RTS 仍为 <b>1</b>；Super 仍为 0；10/04 有 46 款商品被访问、2 款商品有订单。</figcaption></figure>
+      </div>
+      <div class="note"><b>以上两图点评：</b>
+        <ul>
+          <li><b>买家质量好但规模小：</b>回复率 94.92% 高于行业均值；55 位 L2+ 与 26 位 ≥10,000 USD 买家是订单基础。但 6 条询盘与 76 个商机仅为行业均值的约 1/6 → 扩展空间很大。</li>
+          <li><b>近两周出现积极信号：</b>Top 商品由 11 增至 13–14，且 10/04 有 2 款商品产生订单 — 说明只要补充新品与 RTS，曝光即可改善。注意本面板的回复率（94.92%）与 9 月 Store's performance（87.67%）因统计周期不同而有差异，正式报送前建议统一周期。</li>
+        </ul>
+      </div>
+      <h4>两个最大差距：搜索曝光与转化</h4>
+      <div class="chartbox"><canvas id="imp_cn"></canvas></div>
+      <p class="src">图表依据 CRM "Store's performance"（2026年7–9月）：本店与行业均值对比 — 差距主要来自曝光覆盖面。</p>
+      <h4>当前星等级各项得分（2026/09）</h4>
+      <div class="chartbox" style="height:250px"><canvas id="star_cn"></canvas></div>
+      <p class="src">来源：星等级面板（2026/10/07）— 商品力 1/5，359 款商品达标 PIS；营销力 2/5，30 天访客 561；服务力 4/5，53 位买家已回复；当前与预测均为 1★。2026年9月服务报告显示营销力 1/5、访客 473 — 两者统计周期不同，正式报送前建议统一口径。</p>
+
+      <h4>商品走势 09/20 → 10/05（Product Aggregation）</h4>
+      <div class="chartbox" style="height:260px"><canvas id="prod_cn"></canvas></div>
+      <p class="src">图表依据 Product Aggregation 按日数据：商品总数由 361 微降至 359，而 Top 商品由 11 升至 12–14 — 结构质量在改善，但数量尚未扩张。</p>
+    </div>
+    <div class="card">
+      <h3>1.3 亮点</h3>
+      <h4><span class="tag g">亮点 1</span> 流量正在增长且来源多元</h4>
+      <ul>
+        <li><b>9月浏览量环比 +56%（1,024 次）</b>，访客升至 473 UV — 说明店铺开始被看见。</li>
+        <li>流量来源分散：<b>推荐 36.85%</b>、<b>搜索 27.64%</b>、店内 13.93% — 不依赖单一渠道。<span class="src">[CRM — 2026/09 商机效果]</span></li>
+      </ul>
+      <h4><span class="tag g">亮点 2</span> 商品内容质量基础良好</h4>
+      <ul>
+        <li><b>359/359 款有效商品 PIS ≥ 5</b>，其中 <b>193 款 PIS ≥ 5.5</b>（54%）— 内容基础扎实，提升商品力只需扩大数量。</li>
+        <li><b>Top 商品 +30%（13 款）</b>，0 款风险商品 — 主力商品群已成形。<span class="src">[CRM — 2026/09 Product Aggregation]</span></li>
+      </ul>
+      <h4><span class="tag g">亮点 3</span> 交易履约稳定</h4>
+      <ul>
+        <li><b>30天按时发货率 100%</b>，卖家原因取消 0 笔 — 履约信誉良好。</li>
+        <li>近180天信保成交额（US$1,285.1）与订单数（4 笔）均 <b>略高于行业均值</b>（US$1,242.8 / 3.4 笔）。<span class="src">[CRM — 续约报告 Core Metrics]</span></li>
+      </ul>
+      <h4><span class="tag g">亮点 4</span> 会员权益使用充分</h4>
+      <ul>
+        <li><b>橱窗 20/20（100%）</b>、<b>RFQ 52/52（100%）</b>、子账号 5/5 — 免费渠道利用到位。</li>
+        <li>24小时回复率达 <b>95%</b>（行业均值 85%）— 时效表现优于平均。<span class="src">[CRM — Membership &amp; Buyer analysis]</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>1.4 待改进点（附 CRM 现成任务）</h3>
+      <p style="font-size:13.5px">CRM 列出 <b>13 项成长任务（Growth tasks）</b>并标注<b>曝光倍数奖励</b> — 这是现成的行动路线，完成后可直接改善曝光与星等级。优先分组如下：</p>
+      <h4><span class="tag w">改进 1</span> 搜索曝光覆盖仍然很低</h4>
+      <ul>
+        <li>9月搜索曝光仅 <b>12,067</b>，行业均值 <b>80,274</b>（约 15%），而 359 款商品质量已达标 — 说明 <b>瓶颈在覆盖面而非内容质量</b>。</li>
+        <li><b>做法：</b>完成 <b>"Optimize 30/80 Competitive Products"</b>（曝光 ×2）与 <b>"List 10 new RTS products (PIS≥4.2)"</b>（×3）— 这两项对曝光的拉动最直接。</li>
+      </ul>
+      <h4><span class="tag w">改进 2</span> 新品与 RTS 几乎停滞</h4>
+      <ul>
+        <li><b>近30天新品 0（−100%）</b>，359 款中仅 <b>1 款 RTS</b> — 而 RTS 的转化率约高 1.3 倍，且 80% 买家在决策时优先选择 RTS。<span class="src">[CRM — 任务说明]</span></li>
+        <li><b>做法：</b>上架至少 10 款 PIS ≥ 4.2 的 RTS 商品，并保持每月 20–30 款新品节奏；优先补牛仔扣、四合扣、拉链等有需求的品类。</li>
+      </ul>
+      <h4><span class="tag w">改进 3</span> 商品力与营销力拖低星等级</h4>
+      <ul>
+        <li>当前与预测均为 <b>1★</b>：<b>商品力 1/5</b> — 359 款，距 500 档约需 <b>再增 141 款达标商品</b>；<b>营销力 2/5</b> — 30 天访客 561，仅需 <b>再增约 27 位</b>即可上一档；<b>服务力已达 4/5</b>。</li>
+        <li><b>做法：</b>扩大达标 PIS 商品数（稳定上新 + 优化 30/80 款竞争力商品），同时通过内容、橱窗与自然关键词优化提升访客。星等级会直接影响曝光倍数。</li>
+      </ul>
+      <h4><span class="tag w">改进 4</span> 本店未投放广告 — 需把免费渠道用到极致</h4>
+      <ul>
+        <li><b>本店目前未投放广告（P4P）</b>：12,067 次曝光与 1,024 次浏览全部来自 <b>免费与自然流量</b> — 这点值得肯定，因为 PV 增长 56% 并未产生广告成本。</li>
+        <li>在 <b>不增加成本</b> 的前提下提升曝光，优先做：① 稳定上新（当前为 0）；② 补充 RTS 商品（当前仅 1 款）；③ 开启 Auto reception 避免漏客；④ 使用 <b>660 分 AI 额度</b> 制作图片/视频/描述；⑤ 完成带曝光倍数奖励的成长任务。</li>
+        <li>若需加速，可考虑 <b>很小的预算（按任务为 250 万越南盾/月，奖励 ×3）</b> 投主力关键词（<i>jeans button、metal shank button、custom snap button、zipper puller</i>）— 属可选的加速手段，并非必需条件。</li>
+      </ul>
+      <h4><span class="tag w">改进 5</span> 回复时效与订单转化</h4>
+      <ul>
+        <li>9月回复率 <b>87.67%</b>（行业 92.55%），响应 <b>4.73 小时</b>（行业 3.78 小时）；<b>访问→下单 0%</b>、<b>AB→支付 0%</b>（线索→订单 4.44%）。</li>
+        <li><b>做法：</b>完成 <b>"Reply to pending inquiries (−4h response)"</b>，开启 <b>Auto reception</b>（×1）避免漏接消息，并主动向 55 位 L2+ 买家推试单/小单。</li>
+      </ul>
+      <h4><span class="tag w">改进 6</span> 过度依赖中国流量</h4>
+      <ul>
+        <li>41.04% 浏览来自中国，而行业领先市场是 <b>美国（27.5%）</b>；高价值市场（美国 15.67%、印度 4.1%）占比偏小。</li>
+        <li><b>做法：</b>内容与自然关键词优化向美国/欧盟倾斜（免费渠道，无需广告），并补齐相应认证（GRS、OEKO-TEX、REACH）— 详见模块二。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>1.5 优先成长任务（依 CRM Task center）</h3>
+      <div class="task"><b>Optimize 80 Competitive Products</b>（趋势度/价格力/服务力）<span class="mult">曝光 ×2</span><br>竞争力商品的买家数是普通商品的 2.3 倍、转化高 1.5 倍、首单快 28%。</div>
+      <div class="task"><b>Optimize 30 Competitive Products</b><span class="mult">曝光 ×2</span><br>精简版 — 建议先做，第一周即可见效。</div>
+      <div class="task"><b>List 10 new RTS products (PIS ≥ 4.2)</b><span class="mult">曝光 ×3</span><br>补充 RTS 商品池 — 同时提升曝光与快速成交能力。</div>
+      <div class="task"><b>Complete Trade Assurance orders this month</b><span class="mult">曝光 ×5</span><br>奖励倍数最高 — 优先推动 55 位 L2+ 买家的在手商机。</div>
+      <div class="task"><b>Spend VND 2,500,000 on Keyword Advertising</b><span class="mult">曝光 ×3</span><br>本店目前未投放广告 — 若需加速可尝试这一小额预算；建议先做好免费动作（新品、RTS、Auto reception、AI 额度）。</div>
+      <div class="task"><b>Enable the Auto reception function</b><span class="mult">曝光 ×1</span><br>自动接待，避免非工作时间漏消息。</div>
+      <div class="task"><b>Post new trending products in RTS themes</b><span class="mult">曝光 ×2</span><br>紧跟辅料行业热点（见模块二）。</div>
+      <div class="task"><b>Reply to pending inquiries (−4h response)</b> · <b>Sign Jewels REACH self-declaration (EU/UK)</b> · <b>Sign Cosmetics Self-Declaration (EU)</b><br>改善服务指标并补齐认证 — 若计划拓展欧盟尤为必要。</div>
+      <div class="note"><b>10月建议顺序（本店未投放广告，优先免费渠道）：</b>① Optimize 30 Competitive Products → ② List 10 RTS products → ③ Complete TA orders → ④ Auto reception + 清理待回复 → ⑤ 稳定上新并用 660 分 AI 做图/视频/描述 → ⑥ 补齐欧盟认证。广告为可选加速项，非必需。曝光倍数可随任务完成逐项叠加。</div>
+      <div class="note blue"><b>下期建议目标（非结果承诺）：</b>星等级 1★ → 2★（商品力 +141 款优质商品；营销力 +27 访客/30天）· RTS ≥10 款 · 月新品 ≥20 款 · 信保订单 ≥1 笔 · 响应时间 &lt;2h。</div>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 2 · VI ================= -->
+  <section class="panel mod2 vi">
+    <h2><span class="n">2</span>Thị trường ngành &amp; số liệu ngành · Phụ liệu may mặc</h2>
+    <p class="lead">Ngành của Rich Star: Apparel &amp; Accessories → phụ liệu/linh kiện may mặc (nút kim loại, nút bấm, khoá kéo, chốt, khóa cài). Số liệu dưới đây lấy từ nguồn công khai có dẫn chiếu và ngày cập nhật; giá/MOQ là ảnh chụp tại thời điểm truy cập.</p>
+
+    <div class="card">
+      <h3>2.1 Quy mô &amp; tăng trưởng</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Phân khúc</th><th class="l">Quy mô / tốc độ</th><th class="l">Nguồn &amp; ngày</th></tr></thead>
+          <tbody>
+            <tr><td class="l"><b>Phụ liệu &amp; đồ nghề may</b> (sewing supplies)</td><td class="l">US$5,52 tỷ (2025) → <b>US$5,80 tỷ (2026)</b>; CAGR <b>5,13%</b> → US$7,84 tỷ (2032)</td><td class="l">360Iresearch, dẫn qua apparel.alibaba.com — 25/08/2026</td></tr>
+            <tr><td class="l"><b>Nút kim loại dập</b> (stamped metal button)</td><td class="l">Dự kiến đạt <b>US$1,9 tỷ vào 2033</b></td><td class="l">apparel.alibaba.com — Stamped Metal Button guide, cập nhật 17/07/2026 (23 nguồn)</td></tr>
+            <tr><td class="l"><b>Phụ kiện cài/cúc</b> (clothing fasteners)</td><td class="l">Tăng trưởng <b>4,9%/năm</b></td><td class="l">Bonafide Research — Global Clothing Fasteners Market Outlook, 2030</td></tr>
+            <tr><td class="l"><b>Khoá kéo</b> (zipper)</td><td class="l">US$13,6 tỷ (2023) → <b>US$26,8 tỷ (2033)</b>; CAGR <b>7,0%</b></td><td class="l">EinPressWire — 24/01/2025 <span class="bad">(nguồn cũ hơn, nên đối chiếu)</span></td></tr>
+            <tr><td class="l"><b>Việt Nam — xuất khẩu dệt may</b></td><td class="l">6 tháng đầu 2026: <b>US$22,2 tỷ</b> (+1,7% YoY); nhóm xơ/vải/<b>phụ liệu</b>/vải không dệt tăng <b>5,6–10,6%</b>; hàng may mặc giảm 0,4%</td><td class="l">VITAS, dẫn qua VietnamPlus — 07/07/2026</td></tr>
+            <tr><td class="l"><b>Việt Nam — sản xuất dệt may</b></td><td class="l">US$5,27 tỷ (2026) → US$7,32 tỷ (2031); CAGR <b>6,79%</b></td><td class="l">Mordor Intelligence — 19/08/2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="chartbox" style="height:260px"><canvas id="cg_vi"></canvas></div>
+      <p class="src">So sánh tốc độ tăng trưởng (CAGR) giữa các phân khúc — nguồn như bảng trên. Riêng số liệu khoá kéo có nguồn từ 01/2025, cần cập nhật khi dùng chính thức.</p>
+      <div class="note blue"><b>Ý nghĩa với Rich Star:</b> tăng trưởng của ngành phụ liệu đến từ <b>nhóm sản phẩm "hardware"</b> (nút kim loại, khoá kéo, khóa cài) — đúng nhóm hàng gian hàng đang bán. Bối cảnh Việt Nam cũng thuận lợi: nhóm <b>phụ liệu</b> trong xuất khẩu dệt may tăng 5,6–10,6% trong khi hàng may mặc chỉ +/−(0,4%).</div>
+    </div>
+
+    <div class="card">
+      <h3>2.2 Xu hướng &amp; yêu cầu thị trường 2026</h3>
+      <ul>
+        <li><b>Phân cực thiết kế:</b> nhu cầu mạnh cho <b>họa tiết cổ điển/di sản</b> (sư tử, huy hiệu, crest) song song với <b>tối giản cao cấp</b> cho hàng hi-end. <span class="src">[Stamped Metal Button guide — 17/07/2026]</span></li>
+        <li><b>Dịch chuyển công nghệ:</b> chuyển sang máy dập servo &amp; sản xuất thông minh → làm mẫu nhanh, dung sai chặt hơn — lợi thế cho nhà máy có kiểm soát chất lượng tốt. <span class="src">[cùng nguồn]</span></li>
+        <li><b>Phụ liệu "xanh" là điều kiện ngày càng bắt buộc:</b> vật liệu tái chế (rPET, tagua, vỏ dừa, kim loại tái chế); <b>GRS và OEKO-TEX</b> là hai chứng nhận trọng tâm; nhu cầu phụ liệu bền vững dự kiến tăng trong 2026. <span class="src">[apparel.alibaba.com — button guide 17/07/2026]</span></li>
+        <li><b>Trimmings 2026:</b> bề mặt 3D, linh kiện "modular" (tay áo tháo rời, cạp điều chỉnh), hardware thân thiện môi trường. <span class="src">[Trimmings &amp; Sewing Accessories guide — 25/08/2026]</span></li>
+        <li><b>Yêu cầu EU/UK:</b> khai báo REACH (self-declaration) và Cosmetics Self-Declaration — chính là 2 nhiệm vụ đang có trong CRM của gian hàng, phản ánh tiêu chuẩn đầu vào khi bán sang EU. <span class="src">[CRM — Task center; quy định tham chiếu cần xác nhận với đơn vị tư vấn]</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>2.3 Đối thủ tiêu biểu cùng phân khúc nút kim loại</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Sản phẩm</th><th class="r">Giá (USD)</th><th class="r">MOQ</th><th class="l">Đánh giá &amp; mua lại</th><th class="l">Nhà bán</th></tr></thead>
+          <tbody>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Antique-Brass-Stamped-Letter-Metal-Jeans_60269697480.html" target="_blank">Antique Brass Stamped Letter Jeans Button (hợp kim)</a></td><td class="r">0,50</td><td class="r">100 pcs</td><td class="l">4,8 (891) · 1.200+ đánh giá shop · reorder 33% · ≤2h</td><td class="l">Guangzhou Topwin Metal Accessories · CN · 12 năm</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Factory-Making-Custom-High-Quality-New_1600322624679.html" target="_blank">Custom Branded Stamped Metal Snap Buttons</a></td><td class="r">0,15</td><td class="r">500 pcs</td><td class="l">4,9 (678) · 500+ đánh giá · reorder 24% · ≤2h</td><td class="l">Quanzhou Shangxu Garment Accessories · CN · 8 năm</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/High-Quality-Handmade-logo-Stamp-Make_62537013777.html" target="_blank">Handmade Logo Stamped Jeans Metal Shank Button</a></td><td class="r">0,47</td><td class="r">100 pcs</td><td class="l">4,9 (990) · 2.800+ đánh giá · reorder 13% · ≤5h</td><td class="l">Shishi Consen Metal Accessories · CN · 8 năm</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Consen-Western-Buttons-Custom-Made-Name_1601094218741.html" target="_blank">Stamped Garment Metal Buttons (western style)</a></td><td class="r">0,60</td><td class="r">100 pcs</td><td class="l">4,9 (345) · 4.400+ đánh giá · reorder 32% · ≤5h</td><td class="l">Shishi Consen Metal Accessories · CN · 10 năm</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Wholesale-Button-Custom-Letter-Name-Stamped_1601013894265.html" target="_blank">Custom Letter/Name Stamped Metal Snap Buttons</a></td><td class="r">0,08</td><td class="r">100 pcs</td><td class="l">4,8 (364) · 500+ đánh giá · reorder 21%</td><td class="l">Xiamen Neostar Trade · CN · 6 năm</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Custom-Vintage-Brass-Metal-Shank-Buttons_1601634965374.html" target="_blank">Vintage Brass Shank Buttons (lion/anchor/crest)</a></td><td class="r">0,03–0,06</td><td class="r">100 pcs</td><td class="l">4,9 (237) · reorder 27% · 200+ views từ Mỹ · ≤1h</td><td class="l">Hangzhou Crysti Garment Accessories · CN · 1 năm</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Custom-Name-Logo-Plated-Gold-Bronze_1601197117165.html" target="_blank">Plated Gold/Bronze Metal Shank Buttons (overcoat)</a></td><td class="r">0,04–0,13</td><td class="r">2.000 pcs</td><td class="l">4,9 (577) · 1.600+ đánh giá · reorder 29%</td><td class="l">Guangzhou DOY Label · CN · 7 năm</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Custom-Button-Metal-Zinc-Alloy-Brass_1601712476373.html" target="_blank">Zinc Alloy/Brass Engraved Rivets Gold Jeans Buttons</a></td><td class="r">0,03–0,05</td><td class="r">100 pcs</td><td class="l">4,9 (901) · reorder — </td><td class="l">Deho Metal Crafts · CN · 9 năm</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Custom-Embossed-Brand-logo-Round-Alloy_1601840219441.html" target="_blank">Embossed Logo Pearl Silver Denim Shank Button</a></td><td class="r">0,02–0,07</td><td class="r">500 pcs</td><td class="l">4,8 (580) · reorder 25% · ≤2h</td><td class="l">Shenzhen Xiangxin Garment Accessories · CN · 2 năm</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Nguồn: apparel.alibaba.com — "Stamped Metal Button" sourcing guide (cập nhật 17/07/2026); giá/MOQ/đánh giá là số hiển thị tại thời điểm truy cập, có thể thay đổi.</p>
+      <h4>3 nhận xét cho Rich Star</h4>
+      <ul>
+        <li><b>Giá và MOQ của gian hàng đang cạnh tranh tốt:</b> Rich Star niêm yết $0,01–0,35 với MOQ 100 pcs — thấp hơn hoặc tương đương phần lớn đối thủ trong bảng (phổ biến $0,02–0,60; có sản phẩm MOQ tới 500–2.000 pcs). Đây là lợi thế nên nói rõ trong tiêu đề/mô tả (giá tốt – MOQ thấp).</li>
+        <li><b>Khoảng trống lớn nhất là "bằng chứng xã hội":</b> đối thủ có 237–990 đánh giá sản phẩm, 500–4.400+ đánh giá shop và tỷ lệ mua lại 13–33%. Rich Star cần <b>tạo đơn nhỏ để tích luỹ đánh giá</b> — đây là việc có thể làm ngay với 55 khách L2+ và 73 người mua đang hoạt động.</li>
+        <li><b>Bám đúng hai xu hướng để mở rộng:</b> (1) <b>vintage/heritage motif</b> và (2) <b>phụ liệu xanh đạt chứng nhận GRS/OEKO-TEX</b> — gian hàng đã có sẵn các chứng nhận này trong tiêu đề sản phẩm, nên đưa chúng thành điểm bán chính và bổ sung khai báo REACH cho EU.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 2 · CN ================= -->
+  <section class="panel mod2 cn">
+    <h2><span class="n">2</span>行业市场与数据 · 服装辅料</h2>
+    <p class="lead">Rich Star 所在行业：Apparel &amp; Accessories → 服装辅料/配件（金属扣、四合扣、拉链、止扣、扣具）。以下数据来自公开来源并标注更新日期；价格/MOQ 为访问时点快照。</p>
+    <div class="card">
+      <h3>2.1 市场规模与增长</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">细分市场</th><th class="l">规模 / 增速</th><th class="l">来源与日期</th></tr></thead>
+          <tbody>
+            <tr><td class="l"><b>缝纫辅料与工具</b>（sewing supplies）</td><td class="l">2025年 US$55.2亿 → <b>2026年 US$58.0亿</b>；CAGR <b>5.13%</b> → 2032年 US$78.4亿</td><td class="l">360Iresearch，经 apparel.alibaba.com 引用 — 2026/08/25</td></tr>
+            <tr><td class="l"><b>冲压金属扣</b>（stamped metal button）</td><td class="l">预计 2033 年达 <b>US$19亿</b></td><td class="l">apparel.alibaba.com — Stamped Metal Button 指南，更新 2026/07/17（23 个来源）</td></tr>
+            <tr><td class="l"><b>服装扣具/紧固件</b></td><td class="l">年增长 <b>4.9%</b></td><td class="l">Bonafide Research — Global Clothing Fasteners Market Outlook, 2030</td></tr>
+            <tr><td class="l"><b>拉链</b></td><td class="l">2023年 US$136亿 → <b>2033年 US$268亿</b>；CAGR <b>7.0%</b></td><td class="l">EinPressWire — 2025/01/24 <span class="bad">（来源较早，建议复核）</span></td></tr>
+            <tr><td class="l"><b>越南 — 纺织服装出口</b></td><td class="l">2026上半年 <b>222亿美元</b>（同比 +1.7%）；纤维/面料/<b>辅料</b>/无纺布增长 <b>5.6–10.6%</b>；服装出口 −0.4%</td><td class="l">VITAS，经 VietnamPlus 引用 — 2026/07/07</td></tr>
+            <tr><td class="l"><b>越南 — 纺织制造市场</b></td><td class="l">2026年 US$52.7亿 → 2031年 US$73.2亿；CAGR <b>6.79%</b></td><td class="l">Mordor Intelligence — 2026/08/19</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="chartbox" style="height:260px"><canvas id="cg_cn"></canvas></div>
+      <p class="src">各细分 CAGR 对比 — 来源同表。其中拉链数据源自 2025/01，正式使用前建议更新。</p>
+      <div class="note blue"><b>对 Rich Star 的意义：</b>辅料行业增长主要来自 <b>"五金类"产品</b>（金属扣、拉链、扣具）— 正是本店在售品类。越南大环境同样有利：出口中 <b>辅料</b> 类增长 5.6–10.6%，而服装成品仅持平/微降。</div>
+    </div>
+    <div class="card">
+      <h3>2.2 2026 年趋势与市场要求</h3>
+      <ul>
+        <li><b>设计两极化：</b>复古传承纹样（狮子、徽章、crest）与高端极简设计需求同时强劲。<span class="src">[Stamped Metal Button 指南 — 2026/07/17]</span></li>
+        <li><b>技术升级：</b>转向伺服冲压与智能制造 → 打样更快、公差更严 — 对质量控制能力强的工厂是优势。<span class="src">[同上]</span></li>
+        <li><b>"绿色辅料"日益成为门槛：</b>再生材料（rPET、象牙果、椰壳、再生金属）；<b>GRS 与 OEKO-TEX</b> 是核心认证；2026 年可持续辅料需求预计持续上升。<span class="src">[apparel.alibaba.com — 纽扣指南 2026/07/17]</span></li>
+        <li><b>2026 辅料趋势：</b>3D 肌理、模块化部件（可拆袖、可调腰）、环保五金。<span class="src">[Trimmings &amp; Sewing Accessories 指南 — 2026/08/25]</span></li>
+        <li><b>欧盟/英国要求：</b>REACH 自我声明与化妆品自我声明 — 正是 CRM 中本店待完成的两项任务，反映进入欧盟市场的准入标准。<span class="src">[CRM — Task center；具体法规请与合规顾问确认]</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>2.3 同类金属扣代表性卖家</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">产品</th><th class="r">价格 (USD)</th><th class="r">MOQ</th><th class="l">评价与复购</th><th class="l">卖家</th></tr></thead>
+          <tbody>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Antique-Brass-Stamped-Letter-Metal-Jeans_60269697480.html" target="_blank">复古黄铜冲压字母牛仔扣</a></td><td class="r">0.50</td><td class="r">100 pcs</td><td class="l">4.8 (891) · 店铺1200+评价 · 复购33% · ≤2h</td><td class="l">Guangzhou Topwin Metal Accessories · 中国 · 12年</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Factory-Making-Custom-High-Quality-New_1600322624679.html" target="_blank">定制品牌冲压金属四合扣</a></td><td class="r">0.15</td><td class="r">500 pcs</td><td class="l">4.9 (678) · 500+评价 · 复购24% · ≤2h</td><td class="l">Quanzhou Shangxu Garment Accessories · 中国 · 8年</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/High-Quality-Handmade-logo-Stamp-Make_62537013777.html" target="_blank">手工logo冲压牛仔金属柄扣</a></td><td class="r">0.47</td><td class="r">100 pcs</td><td class="l">4.9 (990) · 2800+评价 · 复购13% · ≤5h</td><td class="l">Shishi Consen Metal Accessories · 中国 · 8年</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Consen-Western-Buttons-Custom-Made-Name_1601094218741.html" target="_blank">西部风格定制服装金属扣</a></td><td class="r">0.60</td><td class="r">100 pcs</td><td class="l">4.9 (345) · 4400+评价 · 复购32% · ≤5h</td><td class="l">Shishi Consen Metal Accessories · 中国 · 10年</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Wholesale-Button-Custom-Letter-Name-Stamped_1601013894265.html" target="_blank">定制字母/名称冲压四合扣</a></td><td class="r">0.08</td><td class="r">100 pcs</td><td class="l">4.8 (364) · 500+评价 · 复购21%</td><td class="l">Xiamen Neostar Trade · 中国 · 6年</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Custom-Vintage-Brass-Metal-Shank-Buttons_1601634965374.html" target="_blank">复古黄铜柄扣（狮子/船锚/徽章）</a></td><td class="r">0.03–0.06</td><td class="r">100 pcs</td><td class="l">4.9 (237) · 复购27% · 美国浏览200+ · ≤1h</td><td class="l">Hangzhou Crysti Garment Accessories · 中国 · 1年</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Custom-Name-Logo-Plated-Gold-Bronze_1601197117165.html" target="_blank">镀金/古铜金属柄扣（大衣用）</a></td><td class="r">0.04–0.13</td><td class="r">2,000 pcs</td><td class="l">4.9 (577) · 1600+评价 · 复购29%</td><td class="l">Guangzhou DOY Label · 中国 · 7年</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Custom-Button-Metal-Zinc-Alloy-Brass_1601712476373.html" target="_blank">锌合金/黄铜雕刻金色牛仔扣铆钉</a></td><td class="r">0.03–0.05</td><td class="r">100 pcs</td><td class="l">4.9 (901) · 复购 —</td><td class="l">Deho Metal Crafts · 中国 · 9年</td></tr>
+            <tr><td class="l"><a class="link" href="https://www.alibaba.com/product-detail/Custom-Embossed-Brand-logo-Round-Alloy_1601840219441.html" target="_blank">压印logo珍珠银色牛仔柄扣</a></td><td class="r">0.02–0.07</td><td class="r">500 pcs</td><td class="l">4.8 (580) · 复购25% · ≤2h</td><td class="l">Shenzhen Xiangxin Garment Accessories · 中国 · 2年</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">来源：apparel.alibaba.com "Stamped Metal Button" 采购指南（更新 2026/07/17）；价格/MOQ/评价为访问时点显示，可能变动。</p>
+      <h4>给 Rich Star 的三点提示</h4>
+      <ul>
+        <li><b>本店价格与 MOQ 已具竞争力：</b>US$0.01–0.35、MOQ 100 pcs — 低于或相当于表中多数同行（多为 $0.02–0.60，部分 MOQ 达 500–2,000 pcs）。建议在标题/描述中明确突出"低价 + 低 MOQ"。</li>
+        <li><b>最大短板是"社会证明"：</b>同行有 237–990 条商品评价、500–4,400+ 条店铺评价、复购率 13–33%。本店需 <b>通过小单积累评价</b> — 可立即从 55 位 L2+ 与 73 位活跃买家入手。</li>
+        <li><b>紧跟两大趋势扩张：</b>① <b>复古/传承纹样</b>；② <b>取得 GRS/OEKO-TEX 认证的绿色辅料</b> — 本店商品标题已含相关认证，应把其作为核心卖点，并补充欧盟 REACH 声明。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="foot">
+    <b><span class="vi">Nguồn dữ liệu &amp; ghi chú độ tin cậy</span><span class="cn">数据来源与可靠性说明</span>:</b>
+    <ul style="margin:6px 0">
+      <li><span class="vi">CRM Alibaba — bộ ảnh cung cấp ngày 07/10/2026: Star Rating (hiện tại &amp; dự báo); Store's performance 07–09/2026; Membership Privileges; Product Performance; Buyer &amp; Business Opportunities; Product Aggregation theo ngày 20/09–05/10/2026; Task center (13 growth tasks); báo cáo gia hạn (Core Metrics 180 ngày).</span><span class="cn">阿里巴巴 CRM — 2026/10/07 提供的截图：星等级（当前与预测）；2026年7–9月店铺效果；会员权益；商品表现；买家与商机指标；09/20–10/05 商品汇总按日数据；Task center（13 项成长任务）；续约报告（180天核心指标）。</span></li>
+      <li><span class="vi">Giới hạn dữ liệu: tab Store's performance chỉ hiển thị 3 tháng (07–09/2026); gian hàng <b>không chạy quảng cáo (P4P)</b> nên không có dữ liệu chi phí quảng cáo; một số chỉ tiêu có kỳ đo khác nhau giữa các panel (ví dụ tỷ lệ phản hồi 87,67% ở bảng tháng 9 so với 94,92% ở panel người mua; Marketing 561 khách so với 473 khách trong báo cáo dịch vụ) — cần thống nhất kỳ đo khi báo cáo chính thức.</span><span class="cn">数据限制：Store's performance 仅显示 3 个月（2026/07–09）；本店 <b>未投放广告（P4P）</b>，故无广告费用数据；各面板统计周期不完全一致（例如回复率：9月表 87.67% 对比买家面板 94.92%；营销力访客 561 对比服务报告的 473）— 正式报送前建议统一口径。</span></li>
+      <li><span class="vi">Số liệu ngành: 360Iresearch (qua apparel.alibaba.com 25/08/2026); apparel.alibaba.com Stamped Metal Button guide (17/07/2026); Bonafide Research (Clothing Fasteners Outlook 2030); EinPressWire (24/01/2025 — nguồn cũ); VITAS qua VietnamPlus (07/07/2026); Mordor Intelligence (19/08/2026).</span><span class="cn">行业数据：360Iresearch（经 apparel.alibaba.com 2026/08/25）；apparel.alibaba.com 冲压金属扣指南（2026/07/17）；Bonafide Research（Clothing Fasteners Outlook 2030）；EinPressWire（2025/01/24，来源较早）；VITAS 经 VietnamPlus（2026/07/07）；Mordor Intelligence（2026/08/19）。</span></li>
+      <li><span class="vi">Các mục tiêu KPI là đề xuất theo dõi, không phải cam kết kết quả. Mọi số liệu giá/MOQ/đánh giá của đối thủ là ảnh chụp tại thời điểm truy cập và có thể thay đổi.</span><span class="cn">KPI 为建议跟踪目标，不构成结果承诺。同行价格/MOQ/评价均为访问时点快照，可能变动。</span></li>
+    </ul>
+    <div style="margin-top:6px">Báo cáo Rich Star · tháng 9/2026 — 07/10/2026 · RICH STAR TECHNOLOGY COMPANY LIMITED</div>
+  </div>
+</div>
+
+<script>
+  const M3 = ['07/2026','08/2026','09/2026'];
+  const IMP_STORE = [12901, 11941, 12067];
+  const IMP_IND   = [71781, 79272, 80274];
+
+  function makeChart(id, kind){
+    const el = document.getElementById(id);
+    if(!el || el.dataset.done) return;
+    el.dataset.done = '1';
+    const cn = id.endsWith('_cn');
+    const t = (vi, cnTxt) => (cn ? cnTxt : vi);
+    let cfg = null;
+    if(kind === 'imp'){
+      cfg = {
+        type:'bar',
+        data:{ labels: M3, datasets:[
+          { label: t('Gian hàng','本店'), data: IMP_STORE, backgroundColor:'#7a4a1f', borderColor:'#5e3714', borderWidth:1 },
+          { label: t('Trung bình ngành','行业均值'), data: IMP_IND, backgroundColor:'#3f6f7a', borderColor:'#2f5560', borderWidth:1 }
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, font:{size:11} } } },
+          scales:{ y:{ beginAtZero:true, ticks:{ font:{size:11}, callback:(v)=>v.toLocaleString() } }, x:{ ticks:{ font:{size:11} } } } }
+      };
+    } else if(kind === 'star'){
+      cfg = {
+        type:'bar',
+        data:{ labels: t(['Product','Marketing','Service'], ['商品力','营销力','服务力']),
+          datasets:[{ label: t('Điểm tiêu chí (thang 5)','各项得分（满分5）'), data:[1,2,4],
+            backgroundColor:['#b3541e','#c68e31','#2e7d5b'], borderColor:'#8a97a1', borderWidth:1 }]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ display:false },
+            tooltip:{ callbacks:{ label:(c)=> t('Điểm: ','得分：') + c.parsed.x + ' / 5' } } },
+          scales:{ x:{ beginAtZero:true, max:5, ticks:{ stepSize:1, font:{size:11} } }, y:{ ticks:{ font:{size:11} } } } }
+      };
+    } else if(kind === 'prod'){
+      cfg = {
+        type:'line',
+        data:{ labels: t(['20/09','27/09','30/09','03/10','04/10'], ['09/20','09/27','09/30','10/03','10/04']),
+          datasets:[
+            { label: t('Tổng sản phẩm','商品总数'), data:[361,360,359,359,359], borderColor:'#3f6f7a', backgroundColor:'#3f6f7a', tension:.3, borderWidth:2, pointRadius:3 },
+            { label: t('Sản phẩm Top','Top 商品'), data:[11,11,13,12,12], borderColor:'#b3541e', backgroundColor:'#b3541e', tension:.3, borderWidth:2, pointRadius:3 }
+          ]},
+        options:{ responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, font:{size:11} } } },
+          scales:{ y:{ beginAtZero:true, ticks:{ font:{size:11} } }, x:{ ticks:{ font:{size:11} } } } }
+      };
+    } else if(kind === 'cg'){
+      cfg = {
+        type:'bar',
+        data:{ labels: t(['Phụ kiện cài/cúc','Phụ liệu may','Sản xuất dệt may VN','Khoá kéo'],
+                        ['服装扣具','缝纫辅料','越南纺织制造','拉链']),
+          datasets:[{ label: t('CAGR (%)','CAGR（%）'), data:[4.9,5.13,6.79,7.0],
+            backgroundColor:'#3f6f7a', borderColor:'#2f5560', borderWidth:1 }]},
+        options:{ responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:(c)=> c.parsed.y + '%' } } },
+          scales:{ y:{ beginAtZero:true, ticks:{ font:{size:11}, callback:(v)=>v+'%' } }, x:{ ticks:{ font:{size:11} } } } }
+      };
+    }
+    if(cfg) new Chart(el, cfg);
+  }
+  function initVisible(){
+    const mod = document.body.dataset.mod, lang = document.body.dataset.lang;
+    if(mod === '1'){ makeChart('imp_'+lang,'imp'); makeChart('star_'+lang,'star'); makeChart('prod_'+lang,'prod'); }
+    else { makeChart('cg_'+lang,'cg'); }
+  }
+  function setLang(l){
+    document.body.dataset.lang = l;
+    document.getElementById('langvi').classList.toggle('on', l==='vi');
+    document.getElementById('langcn').classList.toggle('on', l==='cn');
+    initVisible();
+  }
+  function setMod(m){
+    document.body.dataset.mod = m;
+    document.getElementById('modbtn1').classList.toggle('on', m==1);
+    document.getElementById('modbtn2').classList.toggle('on', m==2);
+    initVisible();
+  }
+  window.addEventListener('DOMContentLoaded', initVisible);
+</script>
+</body>
+</html>
