@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rà soát gian hàng NGOC LAM PHUOC TAN — 3 tháng 07–09/2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --blue:#1B5FA8; --blue-soft:#EAF2FA; --orange:#E8760C; --orange-soft:#FDF1E5;
+    --ink:#18212F; --muted:#5C6B7E; --bg:#F5F7FA; --card:#FFFFFF; --line:#E1E7EF;
+    --green:#1F7A4D; --green-soft:#E9F5EF; --red:#C0392B; --red-soft:#FBEDEB;
+    --amber:#B07408; --amber-soft:#FDF3E3;
+    --radius:12px; --shadow:0 1px 3px rgba(16,32,56,.06), 0 8px 24px rgba(16,32,56,.05);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Be Vietnam Pro',-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  a{color:var(--blue)}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px 80px}
+
+  .nav{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1080px; margin:0 auto; padding:10px 20px; display:flex; gap:14px; flex-wrap:wrap; align-items:center}
+  .nav a{font-size:13px; font-weight:500; color:var(--muted); text-decoration:none; padding:4px 8px; border-radius:8px}
+  .nav a:hover{background:var(--blue-soft); color:var(--blue)}
+  .nav .brand{font-weight:700; color:var(--ink); font-size:13px; margin-right:auto; letter-spacing:.2px}
+
+  header.hero{background:linear-gradient(135deg,#0F3F73 0%,#1B5FA8 55%,#2E7DC4 100%);
+    color:#fff; border-radius:0 0 18px 18px; padding:34px 0 30px; margin-bottom:26px;}
+  header.hero .wrap{padding-bottom:0}
+  .hero h1{margin:0 0 6px; font-size:27px; line-height:1.28; font-weight:700; letter-spacing:-.2px}
+  .hero .sub{opacity:.92; font-size:15px; margin-bottom:16px}
+  .hero .meta{display:flex; gap:26px; flex-wrap:wrap; font-size:13px; opacity:.92}
+  .hero .meta b{display:block; font-size:12px; text-transform:uppercase; letter-spacing:.6px; opacity:.75; font-weight:600}
+
+  .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(178px,1fr)); gap:12px; margin-top:-44px; margin-bottom:30px}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow)}
+  .kpi .lbl{font-size:12px; color:var(--muted); font-weight:500; margin-bottom:6px; line-height:1.35}
+  .kpi .val{font-size:23px; font-weight:700; letter-spacing:-.4px}
+  .kpi .note{font-size:12px; color:var(--muted); margin-top:4px}
+  .up{color:var(--green); font-weight:600}
+  .warn{color:var(--amber); font-weight:600}
+
+  section{background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px 26px; margin-bottom:22px; box-shadow:var(--shadow)}
+  section > h2{margin:0 0 4px; font-size:19px; font-weight:700; letter-spacing:-.2px}
+  section > h2 .num{color:var(--blue); font-weight:700; margin-right:8px}
+  .lede{color:var(--muted); font-size:14px; margin:0 0 18px}
+  h3{font-size:15px; font-weight:600; margin:22px 0 10px}
+  p{margin:0 0 12px}
+  ul,ol{margin:0 0 12px; padding-left:20px}
+  li{margin-bottom:6px}
+
+  .tbl-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 0 8px}
+  table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:560px}
+  th,td{padding:9px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top}
+  thead th{background:var(--blue-soft); color:#123A63; font-weight:600; font-size:12.5px;
+    text-transform:uppercase; letter-spacing:.3px; border-bottom:1px solid #CFE0F0}
+  tbody tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+  tr.hi td{background:#FCFDFE}
+  caption{caption-side:top; text-align:left; font-size:12.5px; color:var(--muted); padding:0 0 8px}
+
+  .box{border-radius:10px; padding:14px 16px; margin:0 0 14px; font-size:14px; border:1px solid transparent}
+  .box b{font-weight:600}
+  .box.blue{background:var(--blue-soft); border-color:#CFE0F0}
+  .box.amber{background:var(--amber-soft); border-color:#F0DCB4}
+  .box.green{background:var(--green-soft); border-color:#C6E5D6}
+  .box .t{display:block; font-weight:600; margin-bottom:4px}
+
+  .charts{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; margin:6px 0 16px}
+  .chart-card{border:1px solid var(--line); border-radius:10px; padding:12px 14px 6px}
+  .chart-card .ct{font-size:13px; font-weight:600; margin-bottom:2px}
+  .chart-card .cs{font-size:12px; color:var(--muted); margin-bottom:8px}
+  .chart-box{position:relative; height:260px}
+
+  .pill{display:inline-block; font-size:12px; font-weight:500; padding:3px 9px; border-radius:999px;
+    background:var(--blue-soft); color:#12456F; margin:0 6px 6px 0}
+  .pill.g{background:var(--green-soft); color:#15613C}
+  .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px}
+
+  .prio{border:1px solid var(--line); border-radius:10px; overflow:hidden}
+  .prio .ph{padding:10px 14px; font-weight:600; font-size:14px; color:#fff}
+  .prio.p0 .ph{background:#1B5FA8}
+  .prio.p1 .ph{background:#2E7DC4}
+  .prio.p2 .ph{background:#4E93CE}
+  .prio .pb{padding:12px 16px}
+  .prio .pb ol{margin:0; padding-left:20px}
+  footer{color:var(--muted); font-size:12.5px; text-align:center; padding:10px 0 0}
+
+  @media print{.nav{display:none} body{background:#fff} section{break-inside:avoid; box-shadow:none} header.hero{border-radius:0}}
+  @media (max-width:640px){.hero h1{font-size:21px} section{padding:18px 16px} .kpis{margin-top:-24px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="brand">NGOC LAM PHUOC TAN · Rà soát 07–09/2026</span>
+    <a href="#tq">0. Điểm nổi bật</a>
+    <a href="#s1">1. Traffic</a>
+    <a href="#s2">2. Động lực tăng trưởng</a>
+    <a href="#s3">3. Sản phẩm Top</a>
+    <a href="#s4">4. RFQ</a>
+    <a href="#s5">5. Khách hàng T9</a>
+    <a href="#s6">6. Star Rating</a>
+    <a href="#s7">7. Đề xuất</a>
+    <a href="#s8">8. Nguồn dữ liệu</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Rà soát gian hàng Alibaba.com — NGOC LAM PHUOC TAN COMPANY LIMITED</h1>
+    <div class="sub">Kết quả 3 tháng gần nhất (07/2026 – 09/2026), động lực tăng trưởng và đề xuất phát triển cho giai đoạn tiếp theo</div>
+    <div class="meta">
+      <div><b>Kỳ dữ liệu</b>07 – 09/2026 (một số chỉ số cập nhật tới 04/10/2026)</div>
+      <div><b>Ngày lập</b>07/10/2026</div>
+      <div><b>Nguồn</b>CRM in-service detail của gian hàng</div>
+      <div><b>Chuẩn so sánh</b>Trung bình ngành · Doanh nghiệp dẫn đầu ngành (cấp ngành nội thất)</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="kpis">
+    <div class="kpi"><div class="lbl">Lượt hiển thị tìm kiếm · T9</div><div class="val">11.180</div><div class="note"><span class="up">▲ 166,13%</span> so T8 · 19,9% TB ngành</div></div>
+    <div class="kpi"><div class="lbl">Người xem duy nhất · T9</div><div class="val">155</div><div class="note"><span class="up">▲ 91,36%</span> so T8</div></div>
+    <div class="kpi"><div class="lbl">Click từ tìm kiếm · T9</div><div class="val">128</div><div class="note"><span class="up">▲ 91,04%</span> so T8</div></div>
+    <div class="kpi"><div class="lbl">Sản phẩm đang hoạt động</div><div class="val">1.435</div><div class="note"><span class="up">▲ 304,23%</span> (MOM) · 1.075 SP mới</div></div>
+    <div class="kpi"><div class="lbl">Người mua L2+ · T9</div><div class="val">9</div><div class="note">60% tệp khách hoạt động · phản hồi 100%</div></div>
+  </div>
+
+  <section id="tq">
+    <h2><span class="num">0.</span>Điểm nổi bật 3 tháng</h2>
+    <p class="lede">Gian hàng đang ở giai đoạn hoạt động trở lại: nền tảng đã được dựng lên nhanh, tệp khách bước đầu hình thành, và dư địa tăng trưởng còn rất lớn.</p>
+
+    <div class="box green"><span class="t">1. Traffic bứt phá ấn tượng</span>
+      Lượt hiển thị tìm kiếm đi từ <b>50 (T7) → 4.201 (T8) → 11.180 (T9)</b> — gấp khoảng <b>224 lần</b> sau 3 tháng; độ phủ so với trung bình ngành tăng từ <b>0,10% → 7,88% → 19,88%</b>. Người xem duy nhất tăng 18 → 155, click từ tìm kiếm tăng 1 → 128, tin nhắn TM tăng 0 → 13. Tháng 9 ghi nhận <b>2 thư hỏi hàng đầu tiên</b>.
+    </div>
+
+    <div class="box blue"><span class="t">2. Động lực chính: mở rộng danh mục bài bản</span>
+      <b>1.075 sản phẩm mới đăng</b>, đưa tổng sản phẩm hoạt động lên <b>1.435 (MOM +304,23%)</b>; 1.002 sản phẩm đã có lượt hiển thị. Đây là bước đi phù hợp với giai đoạn khởi động lại: tạo độ phủ trước, rồi mới dồn lực vào chất lượng. Điểm cộng quan trọng: <b>0 sản phẩm trùng lặp</b> — danh mục mở rộng nhưng vẫn sạch.
+    </div>
+
+    <div class="box blue"><span class="t">3. Nền tảng khách hàng và dịch vụ đã có</span>
+      Tháng 9: <b>15 người mua hoạt động</b>, trong đó <b>9 người thuộc nhóm L2+ (60%)</b> — tệp khách có chất lượng, không phải khách vãng lai. <b>Tỷ lệ phản hồi đạt 100%</b> (trung bình ngành 87,48%) và duy trì 2 tháng liên tiếp.
+    </div>
+
+    <div class="box amber"><span class="t">4. Hướng đi cho giai đoạn tiếp theo</span>
+      Ba việc sẽ tạo khác biệt lớn nhất: (1) <b>chọn 10–15 sản phẩm trụ cột</b> trong ngách đang có nhu cầu thật và hoàn thiện đến mức xuất sắc; (2) <b>đưa thông tin sản phẩm lên chuẩn cao</b> để người mua dễ quyết định; (3) <b>chăm sóc 9 khách L2+ đang có</b> để chuyển các cuộc trao đổi thành đơn hàng đầu tiên qua Trade Assurance.
+    </div>
+  </section>
+
+  <section id="s1">
+    <h2><span class="num">1.</span>Traffic 3 tháng và vị thế so với chuẩn ngành</h2>
+    <p class="lede">Giá trị của cửa hàng theo từng tháng, đặt cạnh trung bình ngành và doanh nghiệp dẫn đầu ngành.</p>
+
+    <div class="tbl-scroll">
+    <table>
+      <caption>Đơn vị: lượt. Nguồn: CRM — bảng Store's performance, bộ lọc Month 2026-07 → 2026-09.</caption>
+      <thead>
+        <tr>
+          <th>Chỉ số</th>
+          <th class="num">T7/2026</th>
+          <th class="num">T8/2026</th>
+          <th class="num">T9/2026</th>
+          <th class="num">MoM T9</th>
+          <th class="num">TB ngành T9</th>
+          <th class="num">% so TB</th>
+          <th class="num">Top ngành T9</th>
+          <th class="num">% so Top</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hi"><td><b>Lượt hiển thị tìm kiếm</b></td><td class="num">50</td><td class="num">4.201</td><td class="num"><b>11.180</b></td><td class="num up">+166,13%</td><td class="num">56.238</td><td class="num">19,88%</td><td class="num">359.991</td><td class="num">3,11%</td></tr>
+        <tr><td>Lượt xem trang</td><td class="num">40</td><td class="num">186</td><td class="num"><b>370</b></td><td class="num up">+98,92%</td><td class="num">5.248</td><td class="num">7,05%</td><td class="num">48.633</td><td class="num">0,76%</td></tr>
+        <tr><td>Người xem duy nhất</td><td class="num">18</td><td class="num">81</td><td class="num"><b>155</b></td><td class="num up">+91,36%</td><td class="num">2.378</td><td class="num">6,52%</td><td class="num">19.694</td><td class="num">0,79%</td></tr>
+        <tr class="hi"><td>Click từ tìm kiếm</td><td class="num">1</td><td class="num">67</td><td class="num"><b>128</b></td><td class="num up">+91,04%</td><td class="num">1.292</td><td class="num">9,91%</td><td class="num">9.868</td><td class="num">1,30%</td></tr>
+        <tr><td>Khách có thư hỏi hàng</td><td class="num">0</td><td class="num">0</td><td class="num"><b>2</b></td><td class="num up">mới phát sinh</td><td class="num">61</td><td class="num">3,28%</td><td class="num">759</td><td class="num">0,26%</td></tr>
+        <tr><td>Thư hỏi hàng</td><td class="num">0</td><td class="num">0</td><td class="num"><b>2</b></td><td class="num up">mới phát sinh</td><td class="num">68</td><td class="num">2,94%</td><td class="num">857</td><td class="num">0,23%</td></tr>
+        <tr><td>Tin nhắn TM</td><td class="num">0</td><td class="num">5</td><td class="num"><b>13</b></td><td class="num up">+160,00%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr class="hi"><td>Tỷ lệ phản hồi của cửa hàng</td><td class="num">0%</td><td class="num">100%</td><td class="num"><b>100%</b></td><td class="num">0,00%</td><td class="num">93%</td><td class="num up">cao hơn</td><td class="num">99,19%</td><td class="num">—</td></tr>
+        <tr><td>Thời gian phản hồi (giờ)</td><td class="num">0,00</td><td class="num">2,85</td><td class="num"><b>4,50</b></td><td class="num warn">+57,89%</td><td class="num">3,42</td><td class="num">cần lưu ý</td><td class="num">1,85</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="charts">
+      <div class="chart-card">
+        <div class="ct">Lượt hiển thị tìm kiếm: cửa hàng vs chuẩn ngành</div>
+        <div class="cs">Thang log do chênh lệch lớn giữa 3 đường</div>
+        <div class="chart-box"><canvas id="chImp"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="ct">Tỷ trọng của cửa hàng so với chuẩn ngành</div>
+        <div class="cs">% lượt hiển thị của cửa hàng ÷ lượt hiển thị chuẩn ngành</div>
+        <div class="chart-box"><canvas id="chShare"></canvas></div>
+      </div>
+    </div>
+
+    <div class="box blue"><span class="t">Lời bình</span>
+      <b>1) Tốc độ tăng trưởng thuộc nhóm nhanh nhất.</b> Chỉ sau 3 tháng, lượt hiển thị tăng khoảng 224 lần (50 → 4.201 → 11.180), người xem duy nhất tăng hơn 8 lần, tin nhắn TM từ 0 lên 13. Với một gian hàng vừa hoạt động trở lại, đây là kết quả rất tích cực.<br>
+      <b>2) Độ phủ so với ngành tăng liên tục:</b> 0,10% → 7,88% → 19,88% trung bình ngành. Xu hướng này quan trọng hơn con số tuyệt đối: gian hàng đang tăng nhanh hơn mức chung của ngành nội thất.<br>
+      <b>3) Dư địa còn rất lớn — đây là tin tốt.</b> Hiện tại 11.180 lượt hiển thị = 19,88% trung bình ngành (56.238) và 3,11% nhóm dẫn đầu (359.991). Nói cách khác, chỉ cần giữ nhịp và nâng chất lượng nội dung, gian hàng còn khoảng <b>5 lần</b> dư địa để chạm trung bình ngành và hơn <b>32 lần</b> để tiệm cận nhóm dẫn đầu.<br>
+      <b>4) Điểm cần lưu ý duy nhất:</b> thời gian phản hồi tăng từ 0h (T7) → 2,85h (T8) → 4,50h (T9) trong khi lượng tin nhắn tăng nhanh. Nên bố trí người trực và mẫu trả lời sẵn để giữ nhịp phản hồi nhanh — đây đang là lợi thế so với ngành (tỷ lệ phản hồi 100% so với 93% trung bình ngành).
+    </div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">2.</span>Động lực tăng trưởng traffic: mở rộng danh mục</h2>
+    <p class="lede">Số lượng bài viết tăng rất mạnh trong kỳ — đây là nguyên nhân trực tiếp và hợp lý cho mức tăng lượt hiển thị của giai đoạn hoạt động trở lại.</p>
+
+    <div class="tbl-scroll">
+    <table>
+      <caption>Nguồn: CRM — khối Hiệu quả Sản phẩm (có cột MOM) và tab Product Aggregation.</caption>
+      <thead>
+        <tr><th>Chỉ số</th><th class="num">Giá trị</th><th class="num">MOM</th><th>Ghi nhận</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hi"><td><b>Sản phẩm đang hoạt động</b></td><td class="num"><b>1.435</b></td><td class="num up">+304,23%</td><td>Quy mô danh mục mở rộng gấp khoảng 4 lần</td></tr>
+        <tr><td>Sản phẩm mới đăng</td><td class="num"><b>1.075</b></td><td class="num up">+203,67%</td><td>Khoảng 75% danh mục là sản phẩm mới trong kỳ</td></tr>
+        <tr><td>Sản phẩm có lượt hiển thị</td><td class="num">1.002</td><td class="num up">+462,92%</td><td>69,83% danh mục đã có mặt trong kết quả tìm kiếm</td></tr>
+        <tr><td>Sản phẩm có lượt click</td><td class="num">80</td><td class="num up">+122,22%</td><td>Tăng song song với nhịp mở rộng danh mục</td></tr>
+        <tr><td>Sản phẩm có yêu cầu báo giá</td><td class="num">5</td><td class="num up">+150,00%</td><td>Bước đầu hình thành nhóm sản phẩm được hỏi giá</td></tr>
+        <tr><td>Sản phẩm có khách xem (30 ngày)</td><td class="num">11</td><td class="num">—</td><td>Nhóm sản phẩm khách đã thực sự mở xem</td></tr>
+        <tr><td>Sản phẩm có thư hỏi hàng</td><td class="num">1</td><td class="num">—</td><td>Bắt đầu phát sinh trong tháng 9</td></tr>
+        <tr class="hi"><td>Sản phẩm Top</td><td class="num">1</td><td class="num">0,00%</td><td>Xuất hiện từ 23/09/2026 — mốc đầu tiên cần ghi nhận</td></tr>
+        <tr><td>Sản phẩm Super</td><td class="num">0</td><td class="num">0,00%</td><td>Còn trống — mục tiêu cho giai đoạn tới</td></tr>
+        <tr><td>High Demand Product</td><td class="num">0</td><td class="num">—</td><td>Theo số liệu anh/chị cung cấp</td></tr>
+        <tr><td>RTS product</td><td class="num">0</td><td class="num">—</td><td>Danh mục hiện là hàng đặt sản xuất</td></tr>
+        <tr class="hi"><td>Sản phẩm trùng lặp</td><td class="num up">0</td><td class="num">0,00%</td><td><b>Điểm cộng:</b> mở rộng nhanh nhưng danh mục vẫn sạch</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Chất lượng thông tin sản phẩm (Product Score): nền đã vững, còn dư địa ở mức cao</h3>
+    <div class="tbl-scroll">
+    <table>
+      <caption>Nguồn: CRM — tab Product Aggregation (chỉ số theo ngày, 07/07/2026 → 04/10/2026).</caption>
+      <thead><tr><th>Chỉ số</th><th class="num">Đầu kỳ 07/07</th><th class="num">30/09</th><th class="num">04/10</th><th>Ghi nhận</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td>Số sản phẩm đạt Product Score ≥ 5</td><td class="num">1</td><td class="num">1.399</td><td class="num"><b>1.549</b></td><td>Tăng vượt bậc theo nhịp đăng sản phẩm</td></tr>
+        <tr><td>Số sản phẩm đạt Product Score ≥ 5,5</td><td class="num">—</td><td class="num">55 (đỉnh 09/09)</td><td class="num"><b>0</b></td><td>Cơ hội lớn nhất còn bỏ ngỏ: nhóm chất lượng cao chưa được duy trì</td></tr>
+        <tr><td>Similar Products (Score ≥ 5)</td><td class="num up">0</td><td class="num up">0</td><td class="num up">0</td><td>Không có sản phẩm trùng lặp</td></tr>
+        <tr><td>Top product</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td>Bắt đầu từ 23/09/2026</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="charts">
+      <div class="chart-card">
+        <div class="ct">Quy mô danh mục sau 3 tháng</div>
+        <div class="cs">Số sản phẩm theo trạng thái</div>
+        <div class="chart-box"><canvas id="chProd"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="ct">Số sản phẩm đạt Product Score ≥ 5</div>
+        <div class="cs">1 (07/07) → 1.399 (30/09) → 1.549 (04/10)</div>
+        <div class="chart-box"><canvas id="chPis"></canvas></div>
+      </div>
+    </div>
+
+    <div class="box blue"><span class="t">Lời bình</span>
+      <b>1) Đây là bước đi đúng cho giai đoạn hoạt động trở lại.</b> Việc đưa lên 1.075 sản phẩm mới, nâng tổng danh mục lên 1.435, đã giúp lượt hiển thị tăng từ 50 lên 11.180 lượt trong 3 tháng. Cách làm này tạo độ phủ và thu thập dữ liệu nhu cầu — nền tảng cần thiết trước khi tối ưu.<br>
+      <b>2) Tín hiệu tốt về chất lượng nền:</b> 1.549 sản phẩm đã đạt Product Score ≥ 5 (từ mức 1 sản phẩm đầu kỳ), và danh mục giữ được <b>0 sản phẩm trùng lặp</b> — nghĩa là việc mở rộng được thực hiện có kiểm soát, không rơi vào tình trạng đăng trùng để phủ từ khóa.<br>
+      <b>3) Cơ hội rõ nhất nằm ở nhóm chất lượng cao:</b> số sản phẩm đạt Product Score ≥ 5,5 từng lên 55 (09/09) nhưng hiện còn 0. Chỉ cần đưa 10–15 sản phẩm trụ cột lên mức này là gian hàng sẽ có nhóm sản phẩm đủ sức hút để dẫn dắt phần còn lại.<br>
+      <b>4) Hướng triển khai:</b> giữ nguyên độ phủ hiện có, không cần đăng thêm số lượng lớn; tập trung hoàn thiện nội dung cho nhóm sản phẩm được chọn. Đây là việc nhẹ hơn nhiều so với việc mở rộng danh mục như 3 tháng vừa qua.
+    </div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">3.</span>Sản phẩm Top / Super / High Demand Product</h2>
+    <p class="lede">Gian hàng đã có sản phẩm Top đầu tiên (từ 23/09/2026); nhóm Super, RTS và High Demand Product còn trống — đây là các mốc tiếp theo có thể chinh phục.</p>
+
+    <div class="grid2">
+      <div class="box blue" style="margin:0"><span class="t">Vì sao chỉ số này quan trọng</span>
+        Nhóm Top / Super / RTS / High Demand Product là các nhóm sản phẩm được sàn dùng trong hoạt động vận hành và ưu đãi, đồng thời được hiển thị nhãn cho người mua. Có sản phẩm trong các nhóm này giúp gian hàng được tiếp cận nhiều hoạt động hơn mà không cần thêm ngân sách quảng cáo.
+      </div>
+      <div class="box green" style="margin:0"><span class="t">Thuận lợi hiện tại</span>
+        Gian hàng đã có sản phẩm Top đầu tiên và <b>0 sản phẩm trùng lặp</b> — nền tảng sạch để xây nhóm sản phẩm chuẩn. Định hướng chung của sàn cũng đang khuyến khích tập trung vào <b>sản phẩm chuẩn có chất lượng cao</b> thay vì đăng tràn lan, rất phù hợp với bước tiếp theo của gian hàng.
+      </div>
+    </div>
+
+    <h3>Top 10 sản phẩm dẫn đầu theo lượt hiển thị tìm kiếm</h3>
+    <div class="tbl-scroll">
+    <table>
+      <caption>Nguồn: CRM — tab Phân tích sản phẩm Top. Tổng 10 sản phẩm: 1.418 lượt hiển thị · 23 click · 1 thư hỏi · 1 tin nhắn TM.</caption>
+      <thead><tr><th>ID sản phẩm</th><th>Tên sản phẩm</th><th class="num">Hiển thị</th><th class="num">Click</th><th class="num">Thư hỏi</th><th class="num">Tin nhắn</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td>10000046652103</td><td>Space-Saving Modern European Twin Platform Bed Hidden Pull-Out Trundle (Fits Single King Single)…</td><td class="num"><b>276</b></td><td class="num">12</td><td class="num">1</td><td class="num">1</td></tr>
+        <tr><td>10000047570777</td><td>Classic 4-Drawer Wooden Storage Chest – Radiata & MDF Frame, Durable Alloy Handles, European…</td><td class="num">201</td><td class="num">1</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr><td>10000046176134</td><td>Minimalist Radiata Wood Foldable Shoe Organizer 3-Shelf Freestanding Living Room Footwear Storage…</td><td class="num">176</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr><td>10000046559683</td><td>King Single Radiata/MDF Wood Platform Storage Bed Pull-Out Trundle European Design Durable Space…</td><td class="num">130</td><td class="num">3</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr><td>10000046781615</td><td>White Single Size Durable Assemblable Platform Bed Pull-Out Trundle Storage for Kids Room Space Savi…</td><td class="num">128</td><td class="num">2</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr><td>10000046314508</td><td>Vintage Traditional Style Radiata Pine & MDF Bed Frame - Double/Queen/King/King Single Sizes Home…</td><td class="num">115</td><td class="num">1</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr><td>10000046000021</td><td>Upscale European Dual-Layer King Single Sleeper Platform Bed Hidden Pull-Out Bed Durable…</td><td class="num">107</td><td class="num">1</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr><td>10000047425730</td><td>Modern Pull-Out Trundle Bed Smooth Sliding Extra Sleeping Platform Space-Saving European Design…</td><td class="num">102</td><td class="num">3</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr><td>10000046494450</td><td>European Single Size Daybed with Pull-Out Trundle Bed - Modern Space-Saving Dual-Layer Wooden…</td><td class="num">94</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr><td>10000047147816</td><td>Convenient 2-in-1 Twin Daybed with Pull-Out Trundle - Space-Saving Wooden Guest Bed Frame…</td><td class="num">89</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="box blue"><span class="t">Lời bình</span>
+      <b>1) Ngách mạnh nhất đã tự lộ diện — đây là kết quả giá trị nhất của 3 tháng vừa qua.</b> 8/10 sản phẩm dẫn đầu là <b>giường space-saving có ngăn kéo kéo ra (pull-out trundle)</b>, còn lại là tủ 4 ngăn kéo và kệ giày gấp gọn. Các từ khóa lặp đi lặp lại: <i>space-saving · pull-out trundle · platform bed · daybed · Radiata · kids room · European design</i>. Gian hàng đã tìm được đúng nhóm sản phẩm có nhu cầu thật.<br>
+      <b>2) Nhóm dẫn đầu đang tạo được tương tác thực:</b> 1.418 lượt hiển thị và 23 click trong kỳ; sản phẩm đứng đầu (276 lượt hiển thị, 12 click) đã phát sinh <b>1 thư hỏi hàng và 1 tin nhắn TM</b>. Nhu cầu là có thật, và sản phẩm này xứng đáng được đầu tư nội dung trước tiên.<br>
+      <b>3) Việc nên làm ngay:</b> chọn 10–15 sản phẩm trong nhóm giường trundle/tủ/kệ giày làm <b>nhóm trụ cột</b>, hoàn thiện 6 ảnh (ảnh chính nền trắng), video ngắn, bảng kích thước theo từng size (Single / King Single / Double / Queen / King) và thuộc tính đầy đủ. Mục tiêu: đưa nhóm này lên Product Score ≥ 5,5 và có sản phẩm Super đầu tiên.<br>
+      <b>4) Lợi thế cần giữ:</b> không có sản phẩm trùng lặp nên mọi nỗ lực tối ưu sẽ dồn đúng vào sản phẩm, không bị phân tán như trường hợp đăng trùng nhiều bản sao.
+    </div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">4.</span>RFQ: khai thác tối đa hạn mức</h2>
+    <p class="lede">Kênh RFQ đang được sử dụng rất tích cực so với chuẩn ngành — đây là điểm mạnh nên phát huy.</p>
+
+    <div class="tbl-scroll">
+    <table>
+      <caption>Nguồn: CRM — tab RFQ data. Hạn mức 50/50 theo số liệu anh/chị cung cấp.</caption>
+      <thead><tr><th>Chỉ số</th><th class="num">Giá trị</th><th class="num">TB ngành</th><th class="num">Top ngành</th><th class="num">MOM</th><th>Ghi nhận</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td>Số báo giá trong tháng (Monthly quotations) — 30/09</td><td class="num"><b>50</b></td><td class="num">14</td><td class="num">123</td><td class="num up">+16,28%</td><td>Tận dụng tốt hạn mức, gấp ~3,6 lần TB ngành</td></tr>
+        <tr><td>Số báo giá — 04/10</td><td class="num">8</td><td class="num">3</td><td class="num">38</td><td class="num up">+166,67%</td><td>Nhịp đầu tháng 10 đang nhanh hơn</td></tr>
+        <tr><td>Tỷ lệ phản hồi RFQ 30 ngày — 04/10</td><td class="num">7,27%</td><td class="num">23,56%</td><td class="num">100%</td><td class="num up">+49,09%</td><td>Dư địa còn lớn — xem lời bình</td></tr>
+        <tr class="hi"><td>Lượt vào chợ RFQ trong tháng — 04/10</td><td class="num">3</td><td class="num">2</td><td class="num">4</td><td class="num up">+200%</td><td>Mức sử dụng đang tăng lên</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="box blue"><span class="t">Lời bình</span>
+      <b>1) Đây là điểm mạnh của đội ngũ vận hành.</b> 50 báo giá trong tháng 9 (gấp khoảng 3,6 lần trung bình ngành 14) cho thấy kênh RFQ được khai thác triệt để, không để lãng phí hạn mức. Số lượt vào chợ RFQ tăng 200% MoM cũng cho thấy nhịp tìm cơ hội đang nhanh lên.<br>
+      <b>2) Hướng nâng cấp tiếp theo:</b> tỷ lệ phản hồi RFQ 30 ngày hiện ở mức 7,27% (trung bình ngành 23,56%) — dư địa cải thiện còn rất lớn mà không cần thêm hạn mức. Khi số lượng báo giá đã đủ nhiều, chất lượng từng báo giá sẽ là yếu tố quyết định.<br>
+      <b>3) Gợi ý cụ thể cho mỗi báo giá:</b> gửi kèm 3 ảnh thật của sản phẩm, bảng kích thước theo từng size, MOQ và quy cách đóng gói, thời gian sản xuất/giao hàng, chính sách mẫu (nếu có). Đây đều là những thông tin đang có sẵn — chỉ cần chuẩn hoá thành một bộ tài liệu mẫu để dùng lại.<br>
+      <b>4) Mục tiêu đề xuất:</b> đưa tỷ lệ phản hồi RFQ 30 ngày lên khoảng 20% (tương đương mức trung bình ngành 23,56%) trong 2 tháng tới.
+    </div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">5.</span>Khách hàng tháng 9 và nhóm L2+</h2>
+    <p class="lede">Tệp khách bước đầu đã hình thành với cơ cấu tốt: phần lớn là khách ở mức tương tác thật, không phải khách vãng lai.</p>
+
+    <div class="tbl-scroll">
+    <table>
+      <caption>Nguồn: CRM — khối Hiệu quả cơ hội kinh doanh, tháng 9/2026. Bộ chuẩn ngành ở khối này khác với khối Tổng quan gian hàng (xem mục 8).</caption>
+      <thead><tr><th>Chỉ số</th><th class="num">Cửa hàng</th><th class="num">TB ngành</th><th class="num">% so TB</th><th class="num">Top ngành</th><th class="num">% so Top</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td>Cơ hội kinh doanh</td><td class="num"><b>15</b></td><td class="num">307</td><td class="num">4,89%</td><td class="num">7.183</td><td class="num">0,21%</td></tr>
+        <tr><td>Thư hỏi hàng</td><td class="num">2</td><td class="num">63</td><td class="num">3,17%</td><td class="num">1.666</td><td class="num">0,12%</td></tr>
+        <tr><td>Tin nhắn</td><td class="num">13</td><td class="num">234</td><td class="num">5,56%</td><td class="num">5.386</td><td class="num">0,24%</td></tr>
+        <tr class="hi"><td>Tỷ lệ phản hồi</td><td class="num up"><b>100,00%</b></td><td class="num">87,48%</td><td class="num up">cao hơn</td><td class="num">100,00%</td><td class="num">bằng</td></tr>
+        <tr><td>Số lượng người mua hoạt động</td><td class="num">15</td><td class="num">266</td><td class="num">5,64%</td><td class="num">6.050</td><td class="num">0,25%</td></tr>
+        <tr><td><b>Số lượng người mua L2+</b></td><td class="num"><b>9</b></td><td class="num">173</td><td class="num">5,20%</td><td class="num">4.057</td><td class="num">0,22%</td></tr>
+        <tr><td>Số người mua trả phí</td><td class="num">5</td><td class="num">143</td><td class="num">3,50%</td><td class="num">3.425</td><td class="num">0,15%</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Cơ cấu tệp khách (tự tính từ bảng trên)</h3>
+    <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Chỉ số cơ cấu</th><th class="num">Cửa hàng</th><th class="num">TB ngành</th><th class="num">Top ngành</th><th>Ghi nhận</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td>Tỷ trọng người mua L2+ / người mua hoạt động</td><td class="num">60,0%</td><td class="num">65,0%</td><td class="num">67,1%</td><td>Gần sát chuẩn ngành — tệp khách có chất lượng</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="box blue"><span class="t">Lời bình về khách hàng tháng 9 và nhóm L2+</span>
+      <b>1) Cơ cấu khách tốt ngay từ giai đoạn khởi động.</b> Trong 15 người mua hoạt động có <b>9 người thuộc nhóm L2+</b> — tương đương 60,0%, gần sát mức trung bình ngành (65,0%) và nhóm dẫn đầu (67,1%). Đây là tín hiệu cho thấy sản phẩm đang tiếp cận đúng nhóm khách có nhu cầu thật.<br>
+      <b>2) Dịch vụ đang là điểm mạnh vượt chuẩn ngành:</b> tỷ lệ phản hồi <b>100%</b> so với 87,48% trung bình ngành, duy trì liên tục; 5 người mua trả phí là dấu hiệu của những cuộc trao đổi thực chất, không phải truy cập ngẫu nhiên.<br>
+      <b>3) 15 cơ hội kinh doanh và 13 tin nhắn TM là nền tảng ban đầu đáng khích lệ</b> cho một gian hàng vừa hoạt động trở lại. Điều quan trọng nhất lúc này là <b>chăm sóc tệp khách đã có</b> thay vì chờ đợi lượng khách mới.<br>
+      <b>4) Việc nên làm trong 7 ngày tới:</b> lập danh sách 9 khách L2+ cùng 5 khách trả phí, gửi follow-up có kịch bản (catalogue nhóm giường trundle, bảng kích thước, chính sách mẫu nếu có, ưu đãi cho đơn đầu tiên qua Trade Assurance). Đây là nhóm khách có khả năng phản hồi cao nhất vì đã từng tương tác với gian hàng.
+    </div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">6.</span>Star Rating: tiêu chí sản phẩm đã đạt mức cao nhất</h2>
+    <p class="lede">Cấu trúc điểm sao cho thấy nền tảng sản phẩm đã hoàn thành; hai mốc còn lại đều nằm trong tầm tay.</p>
+
+    <div class="tbl-scroll">
+    <table>
+      <caption>Nguồn: CRM — khối Star Rating. Current Star Rating 1 sao · Forecasted Star Rating 1 sao (theo dữ liệu CRM). Nhiệm vụ thưởng sao tháng còn 1 hạng mục liên quan đến giao dịch.</caption>
+      <thead><tr><th>Tiêu chí</th><th class="num">Mức sao</th><th>Chỉ số đang đo</th><th class="num">Giá trị hiện tại</th><th class="num">Thang mốc</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td><b>Product</b></td><td class="num up"><b>5/5</b></td><td>Number of products (PIS ≥ x)</td><td class="num">1.593 sản phẩm</td><td class="num">100 / 300 / 500 / 800 / 1.000</td></tr>
+        <tr><td><b>Marketing</b></td><td class="num"><b>1/5</b></td><td>Number of unique visitors in 30 days</td><td class="num">163 người xem</td><td class="num">100 / 300 / 500 / 800 / 1.200</td></tr>
+        <tr><td><b>Service</b></td><td class="num"><b>1/5</b></td><td>Number of responded buyers in 30 days</td><td class="num">7 người mua</td><td class="num">1 / 10 / 20 / 40 / 80</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted)">Tiêu chí <b>Sales</b> (GMV 90 ngày) chưa ghi nhận dữ liệu giao dịch trong kỳ đánh giá — sẽ được cập nhật khi gian hàng hoàn tất giao dịch đầu tiên qua Trade Assurance.</p>
+
+    <div class="box blue"><span class="t">Lời bình</span>
+      <b>1) Tiêu chí Product đã đạt mức cao nhất: 5/5.</b> Với 1.593 sản phẩm vượt mốc cao nhất của thang điểm (1.000), gian hàng đã hoàn thành phần khó nhất về khối lượng và độ đầy đủ thông tin sản phẩm. Đây là nền tảng rất tốt để phát triển các bước tiếp theo.<br>
+      <b>2) Service chỉ còn thiếu 3 người mua để lên mốc tiếp theo.</b> Mốc kế tiếp của tiêu chí Service là <b>10 người mua được phản hồi trong 30 ngày</b> — hiện đang 7. Đây là mục tiêu dễ đạt nhất và nên được đặt lên đầu danh sách.<br>
+      <b>3) Marketing cần gấp đôi lượng người xem:</b> mốc hiện tại là 100 người xem duy nhất/30 ngày (đang 163), mốc tiếp theo là <b>300 người xem</b>. Việc hoàn thiện 20 sản phẩm chủ lực được đề xuất ở mục 3 và mục 7 là cách trực tiếp nhất để đạt mốc này.<br>
+      <b>4) Tiêu chí Sales sẽ mở khi có giao dịch đầu tiên.</b> Hiện chưa phát sinh dữ liệu giao dịch trong kỳ đánh giá; đây là hạng mục ưu tiên và cũng là hạng mục còn lại của nhiệm vụ thưởng sao tháng. Nhóm 9 khách L2+ đang có là con đường ngắn nhất để hoàn tất bước này.
+    </div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">7.</span>Đề xuất cho giai đoạn tiếp theo</h2>
+    <p class="lede">Nguyên tắc: <b>giữ đà tăng trưởng đang có</b>, chuyển trọng tâm từ độ phủ sang chất lượng, và khai thác tối đa tệp khách đã tiếp cận được.</p>
+
+    <div class="prio p0" style="margin-bottom:14px">
+      <div class="ph">P0 · Trong 30 ngày — xây nhóm sản phẩm trụ cột</div>
+      <div class="pb">
+        <ol>
+          <li><b>Chọn 10–15 sản phẩm trụ cột</b> từ nhóm đang có nhu cầu thật (giường platform/daybed có trundle, tủ 4 ngăn kéo, kệ giày gấp gọn) và hoàn thiện: 6 ảnh, ảnh chính nền trắng, video ngắn, bảng kích thước theo từng size (Single / King Single / Double / Queen / King), thuộc tính đầy đủ. Mục tiêu: 10 sản phẩm đạt Product Score ≥ 5,5 (hiện đang 0) và có sản phẩm Super đầu tiên.</li>
+          <li><b>Ưu tiên sản phẩm dẫn đầu 10000046652103</b> (276 lượt hiển thị, 12 click, đã có 1 thư hỏi): bổ sung ngay bảng kích thước, màu, số lượng tối thiểu, thời gian giao hàng và quy cách đóng gói để khách dễ quyết định.</li>
+          <li><b>Giữ nhịp phản hồi nhanh:</b> phân công người trực tin nhắn theo giờ, chuẩn bị 5 mẫu trả lời sẵn cho các câu hỏi thường gặp (kích thước, MOQ, lead time, đóng gói, mẫu). Mục tiêu thời gian phản hồi ≤ 2h, duy trì tỷ lệ phản hồi 100%.</li>
+          <li><b>Chăm sóc 9 khách L2+ và 5 khách trả phí</b> bằng follow-up có kịch bản trong 7 ngày: catalogue nhóm giường trundle, bảng kích thước, chính sách mẫu (nếu có), ưu đãi cho đơn đầu tiên qua Trade Assurance.</li>
+          <li><b>Kiểm tra khả năng bật RTS</b> cho nhóm sản phẩm đã có sẵn hàng (nếu danh mục hỗ trợ) và đăng 2–3 bài High Demand Product — hiện cả hai đang ở mức 0.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="prio p1" style="margin-bottom:14px">
+      <div class="ph">P1 · 30–60 ngày — nâng chất lượng tiếp cận và dịch vụ</div>
+      <div class="pb">
+        <ol>
+          <li><b>Chuẩn hoá bộ tài liệu báo giá RFQ:</b> mỗi báo giá kèm 3 ảnh thật + bảng kích thước + MOQ + lead time + quy cách đóng gói + chính sách mẫu. Mục tiêu: tỷ lệ phản hồi RFQ 30 ngày đạt khoảng 20% (trung bình ngành 23,56%).</li>
+          <li><b>Đưa 20 sản phẩm chủ lực vào showcase</b> và xây nội dung theo ngách "small space living / kids room / guest bed". Mục tiêu: 300 người xem duy nhất trong 30 ngày (mốc 2 sao tiêu chí Marketing), hiện 163.</li>
+          <li><b>Hoàn thiện thông tin vật liệu và chứng từ chất lượng hiện có</b> (Radiata, MDF, xuất xứ) và gắn vào listing để tăng độ tin cậy với khách nhập khẩu.</li>
+          <li><b>Rà soát giá – MOQ – lead time theo từng dải size</b> để phù hợp với nhóm khách đặt số lượng lớn; cân nhắc chính sách mẫu cho khách mới.</li>
+          <li><b>Đặt mục tiêu ngắn hạn cho tiêu chí sao:</b> Service từ 7 lên 10 người mua được phản hồi trong 30 ngày; Marketing tiến dần lên mốc 300 người xem.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="prio p2">
+      <div class="ph">P2 · 60–90 ngày — mở rộng trong ngách và chuẩn hoá quy trình</div>
+      <div class="pb">
+        <ol>
+          <li><b>Mở rộng trong cùng ngách</b> thay vì mở ngành hàng mới: sofa bed, storage bench, tủ giày, giường tầng — tận dụng đúng nhóm từ khóa <i>space-saving</i> đang có nhu cầu.</li>
+          <li><b>Chuẩn hoá quy trình đăng sản phẩm</b> (bộ quy tắc tiêu đề – thuộc tính – ảnh) để giữ chất lượng khi tiếp tục mở rộng danh mục.</li>
+          <li><b>Dashboard theo tuần:</b> lượt hiển thị · click · người xem duy nhất · thư hỏi · cơ hội kinh doanh; nhắc nhở khi thời gian phản hồi vượt 3 giờ.</li>
+          <li><b>Đo lại nhóm trụ cột sau 60 ngày</b> và chuyển sang nhóm sản phẩm kế tiếp nếu hiệu quả tốt.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3>Mục tiêu 3 tháng tới (đề xuất)</h3>
+    <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Chỉ số</th><th class="num">Hiện tại (T9/2026)</th><th class="num">Mục tiêu 3 tháng</th><th>Ghi chú</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td>Lượt hiển thị tìm kiếm</td><td class="num">11.180</td><td class="num">≥ 30.000</td><td>Tương đương ~50% trung bình ngành hiện tại</td></tr>
+        <tr><td>Người xem duy nhất / tháng</td><td class="num">155</td><td class="num">≥ 300</td><td>Chạm mốc 2 sao của tiêu chí Marketing</td></tr>
+        <tr><td>Click từ tìm kiếm</td><td class="num">128</td><td class="num">≥ 600</td><td>Đi kèm việc hoàn thiện 20 sản phẩm chủ lực</td></tr>
+        <tr class="hi"><td>Sản phẩm Top / Super</td><td class="num">1 / 0</td><td class="num">10 / 1–2</td><td>Xây từ nhóm 10–15 sản phẩm trụ cột</td></tr>
+        <tr><td>Sản phẩm đạt Product Score ≥ 5,5</td><td class="num">0</td><td class="num">≥ 10</td><td>Chỉ tiêu chất lượng thay cho số lượng</td></tr>
+        <tr><td>Thư hỏi hàng / tháng</td><td class="num">2</td><td class="num">≥ 15</td><td>Kèm follow-up nhóm khách L2+</td></tr>
+        <tr><td>Cơ hội kinh doanh / tháng</td><td class="num">15</td><td class="num">≥ 60</td><td>Khoảng 20% trung bình ngành</td></tr>
+        <tr class="hi"><td>Giao dịch đầu tiên qua Trade Assurance</td><td class="num">—</td><td class="num">Hoàn tất</td><td>Cũng là hạng mục còn lại của nhiệm vụ thưởng sao</td></tr>
+        <tr><td>Thời gian phản hồi</td><td class="num">4,50h</td><td class="num">≤ 2h</td><td>Giữ tỷ lệ phản hồi 100%</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">8.</span>Nguồn dữ liệu và điểm cần xác minh</h2>
+
+    <h3>Nguồn dữ liệu</h3>
+    <ul>
+      <li><b>CRM in-service detail</b> của gian hàng NGOC LAM PHUOC TAN — đọc trực tiếp DOM các tab: Store's performance (bộ lọc Month 2026-07 → 2026-09, mỗi tháng có 3 cột Industry average / Industry Leaders / Current value), Product Aggregation (chỉ số theo ngày 07/07 → 04/10/2026), RFQ data (theo ngày), Product data, Star Rating.</li>
+      <li><b>Ảnh dữ liệu do khách cung cấp</b> (Tổng quan gian hàng, Hiệu quả Sản phẩm, Phân tích sản phẩm Top, Hiệu quả cơ hội kinh doanh, Star Rating) — dùng để đối chiếu chéo và khớp hoàn toàn với dữ liệu đọc từ CRM.</li>
+      <li><b>Chỉ số do báo cáo tự tính</b> (đã ghi rõ trong bài): % so với chuẩn ngành; tỷ trọng người mua L2+ trên người mua hoạt động; mức tăng từ T7 đến T9; tỷ trọng danh mục theo từng trạng thái.</li>
+      <li><b>Tài liệu vận hành của sàn</b> dùng cho các nhận định về định hướng (khuyến khích tập trung vào sản phẩm chuẩn có chất lượng cao thay vì đăng tràn lan; Top / Super / RTS / High Demand Product là các nhóm sản phẩm được sàn dùng trong hoạt động vận hành và ưu đãi).</li>
+    </ul>
+
+    <h3>Điểm cần xác minh</h3>
+    <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Nội dung</th><th>Tình trạng</th></tr></thead>
+      <tbody>
+        <tr><td>High Demand Product = 0</td><td>Theo số liệu anh/chị cung cấp — không hiển thị trong các tab đã đọc, cần đối chiếu lại trong Seller Center</td></tr>
+        <tr><td>Hạn mức RFQ 50/50</td><td>Theo số liệu anh/chị cung cấp. Trang RFQ data chỉ hiển thị số báo giá (50 trong tháng 9), không hiển thị dòng hạn mức</td></tr>
+        <tr><td>Số sao từng tiêu chí</td><td>Đọc từ DOM: Product 5 · Marketing 1 · Service 1. Cách hiển thị biểu tượng trên ảnh chụp có thể khác về số lượng biểu tượng sáng — nên mở lại Seller Center để chốt</td></tr>
+        <tr><td>Mốc "PIS ≥ x"</td><td>Trang hiển thị 1.593 sản phẩm nhưng giá trị x không hiển thị rõ trong bản đọc — cần xác nhận mốc đang áp dụng</td></tr>
+        <tr><td>Định nghĩa "30-day RFQ response rate"</td><td>Cần xác nhận chỉ số đo phía người bán hay phía người mua trước khi dùng để đánh giá quy trình báo giá</td></tr>
+        <tr><td>Chuẩn ngành giữa các khối</td><td>Khối Tổng quan gian hàng và khối Cơ hội kinh doanh dùng bộ mốc khác nhau (thư hỏi 78/660 so với 63/1.666; kỳ tính có thể khác nhau) — báo cáo không so chéo hai khối</td></tr>
+        <tr><td>"Total products" trên tab Product Aggregation</td><td>Hiển thị "-" cho mọi ngày nên không dùng được; số 1.435 lấy từ khối Hiệu quả Sản phẩm</td></tr>
+        <tr><td>Cửa sổ thời gian của chỉ số con Star Rating</td><td>163 người xem và 7 người mua được phản hồi là số của 30 ngày gần nhất — khác kỳ với số liệu tháng 9/2026</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="box blue" style="margin-top:14px"><span class="t">Ghi chú về bộ chuẩn so sánh</span>
+      Bộ số "Trung bình ngành / Doanh nghiệp dẫn đầu ngành" của tháng 8/2026 trong CRM (53.324 · 4.872 · 2.186 · 1.228 · 63 · 70 · 92,52% · 3,60) trùng khớp với bộ chuẩn ngành đang dùng cho một gian hàng nội thất khác trong cùng danh mục khách hàng — tức đây là <b>chuẩn cấp ngành hàng</b>, không phải chuẩn riêng cho ngành giường/tủ. Việc so sánh là hợp lệ nhưng cần hiểu đúng bản chất.
+    </div>
+  </section>
+
+  <footer>
+    <p>Báo cáo rà soát gian hàng · NGOC LAM PHUOC TAN COMPANY LIMITED · kỳ 07–09/2026 · lập ngày 07/10/2026.<br>
+    Số liệu đọc từ CRM in-service detail và đối chiếu với ảnh dữ liệu do khách cung cấp; các chỉ số tự tính đã được ghi chú trong bài.</p>
+    <p style="font-size:12px;color:var(--muted)">Phần định hướng vận hành của sàn được tham chiếu từ tài liệu nội bộ và chỉ mang tính tham khảo; các quy định cụ thể vui lòng đối chiếu trực tiếp trong Seller Center.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var VN = function(n){ return n.toLocaleString('vi-VN'); };
+  var months = ['T7/2026','T8/2026','T9/2026'];
+  var baseOpts = {
+    responsive:true, maintainAspectRatio:false,
+    interaction:{mode:'index', intersect:false},
+    plugins:{
+      legend:{position:'bottom', labels:{boxWidth:9, boxHeight:9, usePointStyle:true, font:{size:11.5}}},
+      tooltip:{callbacks:{label:function(c){ return c.dataset.label+': '+VN(c.parsed.y); }}}
+    },
+    scales:{ x:{grid:{display:false}}, y:{ticks:{font:{size:11}}} }
+  };
+  function clone(o){ return JSON.parse(JSON.stringify(o)); }
+
+  var o1 = clone(baseOpts);
+  o1.scales.y = {type:'logarithmic', ticks:{font:{size:11}, callback:function(v){ return VN(v); }}};
+  new Chart(document.getElementById('chImp'), {
+    type:'line',
+    data:{labels:months, datasets:[
+      {label:'Cửa hàng', data:[50,4201,11180], borderColor:'#1B5FA8', backgroundColor:'rgba(27,95,168,.14)', fill:true, tension:.3, pointRadius:3, borderWidth:2},
+      {label:'Trung bình ngành', data:[48342,53324,56238], borderColor:'#E8760C', borderDash:[6,4], pointRadius:3, borderWidth:2, tension:.3},
+      {label:'Doanh nghiệp dẫn đầu', data:[255028,333815,359991], borderColor:'#1F7A4D', borderDash:[2,3], pointRadius:3, borderWidth:2, tension:.3}
+    ]},
+    options:o1
+  });
+
+  var o2 = clone(baseOpts);
+  o2.scales.y = {ticks:{font:{size:11}, callback:function(v){ return v+'%'; }}};
+  o2.plugins.tooltip.callbacks.label = function(c){ return c.dataset.label+': '+c.parsed.y+'%'; };
+  new Chart(document.getElementById('chShare'), {
+    type:'bar',
+    data:{labels:months, datasets:[
+      {label:'% so với trung bình ngành', data:[0.10,7.88,19.88], backgroundColor:'rgba(27,95,168,.68)', borderRadius:4},
+      {label:'% so với dẫn đầu ngành', data:[0.02,1.26,3.11], backgroundColor:'rgba(232,118,12,.68)', borderRadius:4}
+    ]},
+    options:o2
+  });
+
+  var o3 = clone(baseOpts);
+  o3.plugins.legend = {display:false};
+  o3.scales.y = {ticks:{font:{size:11}, callback:function(v){ return VN(v); }}};
+  o3.plugins.tooltip.callbacks.label = function(c){ return VN(c.parsed.y)+' sản phẩm'; };
+  new Chart(document.getElementById('chProd'), {
+    type:'bar',
+    data:{labels:['Sản phẩm đang hoạt động','Sản phẩm mới đăng trong kỳ','Sản phẩm có lượt hiển thị'],
+      datasets:[{label:'Sản phẩm', data:[1435,1075,1002], backgroundColor:['rgba(27,95,168,.8)','rgba(46,125,196,.8)','rgba(78,147,206,.8)'], borderRadius:4}]},
+    options:o3
+  });
+
+  var o4 = clone(baseOpts);
+  o4.plugins.legend = {display:false};
+  o4.scales.y = {ticks:{font:{size:11}, callback:function(v){ return VN(v); }}};
+  o4.plugins.tooltip.callbacks.label = function(c){ return VN(c.parsed.y)+' sản phẩm đạt Product Score ≥ 5'; };
+  new Chart(document.getElementById('chPis'), {
+    type:'line',
+    data:{labels:['07/07/2026','30/09/2026','04/10/2026'],
+      datasets:[{label:'Sản phẩm đạt Product Score ≥ 5', data:[1,1399,1549], borderColor:'#1B5FA8', backgroundColor:'rgba(27,95,168,.16)', fill:true, tension:.3, pointRadius:4, borderWidth:2}]},
+    options:o4
+  });
+})();
+</script>
+</body>
+</html>
