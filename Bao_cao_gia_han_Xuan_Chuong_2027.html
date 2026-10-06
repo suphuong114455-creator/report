@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kế hoạch Gia hạn &amp; Phát triển Gian hàng 2027 — XUÂN CHƯƠNG</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+    --primary-color: #1a472a;
+    --primary-dark: #0f2e1a;
+    --secondary-color: #e8f5e9;
+    --accent-color: #ff6f00;
+    --success-color: #2e7d32;
+    --danger-color: #c62828;
+    --warning-color: #f57f17;
+    --info-color: #1565c0;
+    --text-color: #263238;
+    --muted-color: #546e7a;
+    --border-color: #bdbdbd;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.7;
+    color: var(--text-color);
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 50%, #fff8e1 100%);
+    min-height: 100vh;
+}
+.container {
+    max-width: 1180px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 50px 55px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    border-radius: 12px;
+}
+header.hero {
+    text-align: center;
+    border-bottom: 4px solid var(--accent-color);
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+}
+header.hero .eyebrow {
+    display: inline-block;
+    background: var(--primary-color);
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+}
+header.hero .subtitle { color: var(--muted-color); font-size: 15.5px; margin-top: 6px; }
+h1 { color: var(--primary-color); font-size: 30px; margin-bottom: 6px; font-weight: 700; line-height: 1.3; }
+h2 {
+    color: var(--primary-color);
+    border-left: 6px solid var(--accent-color);
+    padding-left: 18px;
+    margin-top: 52px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    scroll-margin-top: 80px;
+}
+h3 { color: var(--accent-color); margin-top: 30px; margin-bottom: 10px; font-size: 17px; }
+h4 { color: var(--primary-color); margin-top: 18px; font-size: 15px; }
+
+.topnav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid #e0e0e0;
+    margin: 0 -55px 34px;
+    padding: 10px 55px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+}
+.topnav a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 16px;
+    background: var(--secondary-color);
+    border: 1px solid #c8e6c9;
+    white-space: nowrap;
+}
+.topnav a:hover { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 26px;
+}
+@media (max-width: 900px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+.summary-card {
+    background: var(--secondary-color);
+    padding: 20px 14px;
+    border-radius: 10px;
+    text-align: center;
+    border-bottom: 4px solid var(--success-color);
+    transition: transform 0.2s;
+}
+.summary-card.warning { border-bottom-color: var(--warning-color); }
+.summary-card.danger { border-bottom-color: var(--danger-color); }
+.summary-card.info { border-bottom-color: var(--info-color); background: #e3f2fd; }
+.summary-card:hover { transform: translateY(-3px); }
+.summary-value { font-size: 25px; font-weight: 700; color: var(--primary-color); display: block; line-height: 1.2; }
+.summary-label { font-size: 12px; color: var(--muted-color); font-weight: 600; margin-top: 6px; display: block; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0 26px;
+    font-size: 13.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-radius: 8px;
+    overflow: hidden;
+}
+table th, table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+}
+table th {
+    background-color: var(--primary-color);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-size: 11.5px;
+    font-weight: 600;
+}
+table tr:nth-child(even) { background-color: #f9fbe7; }
+table tr:hover { background-color: #fff3e0; }
+td.rowhead { font-weight: 600; color: var(--primary-dark); }
+.center { text-align: center; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.price-high { color: var(--danger-color); font-weight: 600; }
+.price-mid { color: var(--warning-color); font-weight: 600; }
+.price-low { color: var(--success-color); font-weight: 600; }
+.good-text { color: var(--success-color); font-weight: 700; }
+.warn-text { color: var(--warning-color); font-weight: 700; }
+.bad-text { color: var(--danger-color); font-weight: 700; }
+
+.highlight-box {
+    background-color: #fffde7;
+    border-left: 5px solid var(--accent-color);
+    padding: 15px 20px;
+    margin: 18px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+}
+.highlight-box.danger { background-color: #ffebee; border-left-color: var(--danger-color); }
+.highlight-box.info { background-color: #e3f2fd; border-left-color: var(--info-color); }
+.highlight-box.success { background-color: #e8f5e9; border-left-color: var(--success-color); }
+.highlight-box strong { color: var(--primary-dark); }
+.highlight-box p + p { margin-top: 8px; }
+
+.score-badge {
+    display: inline-block;
+    padding: 3px 11px;
+    border-radius: 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+}
+.score-badge.a { background: var(--success-color); }
+.score-badge.b { background: var(--warning-color); }
+.score-badge.c { background: var(--danger-color); }
+.score-badge.d { background: var(--info-color); }
+
+.chart-box {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 18px;
+    margin: 18px 0 26px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.chart-box h4 { margin-top: 0; margin-bottom: 6px; }
+.chart-wrap { position: relative; height: 330px; }
+.chart-wrap.small { height: 270px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin: 18px 0; }
+@media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+ul, ol { padding-left: 22px; margin: 12px 0; }
+li { margin-bottom: 6px; }
+
+.dot-main { color: #1a472a; font-weight: 700; }
+.dot-sub { color: #9e9e9e; }
+.dot-none { color: #e0e0e0; }
+.timeline-table { font-size: 12.5px; }
+.timeline-table th, .timeline-table td { padding: 8px 6px; text-align: center; }
+.timeline-table th:first-child, .timeline-table td:first-child { text-align: left; white-space: nowrap; }
+
+.tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.tag.green { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+.tag.orange { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+.tag.blue { background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; }
+.tag.red { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a; }
+
+.plan-card {
+    border: 1px solid #e0e0e0;
+    border-left: 5px solid var(--accent-color);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    background: #fffdf8;
+}
+.plan-card h4 { margin-top: 0; color: var(--primary-color); font-size: 15.5px; }
+.plan-card .plan-meta { font-size: 13px; color: var(--muted-color); margin-bottom: 8px; }
+.plan-card dl { font-size: 13.5px; }
+.plan-card dt { font-weight: 700; color: var(--primary-dark); margin-top: 8px; }
+.plan-card dd { margin-left: 0; }
+
+.kpi-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+.kpi-chip {
+    background: #fff;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    flex: 1 1 180px;
+    min-width: 180px;
+}
+.kpi-chip b { display: block; font-size: 20px; color: var(--primary-color); }
+.kpi-chip span { font-size: 11.5px; color: var(--muted-color); font-weight: 600; }
+
+.footer {
+    margin-top: 60px;
+    padding-top: 25px;
+    border-top: 2px solid var(--border-color);
+    font-size: 12.5px;
+    color: #78909c;
+}
+.footer p { margin-bottom: 8px; }
+.footer a { color: var(--info-color); }
+a { color: var(--info-color); word-break: break-all; }
+.small { font-size: 12px; color: var(--muted-color); }
+.disclaimer {
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #607d8b;
+}
+.link-row { margin: 14px 0 22px; }
+.link-chip {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background: var(--secondary-color);
+    border: 1px solid #a5d6a7;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 0 8px 8px 0;
+    transition: background .18s, color .18s, border-color .18s;
+}
+.link-chip:hover { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+.link-chip.own { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+.link-chip.own:hover { background: var(--accent-color); border-color: var(--accent-color); }
+
+.ref-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+    gap: 14px;
+    margin: 16px 0 26px;
+}
+.ref-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    transition: box-shadow .2s, transform .2s, border-color .2s;
+}
+.ref-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.14); transform: translateY(-3px); border-color: var(--accent-color); }
+.ref-card img { width: 100%; height: 152px; object-fit: cover; display: block; background: #f5f5f5; }
+.ref-body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.ref-title { font-size: 12.5px; color: var(--primary-dark); font-weight: 600; line-height: 1.45; }
+.ref-supplier { font-size: 11.5px; color: var(--muted-color); line-height: 1.4; }
+.ref-price { font-size: 12.5px; color: var(--accent-color); font-weight: 700; margin-top: auto; }
+.ref-open { font-size: 11px; color: var(--info-color); font-weight: 600; }
+.ref-card.own { border: 2px solid var(--primary-color); }
+.ref-card.own .ref-price { color: var(--primary-color); }
+@media print {
+    body { background: #fff; }
+    .container { box-shadow: none; padding: 20px; max-width: none; }
+    .topnav { display: none; }
+    .summary-card:hover { transform: none; }
+    .ref-card:hover { transform: none; box-shadow: none; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ============ HEADER ============ -->
+<header class="hero">
+    <span class="eyebrow">KẾ HOẠCH GIA HẠN 2027</span>
+    <h1>XUÂN CHƯƠNG IMPORT AND EXPORT<br>TRADING COMPANY LIMITED</h1>
+    <p class="subtitle"><strong>Nông sản &amp; gia vị Việt Nam xuất khẩu B2B</strong> — Ngành: Agriculture, Food &amp; Beverage (Fresh Fruit · Seasonings &amp; Condiments)</p>
+    <p class="subtitle">Ngày lập: 07/10/2026 · Hết hạn gói dịch vụ: <strong>28/12/2026</strong> · Còn lại: <strong>~82 ngày</strong></p>
+    <p class="subtitle small">Nguồn dữ liệu: Báo cáo gia hạn từ sàn Alibaba.com · Dữ liệu CRM dịch vụ khách hàng · Khảo sát gian hàng công khai (minisite &amp; hồ sơ công ty) · Nghiên cứu thị trường ngành nông sản (xem nguồn ở cuối báo cáo)</p>
+</header>
+
+<nav class="topnav">
+    <a href="#snapshot">Tóm tắt điều hành</a>
+    <a href="#sec1">1. Đánh giá gian hàng</a>
+    <a href="#sec1-metrics">· Chỉ số quan trọng</a>
+    <a href="#sec2">2. Kế hoạch năm 2027</a>
+    <a href="#sec3">3. Dự báo ngành &amp; thị trường</a>
+    <a href="#sec3-price">· MOQ &amp; khoảng giá</a>
+    <a href="#sec3-ref">· Link gian hàng trên Alibaba</a>
+</nav>
+
+<!-- ============ EXECUTIVE SNAPSHOT ============ -->
+<section id="snapshot">
+<h2>Tóm tắt điều hành — Vì sao nên gia hạn ngay</h2>
+
+<div class="summary-grid">
+    <div class="summary-card">
+        <span class="summary-value">235</span>
+        <span class="summary-label">Sản phẩm đang hoạt động<br>(năm đầu tiên)</span>
+    </div>
+    <div class="summary-card info">
+        <span class="summary-value">12</span>
+        <span class="summary-label">Cơ hội kinh doanh / 30 ngày<br>(trung bình ngành: 115,9)</span>
+    </div>
+    <div class="summary-card warning">
+        <span class="summary-value">8 <span style="font-size:15px;">L2+</span></span>
+        <span class="summary-label">Khách chuyên nghiệp / 30 ngày<br>trong đó 3 khách L3+</span>
+    </div>
+    <div class="summary-card danger">
+        <span class="summary-value">82</span>
+        <span class="summary-label">Ngày còn lại đến hạn<br>28/12/2026</span>
+    </div>
+</div>
+
+<div class="highlight-box danger">
+    <p><strong>Chẩn đoán cốt lõi:</strong> Gian hàng <strong>không thiếu hàng hoá, cũng không thiếu người mua</strong> — 235 sản phẩm đã được lập chỉ mục, 12 cơ hội kinh doanh và 8 khách L2+ phát sinh trong 30 ngày. Nút thắt nằm ở <strong>bước chuyển đổi cuối cùng</strong>: 0 đơn hàng và 0 USD GMV trong 180 ngày (trung bình ngành 2,1 đơn). Nói cách khác, năm đầu tiên đã xây xong "phần cứng" (hàng hoá, nơi bán) nhưng chưa lắp "phần mềm" (chuyển đổi, đo lường, chăm sóc khách).</p>
+    <p><strong>Điều này có nghĩa:</strong> chi phí để có đơn đầu tiên trong năm thứ hai thấp hơn rất nhiều so với việc xây lại từ đầu. Toàn bộ 235 sản phẩm, 20 vị trí Showcase, 10 mối quan hệ khách chất lượng và dữ liệu xếp hạng đã tích luỹ trong 9 tháng qua sẽ là điểm xuất phát của năm 2027.</p>
+</div>
+
+<h3>Bốn trụ cột giá trị đã tích luỹ trong năm đầu</h3>
+<table>
+    <thead>
+        <tr><th style="width:26%;">Trụ cột</th><th>Thực tế đang có</th><th style="width:31%;">Ý nghĩa với năm 2027</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">Nền tảng hàng hoá</td>
+            <td>235 sản phẩm hợp lệ, đã được lập chỉ mục; 20 vị trí Showcase dùng hết 20/20 (100%)</td>
+            <td>Không phải đăng lại từ đầu; chỉ cần nâng chất lượng và bổ sung</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Nhu cầu người mua</td>
+            <td>12 cơ hội kinh doanh / 30 ngày; 10 khách chất lượng trải trên 9 quốc gia (Ả Rập Xê Út, Ghana, Ý, Hàn Quốc…)</td>
+            <td>Có sẵn danh sách khách để chăm sóc và chốt đơn đầu tiên</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Dữ liệu &amp; xếp hạng</td>
+            <td>9 tháng lịch sử vận hành, phân bậc sao, lịch sử tìm kiếm của từng sản phẩm</td>
+            <td>Là tài sản không thể mua lại — mất đi phải xây lại từ số 0</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Năng lực sản xuất &amp; hồ sơ</td>
+            <td>Nhà máy 5.000–10.000 m² (Nghệ An, Hà Nội, TP.HCM), 5 dây chuyền, có OEM / Design / Buyer label; 11–50 nhân sự; thành lập 2023</td>
+            <td>Đủ năng lực nhận đơn hàng lớn ngay khi có khách chốt</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="highlight-box danger">
+    <strong>Nếu không gia hạn, những tài sản này sẽ ra sao?</strong>
+    <ul style="margin-top:8px; margin-bottom:0;">
+        <li><strong>Khách hàng bị chuyển hướng:</strong> 12 cơ hội kinh doanh và 8 khách L2+ mỗi tháng sẽ chảy sang các nhà cung cấp cùng ngành tại Việt Nam khi gian hàng ngừng hoạt động.</li>
+        <li><strong>Vị trí hiển thị bị xoá:</strong> 235 vị trí hiển thị sản phẩm và 20 vị trí Showcase sẽ bị thu hồi, thứ hạng tìm kiếm tụt ngay lập tức.</li>
+        <li><strong>Trọng số gian hàng về 0:</strong> toàn bộ trọng số tích luỹ và 10 mối quan hệ khách chất lượng sẽ đếm ngược về 0 — thời gian phục hồi thường dài hơn nhiều so với thời gian đã xây.</li>
+    </ul>
+</div>
+<p class="small">Ghi chú về thời gian: báo cáo gia hạn từ sàn ghi nhận 112 ngày và ngày hết hạn 29/12/2026 tại thời điểm chốt dữ liệu; hệ thống CRM dịch vụ ghi nhận 86 ngày và ngày hết hạn 28/12/2026. Báo cáo này tính theo ngày hết hạn 28/12/2026 và mốc hiện tại 07/10/2026.</p>
+</section>
+
+<!-- ============ SECTION 1 ============ -->
+<h2 id="sec1">1. Đánh giá gian hàng</h2>
+
+<h3>1.1 Chân dung gian hàng</h3>
+<table>
+    <tbody>
+        <tr>
+            <td class="rowhead" style="width:18%;">Tên công ty</td><td style="width:32%;">XUAN CHUONG IMPORT AND EXPORT TRADING COMPANY LIMITED</td>
+            <td class="rowhead" style="width:18%;">Tên pháp lý</td><td>CÔNG TY TNHH XUẤT NHẬP KHẨU THƯƠNG MẠI XUÂN CHƯƠNG</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Mã số đăng ký KD</td><td>2902159296</td>
+            <td class="rowhead">Login ID gian hàng</td><td>vn19072240151lmzp</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Địa chỉ</td><td>Xóm 2, Xã Quỳnh Yên, Huyện Quỳnh Lưu, Tỉnh Nghệ An, Việt Nam</td>
+            <td class="rowhead">Người liên hệ</td><td>Hồ Xuân Chương · 0333200783 · Thanhtraquan1986@gmail.com</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Loại hình</td><td>Manufacturer · Trading Company · Distributor/Wholesaler</td>
+            <td class="rowhead">Thành lập</td><td>2023 · 11–50 nhân sự</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Nhóm ngành</td><td>Fresh Fruit · Seasonings &amp; Condiments (mã ngành chính: 09101100 gừng · 080550 chanh · 09041120 hồ tiêu · 0801 · 0901)</td>
+            <td class="rowhead">Năng lực sản xuất</td><td>Nhà máy 5.000–10.000 m² (Nghệ An · Hà Nội · TP.HCM) · 5 dây chuyền · OEM / Design / Buyer label</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Thị trường hồ sơ</td><td>Đông Nam Á 80% · Trung Đông 20%</td>
+            <td class="rowhead">Điều khoản &amp; thanh toán</td><td>FOB · CIF · EXW · T/T · L/C · Cash · Escrow · Cảng Cát Lái · Lead time TB 20 ngày</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Gói dịch vụ</td><td>pe017 · 1 năm (gia hạn lần đầu) · Tier D</td>
+            <td class="rowhead">Thời gian phục vụ</td><td>29/12/2025 – 28/12/2026 (252 ngày đã phục vụ)</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Trạng thái gia hạn</td><td><span class="tag orange">Chờ gia hạn · còn ~82 ngày</span> · Trade Assurance: đã bật</td>
+            <td class="rowhead">Người phụ trách dịch vụ</td><td>Phạm Thị Phương Thảo — Kênh: VN direct sales, Pingyang Team 4</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>1.2 Điểm sáng</h3>
+<div class="two-col">
+    <div>
+        <h4>Đã làm được trong năm đầu</h4>
+        <ul>
+            <li><strong>235 sản phẩm đang hoạt động và đã được lập chỉ mục</strong> — trong năm đầu tiên, danh mục đã ở mức ổn định (hệ thống CRM ghi nhận 238 sản phẩm được tính điểm chất lượng).</li>
+            <li><strong>Có người mua thật sự quan tâm:</strong> 12 cơ hội kinh doanh (người mua hoạt động) trong 30 ngày, trong đó 8 khách L2+ (khách chuyên nghiệp) và 3 khách L3+ (khách cốt lõi).</li>
+            <li><strong>Tỷ lệ phản hồi tốt:</strong> 83,33% phản hồi trong 24 giờ — cao hơn mức trung bình ngành (80%).</li>
+            <li><strong>Tận dụng tối đa vị trí miễn phí:</strong> 20/20 vị trí Showcase được dùng (100%), giúp tăng khả năng hiển thị trong kết quả tìm kiếm.</li>
+        </ul>
+    </div>
+    <div>
+        <h4>Nền tảng sẵn có để bứt phá</h4>
+        <ul>
+            <li><strong>Danh mục đúng xu hướng ngành:</strong> hồ tiêu, gừng, vải thiều, tỏi, bơ, chanh dây, xoài sấy, quế — đều là mặt hàng Việt Nam có lợi thế cung ứng.</li>
+            <li><strong>Năng lực sản xuất đã công bố:</strong> nhà máy 5.000–10.000 m² với 5 dây chuyền, có dịch vụ OEM / thiết kế / nhãn riêng cho khách.</li>
+            <li><strong>Chân khách đã trải rộng:</strong> 10 khách chất lượng ở 9 quốc gia; Ả Rập Xê Út dẫn đầu với 1 khách giá trị cao + 1 khách giá trị trung.</li>
+            <li><strong>Traffic tự nhiên (không trả phí) đã lên tới 306 lượt xem sản phẩm/tháng</strong> ở đỉnh tháng 07/2026 — chứng minh sản phẩm có khả năng hút hiển thị khi được đẩy đều.</li>
+        </ul>
+    </div>
+</div>
+
+<h3>1.3 Điểm cần cải thiện</h3>
+<p>Dưới đây là các điểm còn yếu, trình bày theo hướng "cần làm gì", kèm lý do vì sao những điểm này lại ảnh hưởng trực tiếp đến vị trí hiển thị và cơ hội bán hàng trên sàn.</p>
+
+<table>
+    <thead>
+        <tr><th style="width:30%;">Điểm cần cải thiện</th><th style="width:33%;">Số liệu thực tế</th><th>Vì sao ảnh hưởng đến hiển thị &amp; cơ hội bán trên Alibaba</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">1. Chưa chốt được đơn đầu tiên</td>
+            <td>0 đơn và $0 GMV trong 180 ngày (trung bình ngành: 2,1 đơn / $765,5 GMV)</td>
+            <td>Điểm giao dịch (Trade Assurance GMV) là một trong bốn trụ tính bậc sao. Chưa có GMV đồng nghĩa trụ này không có điểm — bậc sao bị chặn, và phần lớn nhà nhập khẩu lọc nhà cung cấp theo bậc sao trước khi liên hệ.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">2. Chất lượng sản phẩm chưa đạt ngưỡng</td>
+            <td>Chỉ 90 sản phẩm đạt điểm chất lượng ≥ 5,5 (trung bình ngành: 888,1; top 10% ngành: 5.591,3)</td>
+            <td>Điểm chất lượng sản phẩm là yếu tố quyết định sản phẩm có được đưa vào nhóm hiển thị tốt hay không. Với ngành Seasonings &amp; Condiments cạnh tranh cao, sản phẩm dưới ngưỡng điểm khó chen vào trang kết quả đầu — dù gian hàng có rất nhiều sản phẩm.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">3. Lưu lượng còn quá thấp</td>
+            <td>184 lượt xem sản phẩm / 30 ngày (trung bình ngành 1.743,2; top 10%: 6.693,3). Lượt hiển thị tìm kiếm kỳ 07/2026: 2.810 (trung bình ngành 21.372)</td>
+            <td>Lượng khách truy cập (UV) là trụ thứ hai tính bậc sao. Gian hàng chưa dùng bất kỳ quảng cáo trả phí nào, nên toàn bộ lưu lượng phụ thuộc vào tìm kiếm tự nhiên — trong khi trụ này vẫn ở bậc thấp nhất.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">4. Tốc độ phản hồi chậm</td>
+            <td>Thời gian phản hồi trung bình 8 giờ / 30 ngày (mục tiêu tháng: dưới 4,05 giờ); chỉ 2 người mua được phản hồi trong 30 ngày</td>
+            <td>Thời gian phản hồi và số người mua được phản hồi là trụ dịch vụ. Phản hồi chậm làm giảm điểm dịch vụ và làm nguội đúng lúc khách đang có nhu cầu — với hàng nông sản, khách thường hỏi cùng lúc nhiều nhà cung cấp nên ai trả lời trước thường có lợi thế.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">5. Bỏ trống các công cụ miễn phí</td>
+            <td>RFQ (báo giá theo yêu cầu mua): dùng 1/20 lượt · Trợ lý AI: 0/660 điểm · Tài khoản phụ: 0/5 tài khoản</td>
+            <td>Đây là nguồn cơ hội hoàn toàn miễn phí nhưng chưa được khai thác. RFQ là kênh khách đã chủ động nêu nhu cầu — bỏ trống nghĩa là bỏ qua cơ hội đã có sẵn trên sàn.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">6. Hồ sơ công khai thiếu tín hiệu tin cậy</td>
+            <td>Mục "Chứng nhận" trên hồ sơ công khai đang để trống; mục "Lịch sử giao dịch" chưa hiển thị giao dịch nào; chỉ 4 sản phẩm tiêu biểu được trưng bày</td>
+            <td>Với ngành thực phẩm – nông sản, nhà nhập khẩu gần như luôn kiểm tra chứng nhận (an toàn thực phẩm, truy xuất nguồn gốc) và dấu vết giao dịch trước khi liên hệ. Hồ sơ trống khiến khách dừng lại ở bước đánh giá, dù sản phẩm tốt.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">7. Mức độ vận hành sụt giảm cuối kỳ</td>
+            <td>Số ngày đăng nhập giảm từ 25 ngày (05/2026) xuống 5 ngày (09/2026); nhật ký chăm sóc trên CRM trống trong 60 ngày gần nhất</td>
+            <td>Gian hàng được cập nhật đều đặn sẽ giữ được đà hiển thị; ngược lại, việc dừng cập nhật và ít đăng nhập là dấu hiệu khiến thứ hạng tụt dần, đồng thời khách hỏi hàng không được theo dõi tiếp.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="highlight-box info">
+    <strong>Lưu ý về cách sàn đánh giá gian hàng:</strong> Alibaba.com không công bố chi tiết công thức xếp hạng. Các nhận định ở trên dựa trên chính cấu trúc đánh giá mà sàn công bố cho nhà bán — bốn trụ năng lực (sản phẩm · tiếp thị · dịch vụ · giao dịch) và các chỉ số hiển thị trong báo cáo gia hạn. Vì vậy đây là các yếu tố <em>định hướng ưu tiên</em>, không phải công thức cam kết.
+</div>
+
+<h3 id="sec1-metrics">1.4 Các chỉ số quan trọng</h3>
+<p>Bảng dưới đây đi qua 6 nhóm chỉ số trọng yếu. Cột "Kỳ dữ liệu" ghi rõ mốc thời gian của từng số liệu, vì các hệ thống (báo cáo gia hạn, CRM, minisite) chốt dữ liệu ở thời điểm khác nhau.</p>
+
+<h4>a) Lưu lượng và người mua</h4>
+<table>
+    <thead>
+        <tr><th style="width:24%;">Chỉ số</th><th class="num">Xuân Chương</th><th class="num">Trung bình ngành</th><th class="num">Top 10% ngành</th><th style="width:16%;">Kỳ dữ liệu</th><th style="width:10%;">Đánh giá</th></tr>
+    </thead>
+    <tbody>
+        <tr><td class="rowhead">Lượt hiển thị tìm kiếm</td><td class="num">2.810</td><td class="num">21.372</td><td class="num">112.394</td><td>07/2026</td><td><span class="score-badge c">Thấp</span></td></tr>
+        <tr><td class="rowhead">Lượt xem sản phẩm (IPV)</td><td class="num">184</td><td class="num">1.743,2</td><td class="num">6.693,3</td><td>30 ngày</td><td><span class="score-badge c">Thấp</span></td></tr>
+        <tr><td class="rowhead">Khách truy cập duy nhất (UV)</td><td class="num">106</td><td class="num">963</td><td class="num">5.421</td><td>CRM 30 ngày / ngành 07/2026</td><td><span class="score-badge c">Thấp</span></td></tr>
+        <tr><td class="rowhead">Cơ hội kinh doanh (khách hoạt động)</td><td class="num">12</td><td class="num">115,9</td><td class="num">407,7</td><td>30 ngày</td><td><span class="score-badge c">Thấp</span></td></tr>
+        <tr><td class="rowhead">Khách L2+ (khách chuyên nghiệp)</td><td class="num">8</td><td class="num">74,8</td><td class="num">247,3</td><td>30 ngày</td><td><span class="score-badge c">Thấp</span></td></tr>
+        <tr><td class="rowhead">Khách L3+ (khách cốt lõi)</td><td class="num">3</td><td class="num">—</td><td class="num">—</td><td>30 ngày</td><td><span class="score-badge b">Có nhưng chưa chốt</span></td></tr>
+    </tbody>
+</table>
+
+<h4>b) Tương tác: tin nhắn &amp; thư hỏi hàng</h4>
+<table>
+    <thead>
+        <tr><th style="width:24%;">Chỉ số</th><th class="num">Xuân Chương</th><th class="num">Trung bình ngành</th><th class="num">Top 10% ngành</th><th style="width:16%;">Kỳ dữ liệu</th><th style="width:10%;">Đánh giá</th></tr>
+    </thead>
+    <tbody>
+        <tr><td class="rowhead">Tin nhắn (Messages)</td><td class="num">8</td><td class="num">91</td><td class="num">2.447</td><td>07/2026</td><td><span class="score-badge c">Yếu</span></td></tr>
+        <tr><td class="rowhead">Thư hỏi hàng (Inquiry)</td><td class="num">3</td><td class="num">18</td><td class="num">534</td><td>07/2026</td><td><span class="score-badge c">Yếu</span></td></tr>
+        <tr><td class="rowhead">Cơ hội chất lượng cao (ABpro)</td><td class="num">1</td><td class="num">—</td><td class="num">—</td><td>CRM 30 ngày</td><td><span class="score-badge c">Thấp</span></td></tr>
+        <tr><td class="rowhead">Đơn hàng hoàn thành</td><td class="num">0</td><td class="num">2,1</td><td class="num">15,7</td><td>180 ngày</td><td><span class="score-badge c">Chưa có</span></td></tr>
+        <tr><td class="rowhead">GMV Trade Assurance</td><td class="num">$0</td><td class="num">$765,5</td><td class="num">$6.174,9</td><td>180 ngày</td><td><span class="score-badge c">Chưa có</span></td></tr>
+    </tbody>
+</table>
+
+<h4>c) Chất lượng phục vụ</h4>
+<table>
+    <thead>
+        <tr><th style="width:24%;">Chỉ số</th><th class="num">Xuân Chương</th><th class="num">Trung bình ngành</th><th class="num">Top 10% ngành</th><th style="width:16%;">Kỳ dữ liệu</th><th style="width:10%;">Đánh giá</th></tr>
+    </thead>
+    <tbody>
+        <tr><td class="rowhead">Tỷ lệ phản hồi trong 24 giờ</td><td class="num good-text">83,33%</td><td class="num">80%</td><td class="num">100%</td><td>30 ngày</td><td><span class="score-badge a">Ngang &amp; nhỉnh hơn</span></td></tr>
+        <tr><td class="rowhead">Thời gian phản hồi trung bình</td><td class="num bad-text">8 giờ</td><td class="num">4,6 giờ</td><td class="num">1,4 giờ</td><td>CRM 30 ngày / ngành 07/2026</td><td><span class="score-badge c">Chậm</span></td></tr>
+        <tr><td class="rowhead">Số người mua được phản hồi</td><td class="num">2</td><td class="num">—</td><td class="num">—</td><td>CRM 30 ngày</td><td><span class="score-badge c">Rất thấp</span></td></tr>
+        <tr><td class="rowhead">Tỷ lệ phản hồi hiển thị công khai</td><td class="num">66,67%</td><td class="num">—</td><td class="num">—</td><td>Minisite (hiện tại)</td><td><span class="score-badge b">Cần cải thiện</span></td></tr>
+    </tbody>
+</table>
+
+<h4>d) Hàng hoá và giao dịch</h4>
+<table>
+    <thead>
+        <tr><th style="width:24%;">Chỉ số</th><th class="num">Xuân Chương</th><th class="num">Trung bình ngành</th><th class="num">Top 10% ngành</th><th style="width:16%;">Kỳ dữ liệu</th><th style="width:10%;">Đánh giá</th></tr>
+    </thead>
+    <tbody>
+        <tr><td class="rowhead">Sản phẩm hợp lệ</td><td class="num">235</td><td class="num">2.041,9</td><td class="num">9.026,3</td><td>30 ngày</td><td><span class="score-badge c">Thấp</span></td></tr>
+        <tr><td class="rowhead">Sản phẩm đạt điểm ≥ 4,5</td><td class="num">235</td><td class="num">1.998,6</td><td class="num">8.931,7</td><td>30 ngày</td><td><span class="score-badge c">Thấp</span></td></tr>
+        <tr><td class="rowhead">Sản phẩm đạt điểm ≥ 5,5</td><td class="num bad-text">90</td><td class="num">888,1</td><td class="num">5.591,3</td><td>30 ngày</td><td><span class="score-badge c">Nút thắt chính</span></td></tr>
+        <tr><td class="rowhead">Sản phẩm nổi bật (Top) / Super</td><td class="num">14 / 1</td><td class="num">—</td><td class="num">—</td><td>30 ngày</td><td><span class="score-badge b">Còn ít</span></td></tr>
+    </tbody>
+</table>
+
+<div class="highlight-box">
+    <strong>Nhận xét nhanh:</strong> trong 6 nhóm chỉ số, chỉ có <strong>tỷ lệ phản hồi 24 giờ</strong> là đang ở mức tốt. Tất cả các chỉ số còn lại đều dưới trung bình ngành, và điểm đứt gãy nằm ở hai chỗ: (i) <strong>lưu lượng vào quá ít</strong> do chưa dùng quảng cáo trả phí và chưa đẩy đủ sản phẩm chất lượng cao, và (ii) <strong>không có đơn hàng</strong> nên trụ giao dịch và trụ dịch vụ không tích được điểm. Đây là hai chỗ cần tập trung trong năm 2027.
+</div>
+
+<h3>1.5 Bốn trụ năng lực &amp; khoảng cách lên bậc sao</h3>
+<p>Báo cáo gia hạn của sàn phân tích bậc sao theo bốn trụ. Gian hàng đang mất cân đối: hai trụ hàng hoá và giao dịch đã đạt mức 2 sao, trong khi hai trụ tiếp thị và dịch vụ chỉ ở mức 1 sao — chính hai trụ yếu này kéo bậc sao tổng thể xuống.</p>
+<table>
+    <thead>
+        <tr><th style="width:22%;">Trụ năng lực</th><th style="width:14%;">Mức hiện tại</th><th style="width:30%;">Khoảng cách đến bậc kế tiếp</th><th>Việc cần làm để lên bậc</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">Sản phẩm</td>
+            <td><span class="score-badge b">2 sao</span></td>
+            <td>Cần thêm <strong>265</strong> sản phẩm đạt chuẩn điểm 4,2</td>
+            <td>Đăng sản phẩm mới đều đặn mỗi tháng + tối ưu tiêu đề / ảnh / thuộc tính cho nhóm sản phẩm chủ lực</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Tiếp thị</td>
+            <td><span class="score-badge c">1 sao</span></td>
+            <td>Cần thêm <strong>196</strong> khách truy cập (UV)</td>
+            <td>Đây là trụ <em>gần lên bậc nhất</em>: chỉ cần 196 UV. Dùng quảng cáo trả phí ngân sách nhỏ + đăng bài đều + Showcase</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Dịch vụ</td>
+            <td><span class="score-badge c">1 sao</span></td>
+            <td>Cần thêm <strong>3</strong> lượt phản hồi người mua</td>
+            <td>Phản hồi 100% trong ngày, bật trả lời tự động ngoài giờ, chủ động nhắn lại khách cũ</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Giao dịch</td>
+            <td><span class="score-badge b">2 sao</span></td>
+            <td>Cần thêm <strong>$1</strong> GMV qua Trade Assurance</td>
+            <td>Chốt đơn Trade Assurance đầu tiên — kể cả đơn mẫu giá trị nhỏ cũng đủ mở khoá chỉ số này</td>
+        </tr>
+    </tbody>
+</table>
+<div class="highlight-box success">
+    <strong>Điểm đáng chú ý:</strong> hai trụ đang thiếu chỉ cách bậc kế tiếp một khoảng rất nhỏ — <strong>196 khách truy cập</strong> và <strong>3 lượt phản hồi</strong>, cộng thêm <strong>đúng 1 đơn hàng</strong> là đã mở khoá trụ giao dịch. Nói cách khác, những việc nhỏ và làm được ngay trong 30 ngày tới lại chính là những việc tạo ra bước nhảy về bậc sao.
+</div>
+
+<h3>1.6 Xu hướng 9 tháng vận hành (01/2026 – 09/2026)</h3>
+<div class="chart-box">
+    <h4>Lượt xem sản phẩm (IPV) và số cơ hội kinh doanh theo tháng</h4>
+    <div class="chart-wrap"><canvas id="chartTrend"></canvas></div>
+</div>
+<div class="chart-box">
+    <h4>Số sản phẩm hợp lệ và số ngày đăng nhập theo tháng</h4>
+    <div class="chart-wrap small"><canvas id="chartOps"></canvas></div>
+</div>
+
+<h4>Bảng chi tiết theo tháng</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Tháng</th><th class="num">IPV</th><th class="num">Cơ hội KD</th><th class="num">Khách L2+</th><th class="num">Đơn</th>
+            <th class="num">SP hợp lệ</th><th class="num">Bậc sao</th><th class="num">Ngày đăng nhập</th><th>Giai đoạn</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>01/2026</td><td class="num">62</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td class="num">0</td><td class="num">5</td><td>Khởi động</td></tr>
+        <tr><td>02/2026</td><td class="num">293</td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td class="num">103</td><td class="num">0</td><td class="num">10</td><td>Khởi động</td></tr>
+        <tr><td>03/2026</td><td class="num">97</td><td class="num">19</td><td class="num">9</td><td class="num">0</td><td class="num">103</td><td class="num">0</td><td class="num">16</td><td><span class="tag orange">Đỉnh hỏi hàng</span></td></tr>
+        <tr><td>04/2026</td><td class="num">148</td><td class="num">2</td><td class="num">2</td><td class="num">0</td><td class="num">134</td><td class="num">0</td><td class="num">20</td><td>Khởi động</td></tr>
+        <tr><td>05/2026</td><td class="num">84</td><td class="num">7</td><td class="num">0</td><td class="num">0</td><td class="num">208</td><td class="num">0</td><td class="num">25</td><td>Khởi động</td></tr>
+        <tr><td>06/2026</td><td class="num">190</td><td class="num">19</td><td class="num">7</td><td class="num">0</td><td class="num">231</td><td class="num">0</td><td class="num">23</td><td>Khởi động</td></tr>
+        <tr><td>07/2026</td><td class="num">306</td><td class="num">23</td><td class="num">14</td><td class="num">0</td><td class="num">233</td><td class="num">0</td><td class="num">11</td><td><span class="tag green">Đỉnh lưu lượng</span></td></tr>
+        <tr><td>08/2026</td><td class="num">208</td><td class="num">12</td><td class="num">6</td><td class="num">0</td><td class="num">234</td><td class="num">1</td><td class="num">8</td><td><span class="tag red">Giảm lưu lượng</span></td></tr>
+        <tr><td>09/2026</td><td class="num">160</td><td class="num">18</td><td class="num">11</td><td class="num">0</td><td class="num">235</td><td class="num">1</td><td class="num">5</td><td><span class="tag red">Sụt giảm</span></td></tr>
+    </tbody>
+</table>
+<p class="small">Nguồn: báo cáo gia hạn từ sàn Alibaba.com (số liệu theo tháng, 01–09/2026). Cột "Cơ hội KD" là số người mua hoạt động trong tháng.</p>
+
+<div class="highlight-box">
+    <strong>Cách đọc xu hướng:</strong>
+    <p>Gian hàng đã đi qua ba giai đoạn rõ rệt. <strong>Giai đoạn 1 (T1–T4) — dựng danh mục:</strong> số sản phẩm hợp lệ tăng từ 1 lên 134; đỉnh hỏi hàng xuất hiện ngay từ T3 với 19 cơ hội kinh doanh. <strong>Giai đoạn 2 (T5–T7) — tăng tốc:</strong> danh mục hoàn thiện lên 233 sản phẩm, lưu lượng đạt đỉnh 306 IPV và 23 cơ hội kinh doanh trong T7 — đây là bằng chứng cho thấy khi hàng hoá được đẩy đều, gian hàng có thể thu hút người mua.</p>
+    <p><strong>Giai đoạn 3 (T8–T9) — hụt hơi:</strong> sau đỉnh T7, lưu lượng và số ngày đăng nhập cùng giảm (từ 25 ngày ở T5 xuống 5 ngày ở T9). Danh mục gần như dừng tăng (233 → 235 sản phẩm trong hai tháng). Điều đáng chú ý là <strong>số cơ hội kinh doanh vẫn duy trì ở mức 12–18</strong> dù lưu lượng giảm — nghĩa là nhu cầu của người mua chưa biến mất, chỉ có hoạt động vận hành của gian hàng chậm lại.</p>
+    <p><strong>Điều này cho thấy:</strong> vấn đề của Xuân Chương không phải là "không có khách", mà là <strong>thiếu guồng vận hành đều đặn</strong> (đăng bài – theo dõi – phản hồi – chốt đơn). Đây cũng chính là phần dễ cải thiện nhất và tốn ít chi phí nhất.</p>
+</div>
+
+<h3>1.7 Chẩn đoán tổng hợp</h3>
+<div class="two-col">
+    <div>
+        <h4>Gian hàng đang có gì</h4>
+        <ul>
+            <li>235 sản phẩm hợp lệ đã được lập chỉ mục, danh mục đúng xu hướng ngành</li>
+            <li>12 cơ hội kinh doanh và 8 khách L2+ mỗi 30 ngày</li>
+            <li>10 khách chất lượng ở 9 quốc gia, trong đó có khách giá trị cao tại Ả Rập Xê Út</li>
+            <li>Tỷ lệ phản hồi 24 giờ 83,33% — cao hơn trung bình ngành</li>
+            <li>20/20 vị trí Showcase đã dùng hết</li>
+            <li>Năng lực sản xuất và hồ sơ nhà máy đã công bố</li>
+        </ul>
+    </div>
+    <div>
+        <h4>Đang bị chặn ở đâu</h4>
+        <ul>
+            <li>0 đơn / $0 GMV trong 180 ngày → trụ giao dịch không có điểm</li>
+            <li>Chỉ 90 sản phẩm đạt điểm chất lượng ≥ 5,5 (TB ngành 888,1)</li>
+            <li>Lưu lượng 184 IPV / 30 ngày, chưa dùng quảng cáo trả phí</li>
+            <li>Thời gian phản hồi 8 giờ, chỉ 2 người mua được phản hồi trong 30 ngày</li>
+            <li>RFQ dùng 1/20, trợ lý AI 0/660 điểm, tài khoản phụ 0/5</li>
+            <li>Hồ sơ công khai chưa hiển thị chứng nhận và lịch sử giao dịch</li>
+        </ul>
+    </div>
+</div>
+<div class="highlight-box success">
+    <strong>Kết luận phần 1:</strong> Đây là gian hàng ở giai đoạn "đã dựng xong nhưng chưa vận hành". Phần khó nhất — xây danh mục 235 sản phẩm và có được 12 cơ hội kinh doanh mỗi tháng — đã hoàn thành trong năm đầu. Phần còn lại là những việc có thể làm ngay: nâng chất lượng sản phẩm chủ lực, chạy quảng cáo ngân sách nhỏ, phản hồi nhanh hơn và chốt đơn đầu tiên. Đó là nội dung của kế hoạch năm 2027 ở phần tiếp theo.
+</div>
+
+<!-- ============ SECTION 2 ============ -->
+<h2 id="sec2">2. Kế hoạch năm 2027 &amp; Đề xuất cải thiện</h2>
+
+<h3>2.1 Mục tiêu năm 2027</h3>
+<p>Mục tiêu dưới đây được xây theo ba lớp: <strong>(1)</strong> mốc hiện tại đã xác nhận; <strong>(2)</strong> mốc 6 tháng đầu năm 2027 — các mốc này gắn trực tiếp với ngưỡng lên bậc sao mà sàn đã công bố; <strong>(3)</strong> mốc cả năm 2027 — tham chiếu vùng tiềm năng mà báo cáo gia hạn của sàn đưa ra. Toàn bộ là <em>mục tiêu phấn đấu</em> dựa trên dữ liệu hiện tại, không phải cam kết kết quả.</p>
+
+<table>
+    <thead>
+        <tr><th style="width:23%;">Chỉ số</th><th class="num">Hiện tại</th><th class="num">Mục tiêu 6 tháng đầu 2027</th><th class="num">Mục tiêu cả năm 2027</th><th>Cơ sở đặt mục tiêu</th></tr>
+    </thead>
+    <tbody>
+        <tr><td class="rowhead">Lượt xem sản phẩm (IPV/tháng)</td><td class="num">184</td><td class="num">400 – 600</td><td class="num">1.700+</td><td>Trung bình ngành 1.743,2; vùng tiềm năng sàn đưa ra 1.743 – 6.693</td></tr>
+        <tr><td class="rowhead">Khách truy cập (UV/tháng)</td><td class="num">106</td><td class="num">300</td><td class="num">800</td><td>Ngưỡng bậc sao trụ tiếp thị: 100 – 300 – 800 – 1.500 – 3.000 UV</td></tr>
+        <tr><td class="rowhead">Cơ hội kinh doanh (30 ngày)</td><td class="num">12</td><td class="num">30 – 50</td><td class="num">115+</td><td>Trung bình ngành 115,9; vùng tiềm năng sàn đưa ra 115 – 407</td></tr>
+        <tr><td class="rowhead">Khách L2+ (30 ngày)</td><td class="num">8</td><td class="num">15</td><td class="num">30+</td><td>Trung bình ngành 74,8</td></tr>
+        <tr><td class="rowhead">Sản phẩm đạt điểm ≥ 5,5</td><td class="num bad-text">90</td><td class="num">150</td><td class="num">300</td><td>Trung bình ngành 888,1 — mục tiêu đặt theo lộ trình tăng dần để không quá tải</td></tr>
+        <tr><td class="rowhead">Sản phẩm hợp lệ</td><td class="num">235</td><td class="num">300</td><td class="num">500</td><td>Ngưỡng bậc sao trụ sản phẩm: 50 – 200 – 500 – 800 – 1.200</td></tr>
+        <tr><td class="rowhead">Đơn hàng hoàn thành</td><td class="num bad-text">0</td><td class="num">1 – 2 đơn đầu tiên</td><td class="num">5 – 10 đơn</td><td>Trung bình ngành 2,1 đơn mỗi 180 ngày</td></tr>
+        <tr><td class="rowhead">GMV Trade Assurance</td><td class="num bad-text">$0</td><td class="num">Mở khoá chỉ số</td><td class="num">$765+ / 180 ngày</td><td>Trung bình ngành $765,5; vùng tiềm năng sàn đưa ra $765 – 6.174</td></tr>
+        <tr><td class="rowhead">Bậc sao gian hàng</td><td class="num">2 trụ 2★ · 2 trụ 1★</td><td class="num">2★ tổng thể</td><td class="num">3★</td><td>Ngưỡng công bố theo bốn trụ năng lực</td></tr>
+        <tr><td class="rowhead">Thời gian phản hồi TB</td><td class="num bad-text">8 giờ</td><td class="num">&lt; 4 giờ</td><td class="num">&lt; 2 giờ</td><td>Mục tiêu tháng do sàn đặt: dưới 4,05 giờ; top 10% ngành: 1,4 giờ</td></tr>
+        <tr><td class="rowhead">Tỷ lệ phản hồi 24 giờ</td><td class="num">83,33%</td><td class="num">95%</td><td class="num">100%</td><td>Top 10% ngành: 100%</td></tr>
+    </tbody>
+</table>
+<div class="disclaimer">Các mục tiêu trên là định hướng phấn đấu dựa trên dữ liệu hiện có và ngưỡng xếp hạng mà sàn công bố. Kết quả thực tế phụ thuộc vào mức độ đầu tư vận hành, chất lượng hàng hoá và diễn biến thị trường, không phải cam kết kết quả kinh doanh.</div>
+
+<h3>2.2 Bốn hướng tối ưu trọng tâm</h3>
+<p>Đây là bốn hướng ưu tiên được xác định từ báo cáo gia hạn của sàn, sắp theo mức độ tác động. Mỗi hướng gồm ba phần: <strong>hiện trạng</strong> (vì sao cần làm), <strong>cách làm</strong> (làm gì cụ thể) và <strong>kết quả kỳ vọng</strong>.</p>
+
+<div class="plan-card">
+    <h4>Hướng 1 — Nâng điểm chất lượng cho nhóm sản phẩm chủ lực</h4>
+    <p class="plan-meta">Ưu tiên: <span class="tag red">Cao nhất</span> · Thời gian: 30 ngày đầu</p>
+    <dl>
+        <dt>Hiện trạng</dt>
+        <dd>Gian hàng có 235 sản phẩm hợp lệ nhưng chỉ 90 sản phẩm đạt điểm chất lượng từ 5,5 trở lên — còn 145 sản phẩm chưa đạt ngưỡng. So với trung bình ngành 888,1 sản phẩm đạt ngưỡng, đây là khoảng cách lớn nhất của gian hàng.</dd>
+        <dt>Cách làm</dt>
+        <dd>Chọn 20–30 sản phẩm có lượt hiển thị tốt nhất, nâng cấp đồng bộ ba phần: <strong>tiêu đề</strong> (đưa đúng từ khoá người mua tìm + quy cách đóng gói + thông số kỹ thuật như độ ẩm, kích cỡ hạt, tiêu chuẩn), <strong>hình ảnh</strong> (ảnh chính nền sạch, ảnh chi tiết sản phẩm, ảnh đóng gói, ảnh chứng nhận), và <strong>thuộc tính</strong> (điền đầy đủ trường bắt buộc, thêm các trường mở rộng liên quan đến nông sản).</dd>
+        <dt>Kết quả kỳ vọng</dt>
+        <dd>Đưa 150 sản phẩm vượt mốc điểm 5,5 trong 6 tháng đầu, tạo bàn đạp để hướng tới ngưỡng 500 sản phẩm hợp lệ.</dd>
+    </dl>
+</div>
+
+<div class="plan-card">
+    <h4>Hướng 2 — Kích hoạt toàn bộ hạn ngạch RFQ còn bỏ trống</h4>
+    <p class="plan-meta">Ưu tiên: <span class="tag red">Cao</span> · Thời gian: bắt đầu ngay tuần này</p>
+    <dl>
+        <dt>Hiện trạng</dt>
+        <dd>Mỗi tháng gian hàng được cấp 20 lượt báo giá theo yêu cầu mua (RFQ) nhưng chỉ dùng 1 lượt — bỏ trống 19 cơ hội. Trong khi đó 20/20 vị trí Showcase đã dùng hết, nghĩa là nguồn sản phẩm để báo giá đã sẵn có.</dd>
+        <dt>Cách làm</dt>
+        <dd>Trả lời RFQ mỗi ngày bằng sản phẩm đang trong Showcase. Với mỗi RFQ, phản hồi trong vòng 2 giờ với ba thông tin: giá FOB theo khối lượng, thời gian giao hàng, và khả năng cung ứng của vụ đang thu hoạch.</dd>
+        <dt>Kết quả kỳ vọng</dt>
+        <dd>Tận dụng nguồn nhu cầu đã có sẵn trên sàn mà không tốn thêm chi phí quảng cáo; đây là cách nhanh nhất để tăng số cơ hội kinh doanh trong 30 ngày đầu.</dd>
+    </dl>
+</div>
+
+<div class="plan-card">
+    <h4>Hướng 3 — Mở quảng cáo trả phí với ngân sách nhỏ, có kiểm soát</h4>
+    <p class="plan-meta">Ưu tiên: <span class="tag orange">Cao</span> · Thời gian: 60 ngày, sau khi hoàn tất hướng 1</p>
+    <dl>
+        <dt>Hiện trạng</dt>
+        <dd>Lưu lượng 30 ngày chỉ đạt 184 lượt xem sản phẩm, thấp hơn nhiều so với trung bình ngành 1.743,2; chi tiêu quảng cáo hiện tại bằng $0 — nghĩa là toàn bộ lưu lượng đang phụ thuộc vào tìm kiếm tự nhiên.</dd>
+        <dt>Cách làm</dt>
+        <dd>Mở chiến dịch quảng cáo từ khoá với ngân sách nhỏ hàng ngày, chỉ nhắm vào 10 sản phẩm mạnh nhất trong Showcase (ưu tiên hồ tiêu, gừng, xoài sấy). Theo dõi hai chỉ số mỗi tuần: chi phí cho mỗi lượt nhấp và số thư hỏi hàng thu được. Tăng ngân sách chỉ khi có thư hỏi hàng thực.</dd>
+        <dt>Kết quả kỳ vọng</dt>
+        <dd>Đưa lưu lượng về vùng 400–600 lượt xem sản phẩm mỗi tháng trong 60 ngày, tiến dần tới mức trung bình ngành, đồng thời tạo thêm cơ hội trò chuyện với người mua.</dd>
+    </dl>
+</div>
+
+<div class="plan-card">
+    <h4>Hướng 4 — Chuyển đổi nhóm khách đã hỏi hàng thành đơn đầu tiên</h4>
+    <p class="plan-meta">Ưu tiên: <span class="tag red">Cao nhất (tạo bước ngoặt)</span> · Thời gian: 30 ngày</p>
+    <dl>
+        <dt>Hiện trạng</dt>
+        <dd>Trong 30 ngày gian hàng có 8 khách L2+ và 3 khách L3+ nhưng chốt được 0 đơn; 180 ngày không có GMV qua Trade Assurance.</dd>
+        <dt>Cách làm</dt>
+        <dd>Lập danh sách 3 khách L3+ và 8 khách L2+ kèm nhu cầu đã hỏi; phân công một người theo dõi riêng. Gửi báo giá chi tiết theo khối lượng (mẫu nhỏ / lô 1 tấn / lô container) cho từng khách. Với khách đã hỏi mà chưa chốt, chào ưu đãi đơn đầu tiên (hỗ trợ vận chuyển nội địa hoặc giá thử nghiệm) để mở khoá chỉ số giao dịch.</dd>
+        <dt>Kết quả kỳ vọng</dt>
+        <dd>Chốt 1–2 đơn Trade Assurance đầu tiên trong quý I/2027 — kể cả đơn giá trị nhỏ. Đây là việc quan trọng nhất vì đơn đầu tiên đồng thời mở khoá trụ giao dịch và tạo dấu vết giao dịch cho toàn bộ sản phẩm.</dd>
+    </dl>
+</div>
+
+<h3>2.3 Đề xuất bổ sung sau khi khảo sát gian hàng</h3>
+<p>Ngoài bốn hướng trên, khi kiểm tra trực tiếp gian hàng công khai (minisite và hồ sơ công ty), chúng tôi thấy thêm một số điểm cần xử lý mà chưa được đề cập trong báo cáo gia hạn:</p>
+<table>
+    <thead>
+        <tr><th style="width:28%;">Đề xuất</th><th style="width:36%;">Phát hiện khi khảo sát</th><th>Việc cần làm</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">1. Bổ sung chứng nhận lên hồ sơ</td>
+            <td>Mục "Chứng nhận công ty" và "Chứng nhận sản phẩm" trên hồ sơ công khai đang <strong>để trống</strong>. Mục "Lịch sử giao dịch" cũng chưa hiển thị giao dịch nào.</td>
+            <td>Đăng tải các chứng nhận hiện có (an toàn thực phẩm, quản lý chất lượng, chứng nhận phù hợp thị trường Hồi giáo nếu có), giấy phép kinh doanh, quy trình truy xuất nguồn gốc và mã vùng trồng lên hồ sơ. Với ngành thực phẩm, đây là bước lọc đầu tiên của nhà nhập khẩu.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">2. Đồng bộ nội dung hồ sơ</td>
+            <td>Phần giới thiệu công ty viết "nhiều năm kinh nghiệm xuất khẩu nông sản sang thị trường Nhật Bản", nhưng mục "Thị trường chính" lại ghi Đông Nam Á 80% và Trung Đông 20%.</td>
+            <td>Thống nhất lại phần giới thiệu theo đúng số liệu thực tế. Nếu đã từng xuất sang Nhật Bản, đưa thông tin đó vào mục thị trường; nếu chưa, điều chỉnh câu chữ để tránh khách hiểu sai và mất niềm tin khi đối chiếu.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">3. Làm dày nội dung trình bày</td>
+            <td>Hồ sơ chỉ trưng bày 4 sản phẩm tiêu biểu (gừng tươi, vải thiều, tiêu đen/trắng, tỏi) trong khi gian hàng có 235 sản phẩm. Không thấy video quy trình sản xuất, nhà máy hay đóng gói.</td>
+            <td>Bổ sung ảnh nhà máy, dây chuyền, quy trình sơ chế – chế biến – đóng gói, khu vực nguyên liệu và video ngắn 15–30 giây. Nhà nhập khẩu nông sản thường xác minh năng lực bằng hình ảnh thực tế trước khi thương lượng.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">4. Xây nhóm sản phẩm "quanh năm" để ổn định đơn</td>
+            <td>Danh mục hiện nghiêng về hàng tươi theo mùa (bơ, chanh dây, vải, măng cụt, vú sữa), khiến lượng hỏi hàng dao động mạnh theo vụ.</td>
+            <td>Duy trì song song hai nhóm: nhóm quanh năm (hồ tiêu, gừng khô, quế, xoài sấy) để có đơn đều, và nhóm theo mùa vụ để đón nhu cầu giá cao. Chi tiết ở phần 2.7.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">5. Khai thác công cụ miễn phí còn bỏ trống</td>
+            <td>Trợ lý AI: 0/660 điểm. Tài khoản phụ: 0/5 tài khoản. Đây là các công cụ đã nằm trong gói dịch vụ nhưng chưa dùng.</td>
+            <td>Phân bổ tài khoản phụ cho nhân sự phụ trách theo dõi khách và cập nhật sản phẩm; dùng điểm trợ lý AI để tối ưu nội dung sản phẩm và tự động hoá phản hồi.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">6. Xử lý tốc độ phản hồi</td>
+            <td>Thời gian phản hồi trung bình 8 giờ trong khi mục tiêu tháng của sàn là dưới 4,05 giờ. Hồ sơ CRM ghi nhận chưa có ghi chú chăm sóc khách trong 60 ngày gần nhất.</td>
+            <td>Bật trả lời tự động ngoài giờ với hai khung giờ (giờ Việt Nam và giờ châu Mỹ/châu Âu); soạn sẵn bộ trả lời mẫu cho 10 câu hỏi thường gặp (khối lượng tối thiểu, thời gian giao, chứng nhận, mẫu thử, đóng gói, giá FOB/CIF); duy trì ghi chú chăm sóc khách để không bỏ sót người mua nào.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">7. Duy trì nhịp đăng nhập và cập nhật</td>
+            <td>Số ngày đăng nhập giảm từ 25 ngày (05/2026) xuống 5 ngày (09/2026). Nhiệm vụ tháng trên hệ thống dịch vụ yêu cầu đăng nhập 15 ngày/tháng.</td>
+            <td>Đặt lịch cố định mỗi tuần: kiểm tra tin nhắn, trả lời RFQ, cập nhật sản phẩm, xem báo cáo hiệu quả. Nhịp vận hành đều là điều kiện để giữ thứ hạng hiển thị.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">8. Dịch chuyển dần sang hàng chế biến sâu</td>
+            <td>Danh mục hiện chủ yếu là hàng thô (hạt tiêu, gừng tươi, trái tươi) — biên lợi nhuận thấp và phụ thuộc mùa vụ.</td>
+            <td>Bổ sung nhóm chế biến: tiêu xay / tiêu trắng, gừng khô, xoài sấy dẻo, trái cây sấy. Nhóm này có giá trị đơn hàng cao hơn, bảo quản lâu hơn và ít phụ thuộc mùa vụ — phù hợp để xây đơn hàng lặp lại.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>2.4 Lộ trình 90 ngày trước khi gia hạn (10/2026 – 12/2026)</h3>
+<p>Giai đoạn 90 ngày tới là cửa sổ tốt nhất để tạo đà: vừa dọn lại gian hàng, vừa tận dụng nhu cầu cuối năm để chốt đơn đầu tiên — bước vào năm 2027 với dữ liệu giao dịch thay vì số 0.</p>
+<table>
+    <thead>
+        <tr><th style="width:15%;">Giai đoạn</th><th>Việc cần làm</th><th style="width:26%;">Mốc đích</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">Tuần 1–2<br><span class="small">Dọn nền</span></td>
+            <td>Đăng tải chứng nhận lên hồ sơ; đồng bộ phần giới thiệu công ty; bật trả lời tự động ngoài giờ và bộ trả lời mẫu; rà soát lại 30 sản phẩm chủ lực để chuẩn bị nâng cấp.</td>
+            <td>Hồ sơ có chứng nhận; phản hồi tự động hoạt động; danh sách 30 sản phẩm chủ lực đã chốt</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Tuần 3–6<br><span class="small">Nâng hàng hoá</span></td>
+            <td>Nâng cấp tiêu đề – hình ảnh – thuộc tính cho 20–30 sản phẩm chủ lực; trả lời RFQ mỗi ngày; đăng 8–12 sản phẩm mới theo mùa vụ; bổ sung ảnh nhà máy và video quy trình lên hồ sơ.</td>
+            <td>150 sản phẩm đạt điểm ≥ 5,5; RFQ dùng trên 15/20 lượt; hồ sơ có ảnh/video nhà máy</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Tuần 7–10<br><span class="small">Kéo lưu lượng &amp; chốt đơn</span></td>
+            <td>Mở quảng cáo trả phí ngân sách nhỏ cho 10 sản phẩm mạnh nhất; theo dõi chi phí mỗi lượt nhấp và số thư hỏi hàng; chủ động báo giá cho 3 khách L3+ và 8 khách L2+; chào ưu đãi đơn đầu tiên.</td>
+            <td>UV vượt 300; 1–2 đơn Trade Assurance đầu tiên; mở khoá trụ giao dịch</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Tuần 11–12<br><span class="small">Đo lường &amp; chốt kế hoạch</span></td>
+            <td>Đánh giá toàn bộ chỉ số so với mục tiêu; giữ lại từ khoá quảng cáo hiệu quả, cắt từ khoá tốn kém; chốt danh mục sản phẩm trọng tâm cho quý I/2027; hoàn tất thủ tục gia hạn để không gián đoạn dịch vụ.</td>
+            <td>Bậc sao tổng thể đạt 2★; bộ dữ liệu nền cho kế hoạch 2027 sẵn sàng</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>2.5 Kế hoạch năm 2027 theo quý</h3>
+<table>
+    <thead>
+        <tr><th style="width:14%;">Quý</th><th style="width:26%;">Trọng tâm</th><th>Hành động chính</th><th style="width:19%;">Mốc đích</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">Quý I<br><span class="small">01 – 03/2027</span></td>
+            <td>Chốt đơn đầu tiên &amp; mở khoá chỉ số giao dịch</td>
+            <td>Chăm sóc danh sách khách đã hỏi; báo giá theo khối lượng; đón vụ hồ tiêu mới (thu hoạch T2–T5) và đẩy mạnh sản phẩm hồ tiêu; chuẩn bị trước mùa bơ – xoài (đăng trước vụ 2 tháng).</td>
+            <td>1–2 đơn đầu tiên; GMV khác 0; UV ≥ 300</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Quý II<br><span class="small">04 – 06/2027</span></td>
+            <td>Nhân rộng cái đã hiệu quả</td>
+            <td>Mở rộng ngân sách quảng cáo sang nhóm từ khoá đã có kết quả; đẩy vụ bơ, xoài tươi, vải thiều; mở thêm nhóm chế biến (xoài sấy, gừng khô); bổ sung sản phẩm mới đều đặn.</td>
+            <td>Đơn hàng lặp lại; 30+ cơ hội kinh doanh/tháng; 300 sản phẩm hợp lệ</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Quý III<br><span class="small">07 – 09/2027</span></td>
+            <td>Xây khách hàng cốt lõi</td>
+            <td>Chuyển danh sách khách L2+ thành khách đặt lại; xây bảng giá riêng cho khách thường xuyên; đón vụ chanh dây, vú sữa, măng cụt; mở rộng sang thị trường mới (xem phần 3).</td>
+            <td>5+ khách đặt lại; GMV tích luỹ theo mục tiêu</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Quý IV<br><span class="small">10 – 12/2027</span></td>
+            <td>Hoàn thiện &amp; nâng bậc sao</td>
+            <td>Rà soát toàn bộ chỉ số; đưa 300 sản phẩm vượt ngưỡng điểm chất lượng; đẩy nhóm chế biến trong mùa cao điểm cuối năm; chuẩn bị kế hoạch mùa vụ 2028.</td>
+            <td>Bậc sao 3★; 500 sản phẩm hợp lệ; 5–10 đơn/năm</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>2.6 Bảng theo dõi chỉ số hàng tháng — mẫu dùng chung</h3>
+<p>Bảng dưới đây thiết kế theo cùng cấu trúc bảng dữ liệu trong báo cáo gia hạn của sàn, để hai bên cùng điền và đối chiếu mỗi tháng trong năm 2027. Đề nghị cập nhật vào ngày đầu mỗi tháng.</p>
+<table>
+    <thead>
+        <tr>
+            <th>Tháng 2027</th><th class="num">IPV</th><th class="num">Cơ hội KD</th><th class="num">Khách L2+</th><th class="num">Đơn</th>
+            <th class="num">GMV ($)</th><th class="num">SP ≥ 5,5đ</th><th class="num">UV</th><th class="num">Ngày đăng nhập</th><th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>T1</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T2</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T3</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T4</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T5</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T6</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T7</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T8</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T9</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T10</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T11</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+        <tr><td>T12</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td></td></tr>
+    </tbody>
+</table>
+
+<h3>2.7 Lịch mùa vụ nông sản &amp; chiến lược đăng bài</h3>
+<p>Đăng bài đúng thời điểm mùa vụ là lợi thế riêng của ngành nông sản: nhà nhập khẩu thường đặt trước vụ 1–3 tháng để kịp thử mẫu và đóng container. Bảng dưới thể hiện vụ chính (●), vụ phụ/ngoài vụ (◐) và không có hàng (–).</p>
+<div style="overflow-x:auto;">
+<table class="timeline-table">
+    <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th><th>T8</th><th>T9</th><th>T10</th><th>T11</th><th>T12</th>
+            <th>Chiến lược đăng bài</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td><strong>Hồ tiêu đen</strong></td><td class="dot-sub">◐</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td><span class="tag green">Bán quanh năm — đẩy mạnh T1–T2 vụ mới</span></td></tr>
+        <tr><td><strong>Gừng tươi</strong></td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-main">●</td><td class="dot-main">●</td><td><span class="tag green">Quanh năm — dồi dào T11–T2</span></td></tr>
+        <tr><td><strong>Gừng khô</strong></td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td><span class="tag green">Quanh năm</span></td></tr>
+        <tr><td><strong>Tỏi</strong></td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-sub">◐</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td><span class="tag orange">Đăng trước vụ T1–T2</span></td></tr>
+        <tr><td><strong>Quế</strong></td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td><span class="tag green">Quanh năm</span></td></tr>
+        <tr><td><strong>Xoài sấy dẻo</strong></td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td><span class="tag green">Quanh năm — đẩy mạnh cuối năm</span></td></tr>
+        <tr><td><strong>Chuối</strong></td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td><span class="tag green">Quanh năm</span></td></tr>
+        <tr><td><strong>Bơ Booth / Hass</strong></td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-sub">◐</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td><span class="tag orange">Đăng T1–T2 (trước vụ 2–3 tháng)</span></td></tr>
+        <tr><td><strong>Chanh dây</strong></td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-sub">◐</td><td class="dot-main">●</td><td class="dot-main">●</td><td><span class="tag orange">Đăng T8–T9 (trước vụ)</span></td></tr>
+        <tr><td><strong>Xoài tươi</strong></td><td class="dot-none">–</td><td class="dot-sub">◐</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-sub">◐</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td><span class="tag orange">Đăng T12–T1 (trước vụ)</span></td></tr>
+        <tr><td><strong>Vải thiều</strong></td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td><span class="tag red">Đăng T3 đặt trước; T8 chốt đơn vụ sau</span></td></tr>
+        <tr><td><strong>Măng cụt</strong></td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-sub">◐</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td><span class="tag orange">Đăng T3–T4 (trước vụ)</span></td></tr>
+        <tr><td><strong>Vú sữa</strong></td><td class="dot-main">●</td><td class="dot-main">●</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-none">–</td><td class="dot-sub">◐</td><td class="dot-sub">◐</td><td class="dot-main">●</td><td class="dot-main">●</td><td><span class="tag orange">Đăng T8–T9 (trước vụ)</span></td></tr>
+    </tbody>
+</table>
+</div>
+<p class="small">● Vụ chính (thu hoạch cao điểm) · ◐ Vụ phụ / ngoài vụ · – Không có hàng. Lịch mùa vụ mang tính tham khảo, có thể lệch 2–4 tuần theo vùng miền và thời tiết từng năm.</p>
+
+<div class="two-col">
+    <div>
+        <h4>Nguyên tắc phân bổ bài đăng</h4>
+        <ul>
+            <li><strong>~40% bài đăng cho sản phẩm mùa vụ:</strong> đăng trước vụ 2–3 tháng để đón đặt hàng trước, ngay khi đăng thì đưa lên Showcase.</li>
+            <li><strong>~60% bài đăng cho sản phẩm quanh năm:</strong> hồ tiêu, quế, gừng (tươi/khô), xoài sấy, chuối — đăng và làm mới đều đặn mỗi tháng.</li>
+            <li><strong>Đan xen hai nhóm</strong> thay vì dồn một thời điểm: mỗi tháng khoảng 60–70% sản phẩm quanh năm và 30–40% sản phẩm đang vào vụ.</li>
+        </ul>
+    </div>
+    <div>
+        <h4>Xử lý sản phẩm hết mùa</h4>
+        <ul>
+            <li><strong>Không xoá sản phẩm hết mùa</strong> — xoá sẽ mất phần xếp hạng đã tích luỹ. Thay vào đó cập nhật trạng thái "hết hàng mùa này, nhận đặt trước vụ sau" kèm thời gian giao dự kiến.</li>
+            <li>Với hàng tươi, có thể bổ sung phương án cấp đông hoặc nước ép cô đặc (bơ, chanh dây) để bán quanh năm.</li>
+            <li>Mỗi sản phẩm mùa vụ nên có 2–3 biến thể theo kích cỡ hoặc độ chín, thay vì nhiều bài đăng trùng từ khoá gây tự cạnh tranh nội bộ.</li>
+        </ul>
+    </div>
+</div>
+
+<h3>2.8 Kế hoạch đăng bài 6 tháng đầu năm 2027</h3>
+<table>
+    <thead>
+        <tr><th style="width:12%;">Tháng</th><th>Sản phẩm mùa vụ (40%)</th><th>Sản phẩm quanh năm (60%)</th><th class="center">Tổng bài mới</th><th class="center">Ưu tiên Showcase</th></tr>
+    </thead>
+    <tbody>
+        <tr><td class="rowhead">01/2027</td><td>Xoài tươi (trước vụ), bơ (trước vụ cho T3)</td><td>Hồ tiêu (vụ mới), xoài sấy, quế, gừng khô</td><td class="center">12–15</td><td class="center">Hồ tiêu, bơ</td></tr>
+        <tr><td class="rowhead">02/2027</td><td>Bơ (trước vụ), xoài tươi</td><td>Hồ tiêu (thu hoạch chính), gừng, quế, xoài sấy</td><td class="center">10–12</td><td class="center">Hồ tiêu, bơ</td></tr>
+        <tr><td class="rowhead">03/2027</td><td>Bơ vào vụ, vải thiều (đặt trước), măng cụt (đặt trước)</td><td>Hồ tiêu, xoài sấy, gừng khô, quế</td><td class="center">12</td><td class="center">Bơ, vải thiều</td></tr>
+        <tr><td class="rowhead">04/2027</td><td>Bơ (cao điểm), xoài tươi, vải thiều (đặt trước)</td><td>Hồ tiêu, xoài sấy, quế, chuối</td><td class="center">12</td><td class="center">Bơ, xoài</td></tr>
+        <tr><td class="rowhead">05/2027</td><td>Vải thiều (vào vụ), măng cụt, xoài tươi</td><td>Hồ tiêu, gừng, xoài sấy, chuối</td><td class="center">12</td><td class="center">Vải thiều, măng cụt</td></tr>
+        <tr><td class="rowhead">06/2027</td><td>Măng cụt (cao điểm), vải thiều (cuối vụ)</td><td>Hồ tiêu, xoài sấy, gừng khô, quế</td><td class="center">10–12</td><td class="center">Măng cụt</td></tr>
+    </tbody>
+</table>
+
+<!-- ============ SECTION 3 ============ -->
+<h2 id="sec3">3. Dự báo ngành nông sản &amp; Thị trường tiềm năng</h2>
+
+<h3>3.1 Bức tranh ngành nông sản 2026 – 2027</h3>
+<div class="kpi-row">
+    <div class="kpi-chip"><b>~8,5 tỷ USD</b><span>Xuất khẩu rau quả Việt Nam 2025 (+18–20% so với 2024, mức cao nhất từ trước tới nay)</span></div>
+    <div class="kpi-chip"><b>~10 tỷ USD</b><span>Mục tiêu xuất khẩu rau quả 2026 do hiệp hội ngành đặt ra</span></div>
+    <div class="kpi-chip"><b>2,77 tỷ USD</b><span>Xuất khẩu rau quả 5 tháng đầu 2026 (+20,4% so cùng kỳ)</span></div>
+    <div class="kpi-chip"><b>~1,66 tỷ USD</b><span>Kim ngạch xuất khẩu hồ tiêu Việt Nam 2025 (247.482 tấn, trong đó 212.279 tấn tiêu đen)</span></div>
+    <div class="kpi-chip"><b>122.600 tấn</b><span>Xuất khẩu hồ tiêu 5 tháng đầu 2026 (+21,7% về lượng)</span></div>
+    <div class="kpi-chip"><b>254</b><span>Thông báo tiêu chuẩn an toàn thực phẩm &amp; kiểm dịch mà EU, Trung Quốc, Trung Đông – châu Phi ban hành từ đầu năm đến giữa 9/2026</span></div>
+</div>
+<p class="small">Nguồn: Hiệp hội Rau quả Việt Nam (Vinafruit) qua báo chí ngành, 12/2025 – 06/2026; số liệu hồ tiêu 2025 – 2026 theo hiệp hội ngành và báo chí ngành; Văn phòng SPS Việt Nam qua báo chí ngành, 09/2026. Xem danh sách nguồn ở cuối báo cáo.</p>
+
+<h4>Ba xu hướng cần nắm</h4>
+<div class="two-col">
+    <div>
+        <h4>1. Nhu cầu tiếp tục tăng, nhưng dịch chuyển về hàng chế biến sâu</h4>
+        <ul>
+            <li>Rau quả là một trong những nhóm hàng tăng trưởng nhanh nhất của Việt Nam; Trung Quốc vẫn chiếm khoảng một nửa giá trị xuất khẩu, nhưng Mỹ và EU đang là hai đầu tăng thêm.</li>
+            <li>Nhóm <strong>hàng khô và chế biến</strong> (tiêu xay, tiêu trắng, gừng khô, xoài sấy, trái cây sấy) có thời gian bảo quản dài, ít phụ thuộc mùa vụ và giá trị đơn hàng cao hơn hàng thô — phù hợp để xây đơn lặp lại.</li>
+            <li>Việt Nam giữ vị trí nhà cung cấp hồ tiêu lớn nhất thế giới (khoảng gần một nửa nguồn cung toàn cầu), với chuỗi chế biến tương đối hoàn chỉnh.</li>
+        </ul>
+    </div>
+    <div>
+        <h4>2. Hàng rào kỹ thuật siết chặt hơn</h4>
+        <ul>
+            <li>Các thị trường lớn đang liên tục điều chỉnh quy định về <strong>dư lượng thuốc bảo vệ thực vật, kiểm dịch thực vật, truy xuất nguồn gốc và ghi nhãn</strong>. Chỉ tính từ đầu năm đến giữa tháng 9/2026, EU, Trung Quốc và khu vực Trung Đông – châu Phi đã ban hành 254 thông báo liên quan.</li>
+            <li>EU đặc biệt siết dư lượng thuốc bảo vệ thực vật; yêu cầu doanh nghiệp kiểm soát chất lượng ngay từ vùng sản xuất và lưu hồ sơ truy xuất.</li>
+            <li><strong>Hàm ý:</strong> chứng nhận và hồ sơ truy xuất không còn là điểm cộng mà là điều kiện để được xem xét. Đây đúng là điểm đang trống trong hồ sơ công khai của Xuân Chương.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="highlight-box info">
+    <strong>3. Lợi thế thuế quan của hàng Việt Nam.</strong> Với hồ tiêu và gia vị, Hiệp định thương mại tự do Việt Nam – EU (EVFTA) cho phép áp dụng thuế suất 0% khi vào thị trường EU — đây là lợi thế cạnh tranh trực tiếp so với nhiều nguồn cung khác. Đồng thời, việc Việt Nam được miễn thuế đối ứng tại thị trường Mỹ giúp giảm chi phí cho nhà nhập khẩu Mỹ, tạo điều kiện ký hợp đồng mới. Xuân Chương hiện <em>chưa khai thác</em> hai lợi thế này khi đưa vào nội dung sản phẩm.
+</div>
+
+<h3>3.2 Danh mục sản phẩm hiện tại của Xuân Chương</h3>
+<table>
+    <thead>
+        <tr><th style="width:16%;">Nhóm</th><th style="width:30%;">Sản phẩm</th><th style="width:14%;">Vụ chính</th><th>Thị trường phù hợp nhất</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">Gia vị (trọng tâm hiện tại)</td>
+            <td>Hồ tiêu đen 500–580 g/l (ASTA, độ ẩm ~12,5%, bao 25/50 kg); hồ tiêu trắng; gừng tươi; gừng khô; quế; tỏi</td>
+            <td>Quanh năm (tiêu, gừng khô, quế, tỏi); gừng tươi dồi dào T11–T2</td>
+            <td>Mỹ, EU, Trung Đông, Ấn Độ, Bangladesh, Trung Quốc</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Trái cây tươi</td>
+            <td>Bơ Booth / Hass; chanh dây; chuối; vải thiều (Brix 18%); măng cụt; vú sữa; xoài</td>
+            <td>Theo mùa (xem lịch mùa vụ phần 2.7)</td>
+            <td>Trung Quốc, Đông Nam Á, Trung Đông, Nhật Bản, Hàn Quốc</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Chế biến sâu (cần đẩy mạnh)</td>
+            <td>Xoài sấy dẻo (công nghệ sấy dẻo AD / sấy thăng hoa FD)</td>
+            <td>Quanh năm, cao điểm cuối năm</td>
+            <td>Mỹ, EU, Nhật Bản, Hàn Quốc, Trung Đông</td>
+        </tr>
+    </tbody>
+</table>
+<p class="small">Nguồn: hồ sơ công ty và sản phẩm tiêu biểu trên gian hàng công khai; danh mục sản phẩm theo báo cáo gia hạn từ sàn. Ghi chú: hồ sơ công ty khai báo ngành chính theo mã 09101100 (gừng), 080550 (chanh), 09041120 (hồ tiêu), 0801, 0901 — nên cân nhắc bổ sung mô tả bằng tên sản phẩm để người mua dễ nhận diện.</p>
+
+<div class="highlight-box">
+    <strong>Nhận xét về cơ cấu danh mục:</strong> Xuân Chương có lợi thế ở <strong>nhóm gia vị</strong> (hồ tiêu, gừng, quế) — nhóm này đã có sản phẩm được xếp hạng "Top" trên gian hàng và là nhóm Việt Nam có vị thế cung cấp hàng đầu thế giới. Đây là nhóm nên đóng vai trò "xương sống" tạo đơn hàng ổn định quanh năm. Nhóm trái cây tươi có giá trị đơn hàng lớn nhưng phụ thuộc mùa vụ và chi phí logistics, nên đóng vai trò "đỉnh doanh thu" theo vụ. Nhóm chế biến sâu hiện còn mỏng so với tiềm năng.
+</div>
+
+<h3>3.3 Thị trường tiềm năng cho sản phẩm hiện tại</h3>
+<table>
+    <thead>
+        <tr><th style="width:15%;">Thị trường</th><th style="width:27%;">Vì sao tiềm năng</th><th style="width:20%;">Sản phẩm phù hợp</th><th style="width:20%;">Nền tảng Xuân Chương đang có</th><th style="width:18%;">Ưu tiên</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">Trung Đông<br>(UAE, Ả Rập Xê Út)</td>
+            <td>UAE là thị trường xuất khẩu hồ tiêu lớn thứ hai của Việt Nam năm 2025 (22.232 tấn). Khu vực này nhập khẩu mạnh gia vị và trái cây nhiệt đới, đơn hàng lớn theo container.</td>
+            <td>Hồ tiêu, gừng, quế, xoài sấy, trái cây tươi</td>
+            <td><strong>Mạnh nhất:</strong> hồ sơ ghi 20% doanh thu từ Trung Đông; đã có 2 khách Ả Rập Xê Út (1 khách giá trị cao + 1 khách trung)</td>
+            <td><span class="tag green">Ưu tiên 1 — mở rộng ngay</span></td>
+        </tr>
+        <tr>
+            <td class="rowhead">Mỹ</td>
+            <td>Là thị trường xuất khẩu hồ tiêu lớn nhất của Việt Nam: 6 tháng đầu 2026 đạt 36.040 tấn, chiếm 24,7% tổng lượng (tăng so với 23,5% cùng kỳ 2025). Việc được miễn thuế đối ứng giúp giảm chi phí cho nhà nhập khẩu Mỹ, tạo điều kiện ký hợp đồng mới.</td>
+            <td>Hồ tiêu, xoài sấy, gừng khô, quế, trái cây sấy</td>
+            <td>Chưa có khách Mỹ trong danh sách người mua hiện tại — còn khoảng trống lớn</td>
+            <td><span class="tag orange">Ưu tiên 2 — thị trường mục tiêu chính</span></td>
+        </tr>
+        <tr>
+            <td class="rowhead">EU<br>(Đức, Ý, Hà Lan)</td>
+            <td>Việt Nam là nhà cung cấp hồ tiêu lớn nhất cho EU và được hưởng <strong>thuế 0% theo EVFTA</strong> đối với hồ tiêu và gia vị. Nhu cầu hàng sạch, hàng chế biến và trái cây sấy cao.</td>
+            <td>Hồ tiêu, quế, gừng khô, xoài sấy, trái cây sấy</td>
+            <td>Đã có 1 khách Ý (khách trung) — có sẵn mối để nhân rộng</td>
+            <td><span class="tag orange">Ưu tiên 2 — biên lợi nhuận cao</span></td>
+        </tr>
+        <tr>
+            <td class="rowhead">Đông Nam Á</td>
+            <td>Thị trường gần, thời gian giao ngắn, chi phí logistics thấp, người mua thường đặt lại định kỳ. Hiện chiếm phần lớn doanh thu của công ty.</td>
+            <td>Hồ tiêu, gừng, chuối, trái cây tươi</td>
+            <td><strong>Đang chiếm ~80% doanh thu</strong> theo hồ sơ công ty — là nền tảng cần giữ vững</td>
+            <td><span class="tag green">Ưu tiên 1 — giữ và mở rộng</span></td>
+        </tr>
+        <tr>
+            <td class="rowhead">Trung Quốc</td>
+            <td>Hiện chiếm khoảng một nửa giá trị xuất khẩu rau quả của Việt Nam. Là thị trường nhập khẩu gừng lớn — riêng gừng, Trung Quốc từng nhập tới 10.271 tấn (tăng 437%) theo số liệu ngành năm 2024.</td>
+            <td>Gừng tươi, gừng khô, vải thiều, xoài, trái cây tươi</td>
+            <td>Chưa có khách Trung Quốc; cần mã vùng trồng và thủ tục kiểm dịch</td>
+            <td><span class="tag orange">Ưu tiên 2 — khối lượng lớn</span></td>
+        </tr>
+        <tr>
+            <td class="rowhead">Nhật Bản / Hàn Quốc</td>
+            <td>Thị trường nhập khẩu nông sản giá trị cao, yêu cầu chất lượng khắt khe nhưng sẵn sàng trả giá tốt và mua lặp lại định kỳ.</td>
+            <td>Hồ tiêu chất lượng cao, xoài sấy, trái cây sấy, gừng</td>
+            <td>Đã có 1 khách Hàn Quốc (khách trung); phần giới thiệu công ty ghi có kinh nghiệm xuất khẩu sang Nhật Bản</td>
+            <td><span class="tag blue">Ưu tiên 3 — cần làm rõ hồ sơ trước</span></td>
+        </tr>
+        <tr>
+            <td class="rowhead">Ấn Độ / Bangladesh</td>
+            <td>Là hai thị trường nhập khẩu gừng và gia vị lớn của Việt Nam: Ấn Độ từng nhập 6.635 tấn (38,4% lượng gừng – nghệ xuất khẩu) và Bangladesh 3.561 tấn (20,6%) theo số liệu ngành năm 2024.</td>
+            <td>Gừng tươi, gừng khô, hồ tiêu</td>
+            <td>Chưa có khách; giá cạnh tranh là yếu tố quyết định</td>
+            <td><span class="tag blue">Ưu tiên 3 — thị trường số lượng</span></td>
+        </tr>
+    </tbody>
+</table>
+<p class="small">Lưu ý về số liệu: các con số thị trường được dẫn theo báo cáo của hiệp hội ngành và báo chí ngành ở các mốc thời gian khác nhau (2024 – 2026); phần dữ liệu gừng – nghệ dẫn từ số liệu ngành năm 2024 nên chỉ mang tính định hướng về quy mô thị trường, không phản ánh con số mới nhất.</p>
+
+<h3>3.4 Hành vi mua hàng theo thị trường</h3>
+<p>Hiểu cách người mua ở từng thị trường ra quyết định sẽ giúp chọn đúng cách chào hàng, đúng khối lượng và đúng loại chứng từ cần chuẩn bị trước.</p>
+<table>
+    <thead>
+        <tr><th style="width:14%;">Thị trường</th><th style="width:20%;">Kiểu người mua phổ biến</th><th style="width:22%;">Cách họ thường mua</th><th style="width:24%;">Điều họ quan tâm nhất</th><th>Cách tiếp cận phù hợp</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">Mỹ</td>
+            <td>Nhà nhập khẩu thực phẩm, nhà phân phối, thương hiệu thực phẩm chế biến</td>
+            <td>Mua theo hợp đồng từng vụ, khối lượng container; nhiều bên yêu cầu thử mẫu và kiểm nghiệm trước khi ký</td>
+            <td>Nguồn cung ổn định, chứng từ đầy đủ, kiểm nghiệm dư lượng và vi sinh, tiến độ giao hàng</td>
+            <td>Chuẩn bị hồ sơ kiểm nghiệm và chứng nhận trước; chào giá FOB theo container; nêu rõ thời gian giao</td>
+        </tr>
+        <tr>
+            <td class="rowhead">EU</td>
+            <td>Nhà nhập khẩu gia vị – nguyên liệu thực phẩm, nhà chế biến</td>
+            <td>Mua lô 1–20 tấn để thử, sau đó mở rộng; ưu tiên quan hệ dài hạn và mua lặp lại</td>
+            <td>Dư lượng thuốc bảo vệ thực vật thấp, truy xuất nguồn gốc, nhãn mác đúng quy định, chứng nhận an toàn thực phẩm</td>
+            <td>Đăng tải chứng nhận lên hồ sơ; đính kèm hồ sơ truy xuất và kết quả kiểm nghiệm khi gửi báo giá</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Trung Đông</td>
+            <td>Nhà bán buôn, nhà phân phối, thương nhân đầu mối</td>
+            <td>Đơn lớn theo container; quyết định khá nhanh; thương lượng giá là phần quan trọng nhất</td>
+            <td>Giá cạnh tranh, chứng nhận phù hợp thị trường Hồi giáo, bao bì và nhãn phù hợp, khả năng giao đúng hạn</td>
+            <td>Duy trì quan hệ qua thương nhân; chào bảng giá theo khối lượng; xác nhận trước yêu cầu chứng nhận và nhãn</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Đông Nam Á</td>
+            <td>Nhà bán buôn, nhà máy chế biến khu vực</td>
+            <td>Đơn nhỏ – trung, đặt lại định kỳ, chu kỳ đặt hàng ngắn</td>
+            <td>Giá, thời gian giao ngắn, độ linh hoạt về khối lượng tối thiểu</td>
+            <td>Duy trì khối lượng tối thiểu linh hoạt nhiều mức và phản hồi nhanh</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Trung Quốc</td>
+            <td>Thương nhân, kho ngoại quan, nhà chế biến</td>
+            <td>Mua khối lượng lớn theo vụ; giao dịch qua trung gian thương mại</td>
+            <td>Giá, mã vùng trồng, kiểm dịch thực vật, tiêu chuẩn tiếp cận thị trường</td>
+            <td>Chuẩn bị mã vùng trồng và chứng thư kiểm dịch trước khi chào hàng</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Nhật Bản / Hàn Quốc</td>
+            <td>Nhà nhập khẩu chuyên biệt, nhà bán lẻ cao cấp, nhà chế biến</td>
+            <td>Khối lượng nhỏ nhưng yêu cầu chất lượng rất cao; kiểm nghiệm khắt khe; mua lại định kỳ</td>
+            <td>Độ đồng đều của hàng, kiểm nghiệm, quy trình sản xuất và bao bì chỉn chu</td>
+            <td>Gửi kèm quy trình sản xuất, ảnh nhà máy và video để tạo tin cậy trước khi thương lượng giá</td>
+        </tr>
+    </tbody>
+</table>
+<p class="small">Nội dung trên là đặc điểm thị trường thường gặp, tổng hợp từ tài liệu ngành và quy định nhập khẩu đang được các thị trường áp dụng (xem nguồn ở cuối báo cáo). Đây là định hướng chuẩn bị, không phải cam kết về điều kiện cụ thể của từng người mua.</p>
+
+<h3 id="sec3-price">3.5 Khối lượng tối thiểu (MOQ) &amp; khoảng giá tham chiếu</h3>
+<p>Bảng dưới tổng hợp mức giá đang được các nhà cung cấp Việt Nam niêm yết trên sàn Alibaba.com và giá xuất khẩu tham chiếu của ngành, khảo sát ngày 07/10/2026. Mục đích là để Xuân Chương định vị lại mức giá và khối lượng tối thiểu của mình cho năm 2027.</p>
+<table>
+    <thead>
+        <tr><th style="width:18%;">Sản phẩm</th><th style="width:24%;">Khoảng giá niêm yết trên sàn</th><th style="width:22%;">Giá xuất khẩu tham chiếu</th><th style="width:16%;">MOQ phổ biến</th><th>Ghi chú</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="rowhead">Hồ tiêu đen 550 GL</td>
+            <td class="price-mid">$2,20 – 7,20 / kg<br><span class="small">(nhiều nhà cung cấp Việt niêm yết trong khoảng $2 – 7/kg)</span></td>
+            <td class="price-mid">$5.970 / tấn (loại 500 g/l)<br>$6.050 / tấn (loại 550 g/l)<br><span class="small">giá tham chiếu 08/2026</span></td>
+            <td>1 kg – 27 tấn<br><span class="small">(phổ biến 1 kg – 15 tấn)</span></td>
+            <td>Gian hàng Xuân Chương đang niêm yết <strong>$5,80 – 6,20/kg (MOQ 10 kg)</strong> — nằm trong hành lang cạnh tranh, có thể cân nhắc làm rõ điều kiện theo khối lượng lớn.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Hồ tiêu trắng</td>
+            <td class="price-low">— <span class="small">(ít tin đăng niêm yết riêng)</span></td>
+            <td class="price-low">$8.400 / tấn<br><span class="small">giá tham chiếu 08/2026</span></td>
+            <td>1 tấn trở lên</td>
+            <td>Biên lợi nhuận cao hơn tiêu đen đáng kể — đáng đưa vào nhóm chế biến sâu.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Xoài sấy dẻo (AD)</td>
+            <td class="price-low">$2,00 – 7,00 / kg<br><span class="small">(phổ biến $2 – 5/kg; một số nhà niêm yết hàng chọn lọc ở mức gần $15/kg)</span></td>
+            <td class="price-mid">— <span class="small">(không có giá xuất khẩu niêm yết công khai)</span></td>
+            <td>1 kg – 1.000 kg<br><span class="small">(lô lớn 10–19 tấn)</span></td>
+            <td>Khoảng giá rất rộng do khác nhau về hàm lượng đường, độ dẻo và tiêu chuẩn. Cần nêu rõ thông số để thoát nhóm giá thấp.</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Gừng tươi &amp; gừng khô</td>
+            <td colspan="3" class="center"><span class="tag blue">Chưa có nguồn niêm yết cập nhật trong kỳ khảo sát này</span></td>
+            <td>Nhu cầu ổn định từ EU, Mỹ, Ấn Độ, Bangladesh, Trung Quốc. Đề nghị khảo sát giá trực tiếp theo vụ (gừng tươi dồi dào T11–T2).</td>
+        </tr>
+        <tr>
+            <td class="rowhead">Trái cây tươi<br><span class="small">(bơ, chanh dây, vải, chuối, măng cụt, vú sữa, xoài)</span></td>
+            <td colspan="3" class="center"><span class="tag blue">Không niêm yết theo kg — báo giá theo container</span></td>
+            <td>Hàng tươi thường được báo giá theo container và biến động mạnh theo vụ, chi phí logistics và điều kiện bảo quản. Xem thêm lịch mùa vụ ở phần 2.7 để chào hàng đúng thời điểm.</td>
+        </tr>
+    </tbody>
+</table>
+<p class="small">Nguồn giá niêm yết: khảo sát các tin đăng của nhà cung cấp trên Alibaba.com ngày 07/10/2026. Nguồn giá xuất khẩu tham chiếu: dữ liệu ngành hồ tiêu và báo chí ngành, 08/2026. Giá niêm yết trên sàn mang tính tham chiếu và thay đổi theo mùa vụ, khối lượng và điều kiện giao hàng.</p>
+
+<div class="highlight-box">
+    <strong>Cách đọc bảng giá:</strong> một số tin đăng niêm yết khối lượng tối thiểu rất nhỏ (1 kg) với giá thấp — đây thường là mức giá để thu hút liên hệ ban đầu; khi vào đàm phán thực tế, nhà cung cấp thường yêu cầu đơn ở mức lô hoặc container. Vì vậy khi so sánh, nên quy về cùng một mức khối lượng (ví dụ: lô 1 tấn hoặc 1 container) và cùng điều kiện giao hàng (FOB/CIF) thì mới phản ánh đúng sức cạnh tranh.
+</div>
+
+<h3 id="sec3-ref">3.6 Tham chiếu trực tiếp trên Alibaba.com — bấm để mở</h3>
+<p>Tất cả ô dưới đây là liên kết thật, bấm vào sẽ mở trang tương ứng trên Alibaba.com ở tab mới. Phần <strong>(a)</strong> dẫn thẳng vào gian hàng và các sản phẩm của Xuân Chương; phần <strong>(b)</strong> và <strong>(c)</strong> là tin đăng của các nhà cung cấp Việt Nam cùng nhóm hàng, dùng làm tham chiếu giá và khối lượng tối thiểu. Giá và khối lượng được ghi nhận ngày <strong>07/10/2026</strong>.</p>
+
+<h4>a) Gian hàng và sản phẩm của Xuân Chương</h4>
+<div class="link-row">
+    <a class="link-chip own" href="https://xuanchuong.trustpass.alibaba.com/" target="_blank" rel="noopener">Gian hàng (mini-site) ↗</a>
+    <a class="link-chip" href="https://vn19072240151lmzp.trustpass.alibaba.com/productlist.html" target="_blank" rel="noopener">Toàn bộ danh mục sản phẩm ↗</a>
+    <a class="link-chip" href="https://xuanchuong.trustpass.alibaba.com/company_profile.html" target="_blank" rel="noopener">Hồ sơ công ty ↗</a>
+    <a class="link-chip" href="https://xuanchuong.trustpass.alibaba.com/company_profile/trade_history.html" target="_blank" rel="noopener">Lịch sử giao dịch ↗</a>
+    <a class="link-chip" href="https://www.alibaba.com/product-detail/Raw-Dried-Black-Pepper-Whole-Round_1601963652023.html" target="_blank" rel="noopener">Sản phẩm tiêu đen (trang sản phẩm) ↗</a>
+</div>
+<div class="ref-grid">
+    <a class="ref-card own" href="https://www.alibaba.com/product-detail/Vietnam-AD-Raw-Dried-Black-Pepper_1601763718492.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/H446a54cdec354947ab9f2c9f4d6e569bJ.jpg_640x640.jpg" alt="Tiêu đen AD nguyên hạt Xuân Chương" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Vietnam AD Raw Dried Black Pepper High Quality 100% Natural 1kg 500g/L</span>
+            <span class="ref-supplier">XUAN CHUONG IMPORT AND EXPORT TRADING COMPANY LIMITED</span>
+            <span class="ref-price">$5,80 – 6,20 · MOQ 10 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card own" href="https://www.alibaba.com/product-detail/Premium-AD-Raw-Dried-Vietnam-Black_1601681875024.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/Hf43c2c73ba584b8db11c031dce8bf04fH/Premium-AD-Raw-Dried-Vietnam-Black-White.jpg_350x350.jpg" alt="Tiêu đen trắng ASTA Xuân Chương" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Premium AD Raw Dried Vietnam Black &amp; White Pepper ASTA Grade, độ ẩm 12,5%, bao 25/50 kg</span>
+            <span class="ref-supplier">XUAN CHUONG IMPORT AND EXPORT TRADING COMPANY LIMITED</span>
+            <span class="ref-price">500 – 580 g/l · xem giá trên tin đăng</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card own" href="https://www.alibaba.com/product-detail/Fresh-Raw-100-Fresh-Yellow-Fragrant_1601669920207.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/H482d3509ef92472aaf25733903cd7c70P/Fresh-Raw-100-Fresh-Yellow-Fragrant-Spicy.jpg_350x350.jpg" alt="Gừng tươi Xuân Chương" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Fresh Raw 100% Yellow Fragrant Ginger — gia vị, đồ uống, chế biến thực phẩm</span>
+            <span class="ref-supplier">XUAN CHUONG IMPORT AND EXPORT TRADING COMPANY LIMITED</span>
+            <span class="ref-price">Vụ chính T11 – T2 · xem giá trên tin đăng</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card own" href="https://www.alibaba.com/product-detail/High-Quality-Vietnamese-Fresh-Lychee-Fruit_1601681718729.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/H9466b4bc060b49b5b5bff03c9489d913m/High-Quality-Vietnamese-Fresh-Lychee-Fruit-100.jpg_350x350.jpg" alt="Vải thiều Xuân Chương" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Vietnamese Fresh Lychee Fruit, Brix 18%, size Medium/Large, bảo quản 2–5°C, thùng carton</span>
+            <span class="ref-supplier">XUAN CHUONG IMPORT AND EXPORT TRADING COMPANY LIMITED</span>
+            <span class="ref-price">Vụ chính T5 – T7 · xem giá trên tin đăng</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card own" href="https://www.alibaba.com/product-detail/Premium-Vietnam-Fresh-White-Garlic-Dried_1601681817400.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/Hea09b2bafb60412b84019d2479d22dfaC/Premium-Vietnam-Fresh-White-Garlic-Dried-Grade.jpg_350x350.jpg" alt="Tỏi trắng Xuân Chương" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Vietnam Fresh White Garlic, size 4,5 cm+ / 5,0 cm+, độ ẩm 65%, hạn dùng 12 tháng</span>
+            <span class="ref-supplier">XUAN CHUONG IMPORT AND EXPORT TRADING COMPANY LIMITED</span>
+            <span class="ref-price">Xem giá trên tin đăng</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+</div>
+
+<h4>b) Đối thủ tham chiếu — hồ tiêu đen 550 GL</h4>
+<div class="ref-grid">
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/Premium-Vietnam-Whole-Black-Pepper-550_10000037719692.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/A5f2cabd91c5f46f6a7ab008316b48472T.jpeg_640x640.jpeg" alt="Tiêu đen PHALCO" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Premium Vietnam Whole Black Pepper 550 GL Dried AD Raw Pinhead Cracked Grounded CMARK</span>
+            <span class="ref-supplier">PHALCO VIET NAM IMPORT – EXPORT JOINT STOCK COMPANY · 11 năm</span>
+            <span class="ref-price">$3,90 · MOQ 1.000 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/EXPORT-ALL-KINDS-BEST-PRICE-BLACK_11000001036861.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/S3960e74cf3194e7abd7b19791e96abedu.jpg_640x640.jpg" alt="Tiêu đen Agrikim" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">EXPORT ALL KINDS BEST PRICE BLACK PEPPER 580/570/550/500 GL MC/FAQ VIETNAM</span>
+            <span class="ref-supplier">AGRIKIM IMPORT AND EXPORT JOINT STOCK COMPANY · 8 năm</span>
+            <span class="ref-price">$5.900 – 6.000 · MOQ 16 tấn</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/PREMIUM-BLACK-PEPPER-CORN-500GL-550GL_10000040580409.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/S82b96c9c0b1f416e8e26d5d41f4414b3p.jpg_640x640.jpg" alt="Tiêu đen Vilaconic" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">PREMIUM BLACK PEPPER CORN 500GL 550GL 570GL 5MM ASTA CLEAN QUALITY</span>
+            <span class="ref-supplier">VILACONIC · 13 năm · đánh giá 4,8/5</span>
+            <span class="ref-price">$2,32 – 2,98 · MOQ 1 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/Vietnam-Super-Quality-Top-Grade-550_10000007711211.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/U1033951dce27439fad1e97edfd4d907dc.jpeg_640x640.jpeg" alt="Tiêu đen GTMEX" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Vietnam Super Quality Top Grade 550 GL AD Dried Black Pepper in Whole</span>
+            <span class="ref-supplier">GTMEX JOINT STOCK COMPANY · 8 năm · đánh giá 4,9/5</span>
+            <span class="ref-price">$2 – 3 · MOQ 1 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/VIETNAMESE-DRIED-BLACK-PEPPER-EU-STANDARD_10000047262779.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/S6ca16c6ad76d4f49afb5ee8da9b59737U.jpg_640x640.jpg" alt="Tiêu đen HDVIEW" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">VIETNAMESE DRIED BLACK PEPPER — EU STANDARD, 550 GL, NEW CROP</span>
+            <span class="ref-supplier">HDVIEW VIETNAM TRADE COMPANY LIMITED</span>
+            <span class="ref-price">$3,80 – 6,20 · MOQ 1 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/New-Season-Organic-BRC-Certified-Raw_10000025000815.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/A8d34846850fb4c43a4a96346b4d04fb7q.jpg_640x640.jpg" alt="Tiêu đen Hanfimex" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">New Season Organic BRC Certified Raw Spicy Black Pepper 500/550 GL 100% Natural</span>
+            <span class="ref-supplier">VIET NAM HANFIMEX GROUP JOINT STOCK COMPANY · 13 năm</span>
+            <span class="ref-price">$2.000 – 3.000 · MOQ 15 tấn</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+</div>
+
+<h4>c) Đối thủ tham chiếu — xoài sấy dẻo</h4>
+<div class="ref-grid">
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/Bulk-Wholesale-Dried-Mango-Cheeks-Export_10000042279518.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/Af155b3b2314744c38745458e6f2205a3e.jpeg_640x640.jpeg" alt="Xoài sấy Viet Delta" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Bulk Wholesale Dried Mango Cheeks — Export Quality Tropical Dried Fruit</span>
+            <span class="ref-supplier">VIET D.E.L.T.A INDUSTRIAL CO., LTD</span>
+            <span class="ref-price">$3 – 5 · MOQ 10 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/100-Natural-Soft-Dried-Mango-Strips_10000047858061.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/S29e16d52723643cfa420030e99d3c3beC.jpg_640x640.jpg" alt="Xoài sấy 99 Gold Data" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">100% Natural Soft Dried Mango Strips — No Added Sugar, Chewy Mango Slices</span>
+            <span class="ref-supplier">99 GOLD DATA · 6 năm · đánh giá 4,4/5</span>
+            <span class="ref-price">$3,50 – 4,25 · MOQ 1 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/Dried-Mango-Packing-500gram-Soft-Slices_10000032705916.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/A60d182afb7b54f02801c70da7f8883e3I.jpg_640x640.jpg" alt="Xoài sấy 99 Gold Data 500g" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Dried Mango Packing 500 gram — Soft Slices, Naturally Sweet and Tangy</span>
+            <span class="ref-supplier">99 GOLD DATA · 8 năm · đánh giá 4,7/5</span>
+            <span class="ref-price">$2 – 3 · MOQ 1 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/-HIGH-QUALITY-Soft-Dried-Mango_10000047884480.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/Aeea5e8c885a841eaa2d501f09bc1a1f0f.png_640x640.png" alt="Xoài sấy Blue Lotus Farm" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Soft Dried Mango Slices Low Sugar — Tropical Dried Fruit</span>
+            <span class="ref-supplier">BLUE LOTUS FARM COMPANY LIMITED · 2 năm · đánh giá 4,5/5</span>
+            <span class="ref-price">$0,95 – 1,10 · MOQ 50 phần</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/Wholesaler-Dry-Soft-Mango-Fruit-Direct_62024495160.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/A43878b1a2e744b8385cfda78eba73d5c3.jpg_640x640.jpg" alt="Xoài sấy Gia Gia Nguyen" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Wholesaler Dry Soft Mango Fruit Direct From Factory — Natural, No Additives</span>
+            <span class="ref-supplier">GIA GIA NGUYEN CO., LTD · 14 năm</span>
+            <span class="ref-price">$4 – 6 · MOQ 1.000 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/Premium-Soft-Dried-Mango-100-Natural_10000020587974.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/Sd686b4deafac45490fbccee8fdea4dda.png_640x640.png" alt="Xoài sấy V.KAUS" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Premium Soft Dried Mango: 100% Natural, No Additives, Vietnam Origin</span>
+            <span class="ref-supplier">V.KAUS COMPANY LIMITED · 5 năm · Verified</span>
+            <span class="ref-price">$6 – 17 · MOQ 2 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/Organic-Yellow-Tropical-Fruit-Sliced-Mango_10000023549173.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/A8764c36412214f95ab9280b87b0c6370j.jpeg_640x640.jpeg" alt="Xoài sấy Mekong River" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">Organic Yellow Tropical Fruit Sliced Mango — Original Flavor, Premium Soft Dried</span>
+            <span class="ref-supplier">MEKONG RIVER IMEX CO., LTD · 5 năm</span>
+            <span class="ref-price">$4,50 – 6,90 · MOQ 1.000 kg</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+    <a class="ref-card" href="https://www.alibaba.com/product-detail/High-Quality-Non-Sugar-Natural-Mango_11000011567010.html" target="_blank" rel="noopener">
+        <img src="https://s.alicdn.com/@sc04/kf/Aa970f08efeb349c78edc87e95829115dm.jpg_640x640.jpg" alt="Xoài sấy Agrikim" loading="lazy">
+        <div class="ref-body">
+            <span class="ref-title">High Quality Non-Sugar Natural Mango Dried — Soft Sliced, Syrup Preserved</span>
+            <span class="ref-supplier">AGRIKIM.,JSC · 6 năm</span>
+            <span class="ref-price">$2.500 – 3.000 · MOQ 19 tấn</span>
+            <span class="ref-open">Mở trên Alibaba.com ↗</span>
+        </div>
+    </a>
+</div>
+
+<div class="highlight-box info">
+    <p><strong>Cách đọc giá và khối lượng trên các ô này:</strong> Alibaba.com hiển thị theo dạng "đơn giá · số lượng đặt tối thiểu", và đơn vị tính có thể khác nhau giữa các tin đăng (kg, tấn, phần, bao, thùng). Cùng một sản phẩm, tin đăng có MOQ nhỏ thường niêm yết giá cao hơn, còn tin đăng MOQ lớn niêm yết theo tấn với đơn giá thấp hơn đáng kể. Vì vậy khi so sánh, cần quy về cùng đơn vị và cùng điều kiện giao hàng (FOB hoặc CIF). Giá hiển thị ở đây là mức niêm yết tại thời điểm 07/10/2026, có thể thay đổi theo mùa vụ.</p>
+    <p><strong>Nhận xét nhanh cho Xuân Chương:</strong> với hồ tiêu đen 550 GL, mức niêm yết của gian hàng ($5,80 – 6,20/kg, MOQ 10 kg) nằm <em>ở đoạn giữa – cao</em> của hành lang: thấp hơn nhóm niêm yết giá cao ($6,30 – 7,20/kg) nhưng cao hơn nhóm chào giá thấp ($2,32 – 3,90/kg) — nhóm này thường bán ở MOQ rất nhỏ (1 kg) và không kèm chứng nhận. Với xoài sấy, giá phổ biến đang ở mức $2 – 5/kg với MOQ từ 1 kg, trong khi hàng chọn lọc có thể lên gần $15/kg. Điều này cho thấy <strong>cách định giá theo khối lượng và theo tiêu chuẩn chất lượng</strong> sẽ quan trọng hơn việc giảm giá đơn thuần.</p>
+</div>
+
+<h3>3.7 Hàm ý cho Xuân Chương</h3>
+<div class="two-col">
+    <div>
+        <h4>Cơ hội nên nắm</h4>
+        <ul>
+            <li><strong>Trung Đông là thị trường dễ mở rộng nhất</strong> — đã có 2 khách Ả Rập Xê Út và 20% doanh thu từ khu vực này. Tập trung khai thác trước.</li>
+            <li><strong>EU có lợi thế thuế 0% theo EVFTA</strong> cho hồ tiêu và gia vị — nên đưa thông tin này vào nội dung sản phẩm để tăng sức hút.</li>
+            <li><strong>Thị trường Mỹ đang mua hồ tiêu Việt Nam nhiều nhất</strong> — nhưng gian hàng chưa có khách Mỹ nào. Đây là khoảng trống lớn nhất.</li>
+            <li><strong>Nhóm chế biến sâu</strong> (tiêu trắng, tiêu xay, gừng khô, xoài sấy) có giá trị đơn hàng cao hơn và bán quanh năm — phù hợp để tăng doanh thu mà không phụ thuộc mùa vụ.</li>
+        </ul>
+    </div>
+    <div>
+        <h4>Việc cần làm trước khi chào hàng</h4>
+        <ul>
+            <li><strong>Đăng tải chứng nhận và hồ sơ truy xuất</strong> — điều kiện tiên quyết với mọi thị trường, đặc biệt EU và Mỹ.</li>
+            <li><strong>Chuẩn hoá bảng giá theo khối lượng</strong> (mẫu / 1 tấn / container) thay vì một mức giá duy nhất, để phù hợp cách mua của từng thị trường.</li>
+            <li><strong>Cập nhật thông số kỹ thuật rõ ràng</strong> trên từng sản phẩm (độ ẩm, kích cỡ hạt, tiêu chuẩn, quy cách đóng gói) để tách khỏi nhóm giá thấp.</li>
+            <li><strong>Bổ sung mô tả sản phẩm bằng tên thay vì mã ngành</strong> trong phần danh mục chính của hồ sơ công ty, giúp người mua nhận diện nhanh hơn.</li>
+        </ul>
+    </div>
+</div>
+
+<h2>Thông điệp kết luận</h2>
+<div class="highlight-box success">
+    <p>Năm đầu tiên, Xuân Chương đã làm được phần việc nặng nhất: xây dựng <strong>235 sản phẩm</strong> được lập chỉ mục, đưa gian hàng vào đúng nhóm ngành có lợi thế của Việt Nam, và có được <strong>12 cơ hội kinh doanh cùng 8 khách chuyên nghiệp mỗi tháng</strong>. Đây là tài sản không thể mua lại — chỉ có thể tích luỹ theo thời gian.</p>
+    <p>Điều còn thiếu nằm ở <strong>bước cuối cùng</strong>: đưa khách đã hỏi hàng thành đơn hàng, và nâng chất lượng nhóm sản phẩm chủ lực để giành vị trí hiển thị tốt hơn. Đây đều là các việc <em>có thể bắt đầu ngay, chi phí thấp</em> và đã có lộ trình cụ thể ở phần 2.</p>
+    <p>Với nền tảng hiện có, mục tiêu đặt ra cho năm 2027 — <strong>300 sản phẩm đạt chuẩn chất lượng, 300 khách truy cập mỗi tháng, 1–2 đơn đầu tiên trong quý I và bậc sao 3★ trong năm</strong> — là mục tiêu phù hợp và có cơ sở. Nhưng để bắt đầu từ điểm đã có, dịch vụ cần được <strong>gia hạn trước ngày 28/12/2026</strong>: khi gian hàng còn hoạt động liên tục, mọi thứ đã tích luỹ vẫn còn nguyên giá trị và có thể dùng làm bàn đạp. Khi gian hàng ngừng, chi phí để quay lại điểm xuất phát hiện tại sẽ cao hơn rất nhiều.</p>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+    <p><strong>Nguồn dữ liệu chính</strong></p>
+    <p><strong>1. Dữ liệu gian hàng và dịch vụ (truy cập 07/10/2026):</strong> Báo cáo gia hạn từ sàn Alibaba.com — chỉ số 30 ngày và 180 ngày, phân tích bốn trụ năng lực, mức sử dụng quyền lợi, xu hướng vận hành 01–09/2026, vùng tiềm năng năm thứ hai. Bổ sung: hệ thống CRM dịch vụ khách hàng (hồ sơ dịch vụ, chỉ số người mua, cảnh báo rủi ro, nhật ký chăm sóc).</p>
+    <p><strong>2. Khảo sát gian hàng công khai (07/10/2026):</strong> <a href="https://xuanchuong.trustpass.alibaba.com/">xuanchuong.trustpass.alibaba.com</a> và trang hồ sơ công ty, trang lịch sử giao dịch, danh mục sản phẩm của gian hàng.</p>
+    <p><strong>3. Khảo sát giá và khối lượng tối thiểu (07/10/2026):</strong> các tin đăng của nhà cung cấp Việt Nam trên Alibaba.com cho nhóm sản phẩm hồ tiêu và trái cây sấy.</p>
+    <p><strong>4. Nghiên cứu thị trường ngành:</strong> <a href="https://nhandan.vn/rau-qua-viet-nam-huong-toi-moc-xuat-khau-10-ty-usd-post934252.html">Nhân Dân — Rau quả Việt Nam hướng tới mốc xuất khẩu 10 tỷ USD</a>; <a href="https://thitruongtaichinhtiente.vn/xuat-khau-rau-qua-tang-toc-trung-quoc-hoa-ky-va-eu-la-cac-nhan-to-chinh-thuc-day-tang-truong-83833.html">Thị trường Tài chính Tiền tệ — Xuất khẩu rau quả tăng tốc</a>; <a href="https://www.vietnamplus.vn/xuat-khau-ho-tieu-cua-ca-nuoc-trong-5-thang-nam-2026-duy-tri-tang-truong-kha-post1115244.vnp">VietnamPlus — Xuất khẩu hồ tiêu 5 tháng 2026</a>; <a href="https://trangtraiviet.danviet.vn/6-thang-dau-nam-2026-hoa-ky-tiep-tuc-la-thi-truong-xuat-khau-hat-tieu-lon-nhat-cua-viet-nam-d1444123.html">Trang trại Việt — Hoa Kỳ là thị trường xuất khẩu hạt tiêu lớn nhất</a>; <a href="https://trangtraiviet.danviet.vn/xuat-khau-ho-tieu-khoi-sac-trong-7-thang-dau-nam-gia-dang-co-xu-huong-tang-d1449915.html">Trang trại Việt — Giá xuất khẩu hồ tiêu theo chủng loại</a>; <a href="https://giahotieu.com/cac-nuoc-xuat-khau-ho-tieu-lon-tren-the-gioi/">Các nước xuất khẩu hồ tiêu lớn trên thế giới</a>; <a href="https://moit.gov.vn/tin-tuc/thi-truong-nuoc-ngoai/hiep-dinh-evfta/xuat-khau-ho-tieu-sang-eu-con-nhieu-co-hoi-nho-loi-the-tu-evfta.html">Bộ Công Thương — Cơ hội xuất khẩu hồ tiêu sang EU nhờ EVFTA</a>; <a href="https://doanhnghiepkinhtexanh.vn/gia-tieu-hom-nay-4102026-cao-nhat-140500-dongkg-a54195.html">Giá tiêu ngày 04/10/2026</a>; <a href="https://thoibaotaichinhvietnam.vn/sps-siet-chuan-doanh-nghiep-xuat-khau-phai-di-truoc-mot-buoc-204040-204040.html">Thời báo Tài chính Việt Nam — SPS siết chuẩn, doanh nghiệp xuất khẩu phải đi trước một bước</a>; <a href="https://dansinh.dantri.com.vn/dien-dan-dan-sinh/vi-sao-cu-gung-nghe-viet-nam-duoc-san-lung-voi-gia-cao-o-an-do-20240715174555447.htm">Dân trí — Thị trường nhập khẩu gừng, nghệ của Việt Nam (2024)</a>.</p>
+    <p><strong>Nguyên tắc trình bày số liệu:</strong> các chỉ số được ghi kèm mốc thời gian và nguồn tương ứng. Các hệ thống dữ liệu (báo cáo gia hạn, CRM dịch vụ, gian hàng công khai) chốt số ở thời điểm khác nhau, nên một số chỉ số có thể chênh lệch giữa các nguồn — trong trường hợp đó báo cáo ghi rõ kỳ dữ liệu thay vì gộp chung.</p>
+    <p>Báo cáo được lập cho mục đích tư vấn vận hành gian hàng. Ngày lập: 07/10/2026.</p>
+</div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var months = ['01/26','02/26','03/26','04/26','05/26','06/26','07/26','08/26','09/26'];
+    var ipv    = [62, 293, 97, 148, 84, 190, 306, 208, 160];
+    var ab     = [0, 3, 19, 2, 7, 19, 23, 12, 18];
+    var l2     = [0, 0, 9, 2, 0, 7, 14, 6, 11];
+    var ord    = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var prods  = [1, 103, 103, 134, 208, 231, 233, 234, 235];
+    var login  = [5, 10, 16, 20, 25, 23, 11, 8, 5];
+
+    var c1 = document.getElementById('chartTrend');
+    if (c1) {
+        new Chart(c1, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [
+                    { label: 'Lượt xem sản phẩm (IPV)', data: ipv, borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,0.08)', fill: true, tension: 0.35, pointRadius: 4, yAxisID: 'y' },
+                    { label: 'Cơ hội kinh doanh', data: ab, borderColor: '#ff6f00', backgroundColor: 'rgba(255,111,0,0.05)', tension: 0.35, pointRadius: 4, yAxisID: 'y1' },
+                    { label: 'Khách L2+', data: l2, borderColor: '#2e7d32', tension: 0.35, pointRadius: 4, yAxisID: 'y1' },
+                    { label: 'Đơn hàng', data: ord, borderColor: '#c62828', borderDash: [5, 3], tension: 0.35, pointRadius: 4, yAxisID: 'y1' }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: { legend: { position: 'top' } },
+                scales: {
+                    y:  { type: 'linear', position: 'left',  beginAtZero: true, title: { display: true, text: 'Lượt xem sản phẩm', color: '#1565c0' }, grid: { color: '#eef2ee' } },
+                    y1: { type: 'linear', position: 'right', beginAtZero: true, suggestedMax: 30, title: { display: true, text: 'Cơ hội KD / khách L2+ / đơn', color: '#ff6f00' }, grid: { drawOnChartArea: false } }
+                }
+            }
+        });
+    }
+
+    var c2 = document.getElementById('chartOps');
+    if (c2) {
+        new Chart(c2, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [
+                    { label: 'Sản phẩm hợp lệ', data: prods, backgroundColor: '#1a472a', borderRadius: 3, yAxisID: 'y' },
+                    { label: 'Ngày đăng nhập', data: login, type: 'line', borderColor: '#ff6f00', backgroundColor: 'rgba(255,111,0,0.08)', tension: 0.35, pointRadius: 4, yAxisID: 'y1' }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: { legend: { position: 'top' } },
+                scales: {
+                    y:  { type: 'linear', position: 'left',  beginAtZero: true, title: { display: true, text: 'Sản phẩm', color: '#1a472a' }, grid: { color: '#eef2ee' } },
+                    y1: { type: 'linear', position: 'right', beginAtZero: true, suggestedMax: 30, title: { display: true, text: 'Ngày đăng nhập', color: '#ff6f00' }, grid: { drawOnChartArea: false } }
+                }
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>
