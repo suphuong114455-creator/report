@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo cáo Maydon · 09/2026 · CN/VI</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#22303a; --muted:#5a6a74; --line:#e2e8ee; --card:#ffffff;
+    --brand:#1c4e6e; --brand2:#c56443; --ok:#2e7d5b; --warn:#b3541e;
+    --soft:#eef4f8; --bg:#f5f7fa; --gold:#b98a2f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",-apple-system,"Noto Sans","Helvetica Neue",Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 60px}
+  .hero{background:linear-gradient(120deg,#123a44 0%,#1c5a6e 55%,#2c7f8f 100%);color:#fff;padding:34px 0 30px}
+  .hero .topline{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12.5px;margin-bottom:10px}
+  .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:2px 10px;border-radius:20px;font-weight:500}
+  .badge.gold{background:#b98a2f;border-color:#d8b45c}
+  .badge.alert{background:#c56443;border-color:#e0956f}
+  h1{font-size:25px;margin:6px 0 2px;letter-spacing:.2px;font-weight:600}
+  .sub{font-size:14px;opacity:.93;margin-bottom:14px}
+  .meta{font-size:12.5px;opacity:.88;display:flex;flex-wrap:wrap;gap:14px}
+  .controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:22px 0 18px;justify-content:space-between}
+  .tabs{display:inline-flex;background:#e6edf2;border-radius:12px;padding:4px;gap:4px}
+  .tabs button{border:0;background:transparent;padding:8px 20px;border-radius:9px;font-size:14px;font-weight:600;color:#3d4a52;cursor:pointer}
+  .tabs button.on{background:#fff;color:var(--brand);box-shadow:0 1px 4px rgba(20,45,65,.16)}
+  .langswitch{display:inline-flex;background:#e6edf2;border-radius:12px;padding:4px;gap:4px}
+  .langswitch button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-size:13.5px;font-weight:600;color:#3d4a52;cursor:pointer}
+  .langswitch button.on{background:var(--brand);color:#fff}
+  .panel{display:none}
+  body[data-mod="1"] .mod1{display:block}
+  body[data-mod="2"] .mod2{display:block}
+  body[data-lang="vi"] .cn{display:none!important}
+  body[data-lang="cn"] .vi{display:none!important}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:16px 0;box-shadow:0 1px 3px rgba(20,45,65,.05)}
+  h2{font-size:19px;margin:26px 0 4px;color:var(--brand);display:flex;align-items:center;gap:10px}
+  h2 .n{background:var(--brand);color:#fff;font-size:13px;width:26px;height:26px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 26px}
+  h3{font-size:15.5px;margin:18px 0 8px}
+  h4{font-size:14px;margin:14px 0 6px}
+  p{margin:8px 0;font-size:14px}
+  .lead{font-size:13.5px;color:var(--muted);margin:2px 0 10px}
+  ul,ol{margin:8px 0;padding-left:22px;font-size:14px}
+  li{margin:5px 0}
+  .tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:12px;margin-right:6px;margin-bottom:6px}
+  .tag.g{background:#e8f3ec;color:var(--ok);border:1px solid #c2e0cf}
+  .tag.w{background:#fbeadf;color:var(--warn);border:1px solid #f0cbb2}
+  .tag.b{background:var(--soft);color:var(--brand);border:1px solid #cfe0ea}
+  .good{color:var(--ok);font-weight:600}.bad{color:var(--warn);font-weight:600}
+  .twrap{overflow-x:auto;margin:12px 0}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:700px}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:middle}
+  th{background:#eef2f5;color:#3d4a52;font-weight:600;white-space:nowrap}
+  td.r,th.r{text-align:right}
+  figure{margin:14px 0 4px;text-align:center}
+  figure img{max-width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+  figcaption{font-size:12px;color:var(--muted);margin-top:6px;text-align:left}
+  .imgs2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.imgs2{grid-template-columns:1fr}}
+  .chartbox{position:relative;height:290px;margin:6px 0}
+  .src{font-size:11.5px;color:#8a97a1}
+  .note{background:#f7f4ec;border:1px solid #e8dfc9;border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0}
+  .note.blue{background:#eef4f8;border-color:#cfe0ea}
+  .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:#8a97a1}
+  .grid-prof{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px;margin:10px 0}
+  .prof-item{background:var(--soft);border:1px solid #d5e2ea;border-radius:10px;padding:8px 12px;font-size:13px}
+  .prof-item b{display:block;color:var(--brand);font-size:13.5px}
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}
+  @media(max-width:860px){.statrow{grid-template-columns:1fr 1fr}}
+  .stat{background:var(--soft);border:1px solid #d5e2ea;border-radius:10px;padding:9px 12px}
+  .stat .v{font-size:16px;font-weight:700;color:var(--brand)}
+  .stat .k{font-size:11.5px;color:var(--muted);line-height:1.35}
+  .stat.warn{background:#fbeee4;border-color:#f0d3bc}
+  .stat.warn .v{color:var(--brand2)}
+  .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:10px;margin-left:6px}
+  .pill.p0{background:#a03d18;color:#fff}.pill.p1{background:#c68e31;color:#fff}.pill.p2{background:#6f8854;color:#fff}
+</style>
+</head>
+<body data-lang="vi" data-mod="1">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="topline">
+      <span class="badge gold">GOLD SUPPLIER · 2 YRS</span>
+      <span class="badge">Trade Assurance</span>
+      <span class="badge">Home &amp; Garden · Bồn tắm &amp; thiết bị phòng tắm</span>
+      <span class="badge"><span class="vi">Không chạy quảng cáo (KWA = 0)</span><span class="cn">未投放广告（KWA = 0）</span></span>
+      <span class="badge alert" style="margin-left:auto"><span class="vi">Star Rating 09/2026: 0★ — sắp đạt 1★</span><span class="cn">2026年9月星等级：0★ — 即将达 1★</span></span>
+    </div>
+    <h1>CONG TY TNHH BON TAM MAYDON</h1>
+    <div class="sub"><span class="vi">Báo cáo gian hàng &amp; thị trường ngành · kỳ 09/2026 (dữ liệu CRM) · kèm nhiệm vụ trọng tâm tháng tới</span><span class="cn">店铺与行业市场报告 · 2026年9月（CRM 数据）· 附下月重点任务</span></div>
+    <div class="meta">
+      <span><span class="vi">Ngày lập:</span><span class="cn">报告日期:</span> 14/10/2026</span>
+      <span><span class="vi">Member ID:</span><span class="cn">Member ID:</span> vn19070517790roby</span>
+      <span><span class="vi">Khu vực:</span><span class="cn">所在地:</span> Bình Dương · Tân Uyên</span>
+      <span><span class="vi">Sản phẩm đang hoạt động:</span><span class="cn">在线商品:</span> 315</span>
+      <span><span class="vi">Gia hạn:</span><span class="cn">到期日:</span> 2027-07-07</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="tabs" role="tablist">
+      <button id="modbtn1" class="on" onclick="setMod(1)"><span class="vi">Module 1 · Tổng quan gian hàng</span><span class="cn">模块一 · 店铺总览</span></button>
+      <button id="modbtn2" onclick="setMod(2)"><span class="vi">Module 2 · Thị trường &amp; số liệu ngành</span><span class="cn">模块二 · 行业市场与数据</span></button>
+    </div>
+    <div class="langswitch">
+      <button id="langvi" class="on" onclick="setLang('vi')">Tiếng Việt</button>
+      <button id="langcn" onclick="setLang('cn')">中文</button>
+    </div>
+  </div>
+
+  <!-- ================= MODULE 1 · VI ================= -->
+  <section class="panel mod1 vi">
+    <h2><span class="n">1</span><span>Tổng quan gian hàng · kỳ 09/2026</span></h2>
+    <p class="lead">Nguồn: 7 ảnh chụp CRM do đội dịch vụ cung cấp (14/10/2026) — Star Rating, Store's performance 04–09/2026, Membership Privileges, Product &amp; Trade Assurance Performance, Business Opportunities Performance, Product Aggregation 12–30/09/2026; thông tin định danh đối chiếu trực tiếp trên CRM.</p>
+
+    <div class="card">
+      <h3>1.1 Tóm tắt nhanh</h3>
+      <div class="grid-prof">
+        <div class="prof-item"><b>Gian hàng</b>CONG TY TNHH BON TAM MAYDON · Manufacturer · Home &amp; Garden — bồn tắm &amp; thiết bị phòng tắm: Solid Surface / Acrylic Bathtub, Solid Surface Basin, Vanity, Cabinet, Stone Bench · Gold Supplier 2 năm · Trade Assurance: on</div>
+        <div class="prof-item"><b>Hạng sao</b>Hiện tại <b>0★</b> (dự báo 0★, "Healthy") · Product <b>2/5</b> (351 SP) · Marketing <b>0/5</b> (141 khách/30 ngày) · Service <b>1/5</b> (9 người mua) · Sales <b>2/5</b> (GMV 90 ngày 0 USD)</div>
+        <div class="prof-item"><b>Điểm mạnh nổi bật</b>Tăng <b>118 SP mới</b> trong tháng (tổng 315 SP, +59,9% MoM) · tỷ lệ phản hồi <b>100%</b> và thời gian phản hồi <b>0,77h</b> (tốt hơn cả nhóm dẫn đầu 1,28h) · <b>14/15 người mua là L2+</b></div>
+        <div class="prof-item"><b>Điểm nghẽn chính</b>Traffic rất thấp: <b>3.439</b> lượt hiển thị (≈7% TB ngành) · chuyển đổi thấp: 1 inquiry, <b>0 đơn</b>, GMV 90 ngày = 0 USD · Top chỉ 2 SP, Super 0</div>
+      </div>
+      <div class="statrow">
+        <div class="stat warn"><div class="v">3.439</div><div class="k">Hiển thị tìm kiếm T9 (TB ngành 48.969 · dẫn đầu 233.536) — chỉ ~7% TB ngành</div></div>
+        <div class="stat"><div class="v">2,30%</div><div class="k">CTR T9 (79 click / 3.439 hiển thị) — <b>cao hơn</b> TB ngành 2,14%</div></div>
+        <div class="stat"><div class="v">0,77h</div><div class="k">Thời gian phản hồi T9 · tỷ lệ phản hồi 100% (TB ngành 3,93h · 91,99%)</div></div>
+        <div class="stat warn"><div class="v">1 / 0</div><div class="k">Inquiry T9 / đơn hàng TA T9 · GMV 90 ngày 0 USD</div></div>
+      </div>
+      <div class="note blue"><b>Mục tiêu ngắn hạn đã rất gần:</b> hạng sao sẽ đạt <b>1★</b> khi tiêu chí Marketing chạm mốc 150 khách/30 ngày (đang 141 — cần thêm ~10 khách) và tiêu chí Service chạm mốc 10 người mua đã phản hồi (đang 9 — cần thêm 1).</div>
+    </div>
+
+    <div class="card">
+      <h3>1.2 Dữ liệu CRM kỳ 09/2026 &amp; bình luận</h3>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/S05131089075e42ebb8ba3e9f3f876f040.jpg" alt="Star Rating – Maydon"><figcaption><b>Star Rating</b>: hiện tại <b>0★</b> · dự báo <b>0★</b> · "Healthy". Product <b>2♥</b> — 351 SP đạt PIS (mốc kế tiếp 500); Marketing <b>0♥</b> — 141 khách/30 ngày (mốc đầu tiên 150); Service <b>1♥</b> — 9 người mua đã phản hồi (mốc kế tiếp 10); Sales <b>2♥</b> — GMV 90 ngày 0 USD.</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/Sb511584c8c6a4ee3bd5970b6f0baa4a96.jpg" alt="Store's performance 04–09/2026"><figcaption><b>Store's performance</b> (04–09/2026): hiển thị tìm kiếm 2.917 → 3.210 → 2.288 → 3.934 → 5.098 → <b>3.439</b>; UV 129 (T9); click 79 (T9); inquiry 1; tin nhắn 14; phản hồi <b>100%</b> (T9) và thời gian phản hồi <b>0,77h</b>.</figcaption></figure>
+      </div>
+      <div class="note"><b>Bình luận ảnh 1–2:</b>
+        <ul>
+          <li><b>Hạng sao đang ở 0★ nhưng rất gần 1★:</b> chỉ thiếu ~10 khách truy cập/30 ngày (141/150) và 1 người mua phản hồi (9/10). Đây là mục tiêu có thể hoàn thành ngay trong tháng.</li>
+          <li><b>Traffic là điểm nghẽn lớn nhất:</b> 3.439 lượt hiển thị chỉ bằng ~7% trung bình ngành (48.969) và ~1,5% nhóm dẫn đầu (233.536); UV 129 so với 1.745 trung bình ngành.</li>
+          <li><b>Nhưng chất lượng hiển thị tốt:</b> CTR 2,30% (79/3.439) <b>cao hơn</b> trung bình ngành 2,14% — nghĩa là ảnh chính/tiêu đề đang làm tốt; vấn đề là <b>lượng hiển thị</b> chứ không phải chất lượng nội dung.</li>
+        </ul>
+      </div>
+
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/Sfbe6154d78b041a2abc50d1566be6b893.jpg" alt="Product Performance – Maydon"><figcaption><b>Product Performance</b>: 315 SP hoạt động (<b>+59,90%</b>) · 241 SP có hiển thị (+28,88%) · 42 SP có click (−42,47%) · 5 SP có yêu cầu báo giá (−16,67%) · <b>118 SP mới đăng</b> · 0 SP Super · <b>2 SP Top</b> · 0 trùng lặp.</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/S9765efa724114c84a48b8410221e5ff8e.jpg" alt="Membership Privileges – Maydon"><figcaption><b>Membership Privileges</b> (2 năm · Trade Assurance: on): RFQ <b>21/40 (53%)</b> — còn 19 lượt chưa dùng; Showcase <b>20/20 (100%)</b>; bộ AI 660 điểm — mới dùng 4 (<b>1%</b>), tạo ảnh/video/phân tích đều 0%.</figcaption></figure>
+      </div>
+      <div class="note"><b>Bình luận ảnh 3–4:</b>
+        <ul>
+          <li><b>Tăng trưởng danh mục rất mạnh:</b> 315 SP hoạt động (+59,90%) với 118 SP mới trong tháng — đúng mức ~100 bài/tháng, là điểm sáng lớn nhất của gian hàng.</li>
+          <li><b>Cần đẩy chất lượng:</b> SP có click giảm −42,47% (42 SP) cho thấy danh mục mở rộng nhanh nhưng chưa chuyển thành click; chỉ <b>2 SP Top</b> và 0 SP Super.</li>
+          <li><b>Nguồn lực miễn phí chưa dùng hết:</b> còn <b>19 lượt RFQ</b> và <b>656 điểm AI</b> (đã dùng 4/660).</li>
+        </ul>
+      </div>
+
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/Se3a6a5a2f96544efbdbe4a7114e9b730Z.jpg" alt="Trade Assurance Performance – Maydon"><figcaption><b>Trade Assurance Performance</b>: 235 SP RTS (+25,00%) · 194 SP có hiển thị (+8,99%) · <b>36 SP có click (−50,00%)</b> · 3 SP có đơn (+200%) · 0 SP đơn hoàn tất · <b>0 đơn</b> · doanh số TA 0.</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/Sb1b663881af841a8a1a1540b8a59acfa2.jpg" alt="Business Opportunities – Maydon"><figcaption><b>Chỉ số người mua</b>: 16 cơ hội kinh doanh (TB ngành 314) · 1 inquiry (TB 38) · 14 tin nhắn (TB 259) · phản hồi <b>100%</b> (TB 86,84%) · 15 người mua hoạt động (TB 279) · <b>14 khách L2+</b> (TB 216) · 13 khách trả phí (TB 186) · 6 khách ≥ 10.000 USD (TB 61).</figcaption></figure>
+      </div>
+      <div class="note"><b>Bình luận ảnh 5–6:</b>
+        <ul>
+          <li><b>Bộ RTS đã rất lớn (235 SP) nhưng chưa chuyển thành đơn:</b> 0 đơn hoàn tất và doanh số TA = 0 → cần kiểm tra lại giá, MOQ hiển thị và thông tin vận chuyển trên nhóm RTS.</li>
+          <li><b>Chất lượng khách rất tốt:</b> 15 người mua hoạt động thì <b>14 là khách L2+ (93%)</b> và 13 khách trả phí — tỷ lệ khách doanh nghiệp cao hơn nhiều so với cấu trúc chung của ngành → nền tảng thuận lợi để chốt đơn.</li>
+          <li><b>Dịch vụ đạt điểm tối đa:</b> tỷ lệ phản hồi 100% và thời gian 0,77h — vượt cả nhóm dẫn đầu ngành (1,28h).</li>
+        </ul>
+      </div>
+
+      <figure><img src="https://sc04.alicdn.com/kf/Saedcc590ade44c4282c320bea91a215aH.jpg" alt="Product Aggregation 12–30/09/2026"><figcaption><b>Product Aggregation</b> (12/09 → 30/09/2026): tổng sản phẩm <b>198 → 315</b>; PIS ≥5: 198 → 315; <b>PIS ≥5,5: 23 → 31</b>; Top product 2 → 3 (cuối kỳ 2 theo thẻ Product Performance); Super product 0; <b>RTS: 189 → 232</b>; số SP có lượt ghé: 3; SP có inquiry: 0; SP có đơn: 0.</figcaption></figure>
+      <div class="note"><b>Bình luận ảnh 7:</b>
+        <ul>
+          <li><b>Tốc độ đăng bài rất tốt:</b> trong 19 ngày, danh mục tăng 198 → 315 SP (~6 SP/ngày) và RTS tăng 189 → 232 — đúng tinh thần "~100 bài/tháng".</li>
+          <li><b>Chất lượng PIS chưa theo kịp số lượng:</b> PIS ≥5,5 chỉ tăng 23 → 31 trong khi tổng SP tăng 117 → phần lớn bài mới dừng ở mức PIS 5–5,5, chưa đủ sức cạnh tranh để lên Top.</li>
+          <li><b>Chuyển đổi gần như chưa có:</b> cuối kỳ chỉ 3 SP có lượt ghé, 0 SP có inquiry, 0 SP có đơn → ưu tiên tiếp theo là "chất" chứ không chỉ "lượng".</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel mod1 vi">
+    <div class="card">
+      <h3>1.3 Phân tích chuyên sâu</h3>
+      <h4>Hiển thị tìm kiếm 04–09/2026 (so với trung bình ngành)</h4>
+      <div class="chartbox"><canvas id="imp_vi"></canvas></div>
+      <p class="src">Hiển thị tìm kiếm dao động 2.288–5.098 lượt/tháng, luôn ở mức ~5–10% trung bình ngành — đây là khoảng cách lớn nhất cần thu hẹp.</p>
+      <h4>Tăng trưởng danh mục 12–30/09/2026</h4>
+      <div class="chartbox"><canvas id="prod_vi"></canvas></div>
+      <p class="src">Tổng sản phẩm 198 → 315 và RTS 189 → 232 (tăng rất nhanh), nhưng PIS ≥5,5 chỉ 23 → 31 — tốc độ tăng chất lượng chậm hơn nhiều so với tốc độ tăng số lượng.</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Chỉ tiêu (T9/2026)</th><th class="r">Gian hàng</th><th class="r">TB ngành</th><th class="r">Dẫn đầu</th><th class="l">Đọc kết quả</th></tr></thead>
+          <tbody>
+            <tr><td class="l">Hiển thị tìm kiếm</td><td class="r">3.439</td><td class="r">48.969</td><td class="r">233.536</td><td class="l"><span class="bad">Chỉ ~7% TB ngành</span> — điểm nghẽn lớn nhất</td></tr>
+            <tr><td class="l">Unique visitors</td><td class="r">129</td><td class="r">1.745</td><td class="r">9.117</td><td class="l"><span class="bad">~7,4% TB ngành</span></td></tr>
+            <tr><td class="l">Click tìm kiếm</td><td class="r">79</td><td class="r">1.048</td><td class="r">3.941</td><td class="l">Còn nhỏ về số tuyệt đối</td></tr>
+            <tr><td class="l">CTR (tính từ 2 chỉ tiêu trên)</td><td class="r">~2,30%</td><td class="r">~2,14%</td><td class="r">—</td><td class="l"><span class="good">Cao hơn TB ngành</span> — nội dung/ảnh chính ổn</td></tr>
+            <tr><td class="l">Inquiry</td><td class="r">1</td><td class="r">38</td><td class="r">1.698</td><td class="l"><span class="bad">Rất thấp</span> — cần kéo chuyển đổi</td></tr>
+            <tr><td class="l">Cơ hội kinh doanh</td><td class="r">16</td><td class="r">314</td><td class="r">11.386</td><td class="l"><span class="bad">~5% TB ngành</span></td></tr>
+            <tr><td class="l">Người mua hoạt động · trong đó L2+</td><td class="r">15 · <b>14</b></td><td class="r">279 · 216</td><td class="r">10.004 · 8.012</td><td class="l"><span class="good">93% khách là L2+</span> — chất lượng khách cao</td></tr>
+            <tr><td class="l">Khách trả phí · ≥ 10.000 USD</td><td class="r">13 · 6</td><td class="r">186 · 61</td><td class="r">6.869 · 1.441</td><td class="l">Nền tảng khách hàng tốt so với quy mô traffic</td></tr>
+            <tr><td class="l">Tỷ lệ phản hồi · thời gian phản hồi</td><td class="r">100% · 0,77h</td><td class="r">91,99% · 3,93h</td><td class="r">99,7% · 1,28h</td><td class="l"><span class="good">Vượt cả nhóm dẫn đầu</span></td></tr>
+            <tr><td class="l">Sản phẩm: hoạt động · Top · Super</td><td class="r">315 · 2 · 0</td><td class="r">—</td><td class="r">—</td><td class="l">Số lượng tốt, chất lượng hạng chưa cao</td></tr>
+            <tr><td class="l">PIS ≥ 5,5 (cuối kỳ)</td><td class="r">31</td><td class="r">—</td><td class="r">—</td><td class="l">Chỉ ~10% danh mục đạt mức cạnh tranh cao</td></tr>
+            <tr><td class="l">Đơn hàng TA · doanh số TA</td><td class="r">0 · 0</td><td class="r">—</td><td class="r">—</td><td class="l"><span class="bad">Chưa có đơn đầu tiên</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Nguồn: ảnh chụp CRM 09/2026 (14/10/2026). CTR được tính từ "Search impressions" và "Search Clicks". Chỉ tiêu người mua lấy từ panel Business Opportunities (panel này và bảng Store's performance có thể dùng kỳ đo khác nhau).</p>
+    </div>
+
+    <div class="card">
+      <h3>1.4 Điểm sáng &amp; điểm cần cải thiện</h3>
+      <h4><span class="tag g">Điểm sáng</span></h4>
+      <ul>
+        <li><b>Tăng trưởng danh mục đúng nhịp ~100 bài/tháng:</b> 118 SP mới trong tháng, tổng 315 SP hoạt động (+59,90%) và RTS tăng lên 235 SP — nền tảng cung ứng đã rộng.</li>
+        <li><b>Dịch vụ thuộc nhóm tốt nhất ngành:</b> tỷ lệ phản hồi <b>100%</b> (TB ngành 91,99%) và thời gian phản hồi <b>0,77h</b> — nhanh hơn cả nhóm dẫn đầu (1,28h).</li>
+        <li><b>Chất lượng khách cao:</b> trong 15 người mua hoạt động có <b>14 khách L2+ (93%)</b>, 13 khách trả phí và 6 khách có tổng đơn ≥ 10.000 USD — khách doanh nghiệp thật, sẵn sàng giao dịch.</li>
+        <li><b>Chất lượng hiển thị tốt:</b> CTR 2,30% cao hơn trung bình ngành 2,14% → ảnh chính/tiêu đề đang làm tốt, chỉ thiếu lượng hiển thị.</li>
+        <li><b>Hạng sao sắp đạt 1★:</b> chỉ cần thêm ~10 khách truy cập/30 ngày và 1 người mua phản hồi — mục tiêu trong tầm tay.</li>
+      </ul>
+      <h4><span class="tag w">Điểm cần cải thiện</span></h4>
+      <ul>
+        <li><b>Traffic quá thấp:</b> 3.439 lượt hiển thị (~7% TB ngành) và 129 UV — nguyên nhân gốc khiến mọi chỉ số phía sau đều nhỏ.</li>
+        <li><b>Chuyển đổi thấp:</b> 1 inquiry, 16 cơ hội kinh doanh, <b>0 đơn</b> và GMV 90 ngày = 0 USD; bộ RTS 235 SP nhưng chỉ 36 SP có click (−50%).</li>
+        <li><b>Chất lượng bài chưa theo kịp số lượng:</b> chỉ <b>2 SP Top</b>, 0 SP Super, PIS ≥5,5 mới 31/315 SP (~10%).</li>
+        <li><b>Nguồn lực còn bỏ ngỏ:</b> 19 lượt RFQ chưa dùng (21/40) và 656/660 điểm AI chưa dùng.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>1.5 Nhiệm vụ trọng tâm tháng tới</h3>
+      <div class="note blue"><b>Ưu tiên số 1 — chốt hạng 1★ trong tháng này:</b> Marketing cần <b>+9–10 khách truy cập/30 ngày</b> (141/150) và Service cần <b>+1 người mua đã phản hồi</b> (9/10). Cách nhanh nhất: đẩy hiển thị cho nhóm sản phẩm mới + Showcase, và chủ động nhắn lại 13 khách trả phí / 6 khách ≥10.000 USD để họ phản hồi.</div>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Nhiệm vụ</th><th class="r">Hiện tại</th><th class="r">Mục tiêu</th><th class="l">Cách triển khai</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="l"><b>1. Tăng số lượng bài</b></td><td class="r">315</td><td class="r"><b>500</b></td>
+              <td class="l">Cần +185 SP (~6–7 bài/ngày). Ưu tiên: (a) đăng theo 4 nhóm chủ lực — Solid Surface / Acrylic Bathtub, Solid Surface Basin, Vanity &amp; Cabinet, Stone Bench; (b) mỗi model tạo 2–3 biến thể kích thước/màu nhưng <b>tiêu đề khác nhau</b> để tránh trùng lặp; (c) dùng 656 điểm AI để viết mô tả và tạo ảnh biến thể.</td>
+            </tr>
+            <tr>
+              <td class="l"><b>2. Tăng bài Top / Super</b></td><td class="r">2 Top · 0 Super</td><td class="r"><b>≥ 10 Top</b></td>
+              <td class="l">Chọn 10–15 SP có triển vọng nhất (dựa trên SP có hiển thị/click), rồi hoàn thiện: thuộc tính đầy đủ, ≥5 ảnh + 1 video, giá và MOQ hiển thị rõ, mô tả có kích thước – chất liệu – bảo hành – đóng gói; đưa vào Showcase; giữ tỷ lệ phản hồi 100% (Top gắn chặt với chất lượng nội dung + tốc độ phản hồi).</td>
+            </tr>
+            <tr>
+              <td class="l"><b>3. Dùng hết lượt RFQ</b></td><td class="r">21/40 (53%)</td><td class="r"><b>40/40</b></td>
+              <td class="l">Còn 19 lượt. Mỗi ngày kiểm tra RFQ mới, lọc theo ngành bồn tắm/thiết bị vệ sinh, phản hồi trong <b>&lt; 2 giờ</b> kèm báo giá + catalogue + thời gian giao; lưu mẫu trả lời sẵn theo 3 nhóm nhu cầu (dự án khách sạn, bán lẻ, nhập khẩu).</td>
+            </tr>
+            <tr>
+              <td class="l"><b>4. Tăng bài PIS &gt; 5,5</b></td><td class="r">31</td><td class="r"><b>100</b></td>
+              <td class="l">Cần +69 SP. Rà soát 284 SP còn lại (PIS 5–5,5) và bổ sung các mục thường thiếu: kích thước chi tiết, chất liệu/bề mặt, màu, khối lượng, bảo hành, chứng nhận, ảnh thực tế &amp; video; chuẩn hoá theo mẫu "7 khe" cho tiêu đề (từ khoá chính + thuộc tính + kích thước).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h4><span class="pill p0">P0</span> Tuần 1 — việc phải xong</h4>
+      <ul>
+        <li>Chốt 1★: đẩy +10 khách/30 ngày và +1 người mua phản hồi (nhắn lại khách cũ, bật nhắc nhở).</li>
+        <li>Dùng hết 19 lượt RFQ còn lại; đặt mục tiêu phản hồi &lt; 2h.</li>
+        <li>Chọn ra 10 SP ứng viên cho mục tiêu "Top" và bắt đầu hoàn thiện nội dung.</li>
+      </ul>
+      <h4><span class="pill p1">P1</span> Tuần 2–3 — tăng tốc</h4>
+      <ul>
+        <li>Đăng 6–7 SP/ngày để tiến tới 500 bài; duy trì mỗi bài đủ ảnh + thuộc tính ngay từ khi đăng (tránh phải sửa lại sau).</li>
+        <li>Nâng PIS ≥5,5 thêm ~35 bài (mục tiêu tạm 65/100).</li>
+        <li>Rà soát nhóm RTS: 36 SP có click (−50%) — kiểm tra lại giá, MOQ, ảnh chính và phí vận chuyển hiển thị để tăng click.</li>
+      </ul>
+      <h4><span class="pill p2">P2</span> Tuần 4 — hoàn tất &amp; đo lường</h4>
+      <ul>
+        <li>Hoàn thành 500 bài và 100 bài PIS ≥5,5; kiểm tra danh sách Top (mục tiêu ≥10).</li>
+        <li>Đo lại: hiển thị tìm kiếm, UV, inquiry, số đơn — so với mốc 09/2026.</li>
+        <li>Cân nhắc ngân sách quảng cáo nhỏ (hiện KWA = 0) để hỗ trợ 10 SP mục tiêu lên Top — chỉ nên thực hiện sau khi nội dung các bài đó đã hoàn thiện.</li>
+      </ul>
+      <div class="note"><b>Ghi chú:</b> các mục tiêu 500 bài / 10 Top / 40 RFQ / 100 PIS≥5,5 do đội dịch vụ đặt ra cho tháng tới; báo cáo này bổ sung cách triển khai và chỉ số theo dõi. Đây là mục tiêu kế hoạch, không phải cam kết kết quả.</div>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 1 · CN ================= -->
+  <section class="panel mod1 cn">
+    <h2><span class="n">1</span><span>店铺总览 · 2026年9月</span></h2>
+    <p class="lead">数据来源：服务团队提供的 7 张 CRM 截图（2026/10/14）——星等级、2026年4–9月店铺效果、会员权益、商品与信保表现、商机表现、2026/09/12–30 商品汇总；主体信息已在 CRM 中直接核对。</p>
+    <div class="card">
+      <h3>1.1 快速摘要</h3>
+      <div class="grid-prof">
+        <div class="prof-item"><b>店铺</b>CONG TY TNHH BON TAM MAYDON · 生产厂家 · 家居园艺 — 浴缸与卫浴（Solid Surface / 亚克力浴缸、Solid Surface 洗手盆、浴室柜、石凳）· Gold Supplier 2 年 · 信保：on</div>
+        <div class="prof-item"><b>星等级</b>当前 <b>0★</b>（预测 0★，"Healthy"）· 商品力 <b>2/5</b>（351 款）· 营销力 <b>0/5</b>（30 天 141 位访客）· 服务力 <b>1/5</b>（9 位买家）· 销售力 <b>2/5</b>（90 天 GMV 0 USD）</div>
+        <div class="prof-item"><b>突出优势</b>当月新增 <b>118 款商品</b>（总计 315 款，环比 +59.9%）· 回复率 <b>100%</b>、响应 <b>0.77 小时</b>（优于行业领先的 1.28h）· <b>15 位买家中 14 位为 L2+</b></div>
+        <div class="prof-item"><b>主要瓶颈</b>流量极低：曝光 <b>3,439</b>（约为行业均值 7%）· 转化低：1 条询盘、<b>0 订单</b>、90 天 GMV = 0 USD · Top 仅 2 款、Super 0 款</div>
+      </div>
+      <div class="statrow">
+        <div class="stat warn"><div class="v">3,439</div><div class="k">9月搜索曝光（行业均值 48,969 · 领先 233,536）— 仅为均值约 7%</div></div>
+        <div class="stat"><div class="v">2.30%</div><div class="k">9月 CTR（79 点击 / 3,439 曝光）— <b>高于</b>行业均值 2.14%</div></div>
+        <div class="stat"><div class="v">0.77h</div><div class="k">9月响应时间 · 回复率 100%（行业均值 3.93h · 91.99%）</div></div>
+        <div class="stat warn"><div class="v">1 / 0</div><div class="k">9月询盘 / 信保订单 · 90 天 GMV 0 USD</div></div>
+      </div>
+      <div class="note blue"><b>短期目标已非常接近：</b>当营销力达到 30 天 150 位访客（现 141，约需 +10 位）且服务力达到 10 位获回复买家（现 9，需 +1 位）时，星等级即可达 <b>1★</b>。</div>
+    </div>
+    <div class="card">
+      <h3>1.2 CRM 数据（2026年9月）与点评</h3>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/S05131089075e42ebb8ba3e9f3f876f040.jpg" alt="星等级 – Maydon"><figcaption><b>Star Rating</b>：当前 <b>0★</b> · 预测 <b>0★</b> · "Healthy"。商品力 <b>2♥</b> — 351 款达标 PIS（下一档 500）；营销力 <b>0♥</b> — 30 天 141 位访客（第一档 150）；服务力 <b>1♥</b> — 9 位买家获回复（下一档 10）；销售力 <b>2♥</b> — 90 天 GMV 0 USD。</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/Sb511584c8c6a4ee3bd5970b6f0baa4a96.jpg" alt="店铺效果 04–09/2026"><figcaption><b>Store's performance</b>（2026年4–9月）：搜索曝光 2,917 → 3,210 → 2,288 → 3,934 → 5,098 → <b>3,439</b>；9月 UV 129、点击 79、询盘 1、消息 14；回复率 <b>100%</b>、响应 <b>0.77h</b>。</figcaption></figure>
+      </div>
+      <div class="note"><b>图 1–2 点评：</b>
+        <ul>
+          <li><b>星等级 0★ 但非常接近 1★：</b>仅差约 10 位/30 天访客（141/150）与 1 位获回复买家（9/10），当月内可完成。</li>
+          <li><b>流量是最大瓶颈：</b>3,439 次曝光仅为行业均值（48,969）的约 7%、行业领先（233,536）的约 1.5%；UV 129 对行业均值 1,745。</li>
+          <li><b>但曝光质量好：</b>CTR 2.30%（79/3,439）<b>高于</b>行业均值 2.14% — 说明主图/标题做法正确，问题在<b>曝光量</b>而非内容质量。</li>
+        </ul>
+      </div>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/Sfbe6154d78b041a2abc50d1566be6b893.jpg" alt="商品表现 – Maydon"><figcaption><b>Product Performance</b>：在线 315 款（<b>+59.90%</b>）· 有曝光 241 款（+28.88%）· 有点击 42 款（−42.47%）· 有报价请求 5 款（−16.67%）· <b>新品 118 款</b> · Super 0 · <b>Top 2 款</b> · 重复 0。</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/S9765efa724114c84a48b8410221e5ff8e.jpg" alt="会员权益 – Maydon"><figcaption><b>Membership Privileges</b>（2 年 · 信保：on）：RFQ <b>21/40（53%）</b> — 尚余 19 条未用；橱窗 <b>20/20（100%）</b>；AI 660 分 — 已用 4（<b>1%</b>），生图/视频/分析均 0%。</figcaption></figure>
+      </div>
+      <div class="note"><b>图 3–4 点评：</b>
+        <ul>
+          <li><b>商品结构增长强劲：</b>在线 315 款（+59.90%），当月新增 118 款 — 符合"每月约 100 款"的节奏，是店铺最大的亮点。</li>
+          <li><b>需要提升质量：</b>有点击商品减少 −42.47%（42 款），说明扩张快但尚未转化为点击；<b>Top 仅 2 款</b>、Super 0 款。</li>
+          <li><b>免费资源未用尽：</b>尚余 <b>19 条 RFQ</b> 与 <b>656 分 AI 额度</b>（已用 4/660）。</li>
+        </ul>
+      </div>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/Se3a6a5a2f96544efbdbe4a7114e9b730Z.jpg" alt="信保表现 – Maydon"><figcaption><b>Trade Assurance Performance</b>：RTS 235 款（+25.00%）· 有曝光 194 款（+8.99%）· <b>有点击 36 款（−50.00%）</b> · 有订单 3 款（+200%）· 已完成订单 0 款 · <b>订单 0 笔</b> · 信保销售额 0。</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/Sb1b663881af841a8a1a1540b8a59acfa2.jpg" alt="商机 – Maydon"><figcaption><b>买家指标</b>：商机 16（行业均值 314）· 询盘 1（行业 38）· 消息 14（行业 259）· 回复率 <b>100%</b>（行业 86.84%）· 活跃买家 15（行业 279）· <b>L2+ 14 位</b>（行业 216）· 付费买家 13（行业 186）· 订单 ≥10,000 USD 的买家 6（行业 61）。</figcaption></figure>
+      </div>
+      <div class="note"><b>图 5–6 点评：</b>
+        <ul>
+          <li><b>RTS 规模已很大（235 款）但未成单：</b>完成订单 0、信保销售额 0 → 需检查该组 RTS 的价格、MOQ 展示与运费信息。</li>
+          <li><b>买家质量高：</b>15 位活跃买家中 <b>14 位为 L2+（93%）</b>、13 位付费买家 — 企业买家占比显著高于行业结构，是成单的良好基础。</li>
+          <li><b>服务满分：</b>回复率 100%、响应 0.77h — 优于行业领先（1.28h）。</li>
+        </ul>
+      </div>
+      <figure><img src="https://sc04.alicdn.com/kf/Saedcc590ade44c4282c320bea91a215aH.jpg" alt="商品汇总 09/12–30/2026"><figcaption><b>Product Aggregation</b>（09/12 → 09/30/2026）：商品总数 <b>198 → 315</b>；PIS ≥5：198 → 315；<b>PIS ≥5.5：23 → 31</b>；Top 商品 2 → 3（月末按 Product Performance 为 2）；Super 0；<b>RTS：189 → 232</b>；有访客商品 3 款；有询盘 0 款；有订单 0 款。</figcaption></figure>
+      <div class="note"><b>图 7 点评：</b>
+        <ul>
+          <li><b>上新速度很好：</b>19 天内商品由 198 增至 315 款（约 6 款/天），RTS 由 189 增至 232 款 — 符合"每月约 100 款"的节奏。</li>
+          <li><b>PIS 质量未同步：</b>PIS ≥5.5 仅由 23 增至 31，而总数增加 117 款 → 多数新品停留在 PIS 5–5.5，竞争力不足以进入 Top。</li>
+          <li><b>转化几乎为零：</b>期末仅 3 款有访客、0 款有询盘、0 款有订单 → 下一步重点是"质"而非仅"量"。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>1.3 深度分析</h3>
+      <h4>2026年4–9月 搜索曝光（对比行业均值）</h4>
+      <div class="chartbox"><canvas id="imp_cn"></canvas></div>
+      <p class="src">搜索曝光在每月 2,288–5,098 之间波动，始终约为行业均值的 5–10% — 这是最需要缩小的差距。</p>
+      <h4>2026/09/12–30 商品结构增长</h4>
+      <div class="chartbox"><canvas id="prod_cn"></canvas></div>
+      <p class="src">商品总数 198 → 315、RTS 189 → 232（增长很快），但 PIS ≥5.5 仅 23 → 31 — 质量提升速度远慢于数量。</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">指标（2026/09）</th><th class="r">本店</th><th class="r">行业均值</th><th class="r">行业领先</th><th class="l">解读</th></tr></thead>
+          <tbody>
+            <tr><td class="l">搜索曝光</td><td class="r">3,439</td><td class="r">48,969</td><td class="r">233,536</td><td class="l"><span class="bad">仅约行业均值 7%</span> — 最大瓶颈</td></tr>
+            <tr><td class="l">独立访客</td><td class="r">129</td><td class="r">1,745</td><td class="r">9,117</td><td class="l"><span class="bad">约行业均值 7.4%</span></td></tr>
+            <tr><td class="l">搜索点击</td><td class="r">79</td><td class="r">1,048</td><td class="r">3,941</td><td class="l">绝对值仍然很小</td></tr>
+            <tr><td class="l">CTR（由以上两项计算）</td><td class="r">约 2.30%</td><td class="r">约 2.14%</td><td class="r">—</td><td class="l"><span class="good">高于行业均值</span> — 内容/主图良好</td></tr>
+            <tr><td class="l">询盘</td><td class="r">1</td><td class="r">38</td><td class="r">1,698</td><td class="l"><span class="bad">极低</span> — 需提升转化</td></tr>
+            <tr><td class="l">商机</td><td class="r">16</td><td class="r">314</td><td class="r">11,386</td><td class="l"><span class="bad">约为行业均值 5%</span></td></tr>
+            <tr><td class="l">活跃买家 · 其中 L2+</td><td class="r">15 · <b>14</b></td><td class="r">279 · 216</td><td class="r">10,004 · 8,012</td><td class="l"><span class="good">93% 为 L2+</span> — 买家质量高</td></tr>
+            <tr><td class="l">付费买家 · ≥10,000 USD</td><td class="r">13 · 6</td><td class="r">186 · 61</td><td class="r">6,869 · 1,441</td><td class="l">相对于流量规模，买家基础不错</td></tr>
+            <tr><td class="l">回复率 · 响应时间</td><td class="r">100% · 0.77h</td><td class="r">91.99% · 3.93h</td><td class="r">99.7% · 1.28h</td><td class="l"><span class="good">优于行业领先</span></td></tr>
+            <tr><td class="l">商品：在线 · Top · Super</td><td class="r">315 · 2 · 0</td><td class="r">—</td><td class="r">—</td><td class="l">数量良好，质量档次未跟上</td></tr>
+            <tr><td class="l">PIS ≥ 5.5（期末）</td><td class="r">31</td><td class="r">—</td><td class="r">—</td><td class="l">仅约 10% 的商品达到高竞争档</td></tr>
+            <tr><td class="l">信保订单 · 信保销售额</td><td class="r">0 · 0</td><td class="r">—</td><td class="r">—</td><td class="l"><span class="bad">尚无首单</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">来源：2026年9月 CRM 截图（2026/10/14）。CTR 由"搜索曝光"与"搜索点击"计算。买家指标来自 Business Opportunities 面板（该面板与 Store's performance 的统计周期可能不同）。</p>
+    </div>
+
+    <div class="card">
+      <h3>1.4 亮点与待改进</h3>
+      <h4><span class="tag g">亮点</span></h4>
+      <ul>
+        <li><b>上新节奏约 100 款/月：</b>当月新增 118 款，在线 315 款（+59.90%），RTS 增至 235 款 — 供给基础已铺开。</li>
+        <li><b>服务处于行业最优区间：</b>回复率 <b>100%</b>（行业 91.99%）、响应 <b>0.77h</b> — 快于行业领先（1.28h）。</li>
+        <li><b>买家质量高：</b>15 位活跃买家中 <b>14 位为 L2+（93%）</b>，13 位付费买家、6 位订单 ≥10,000 USD — 真实企业买家，具备成交条件。</li>
+        <li><b>曝光质量好：</b>CTR 2.30% 高于行业均值 2.14% → 主图/标题做法正确，缺的是曝光量。</li>
+        <li><b>1★ 在望：</b>仅需 +10 位/30 天访客与 +1 位获回复买家。</li>
+      </ul>
+      <h4><span class="tag w">待改进</span></h4>
+      <ul>
+        <li><b>流量过低：</b>3,439 次曝光（行业均值约 7%）、129 UV — 一切后续指标偏小的根源。</li>
+        <li><b>转化低：</b>1 条询盘、16 个商机、<b>0 订单</b>、90 天 GMV = 0；RTS 有 235 款却仅 36 款有点击（−50%）。</li>
+        <li><b>商品质量未跟上数量：</b>Top 仅 <b>2 款</b>、Super 0 款，PIS ≥5.5 仅 31/315（约 10%）。</li>
+        <li><b>资源未用尽：</b>尚有 19 条 RFQ（21/40）与 656/660 分 AI 额度未使用。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>1.5 下月重点任务</h3>
+      <div class="note blue"><b>第一优先 — 本月内拿下 1★：</b>营销力需 <b>+9–10 位/30 天访客</b>（141/150），服务力需 <b>+1 位获回复买家</b>（9/10）。最快路径：为新商品与橱窗争取更多曝光；主动回访 13 位付费买家 / 6 位 ≥10,000 USD 买家促其回复。</div>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">任务</th><th class="r">现状</th><th class="r">目标</th><th class="l">落地方法</th></tr></thead>
+          <tbody>
+            <tr><td class="l"><b>1. 增加商品数量</b></td><td class="r">315</td><td class="r"><b>500</b></td>
+              <td class="l">需 +185 款（约 6–7 款/天）。优先：(a) 按 4 大主推线发布 — Solid Surface / 亚克力浴缸、Solid Surface 洗手盆、浴室柜、石凳；(b) 每个型号做 2–3 个尺寸/颜色变体，但<b>标题必须区分</b>以免重复；(c) 用 656 分 AI 额度撰写描述并生成变体图片。</td></tr>
+            <tr><td class="l"><b>2. 提升 Top / Super</b></td><td class="r">Top 2 · Super 0</td><td class="r"><b>Top ≥ 10</b></td>
+              <td class="l">挑选 10–15 款最有潜力的商品（参考有曝光/有点击的商品），完善：属性齐全、主图 ≥5 张 + 1 个视频、价格与 MOQ 清晰、描述含尺寸–材质–保修–包装；加入橱窗；保持 100% 回复率（Top 与内容质量、响应速度强相关）。</td></tr>
+            <tr><td class="l"><b>3. 用完 RFQ 配额</b></td><td class="r">21/40（53%）</td><td class="r"><b>40/40</b></td>
+              <td class="l">尚余 19 条。每日检查新 RFQ，按浴缸/卫浴行业筛选，<b>2 小时内</b>回复并附报价 + 目录 + 交期；按三类需求（酒店项目、零售、进口商）准备快捷话术模板。</td></tr>
+            <tr><td class="l"><b>4. 提升 PIS &gt; 5.5</b></td><td class="r">31</td><td class="r"><b>100</b></td>
+              <td class="l">需 +69 款。排查其余 284 款（PIS 5–5.5），补齐常见缺失项：详细尺寸、材质/表面、颜色、重量、保修、认证、实拍图与视频；标题按"主关键词 + 属性 + 尺寸"标准化。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4><span class="pill p0">P0</span> 第 1 周 — 必须完成</h4>
+      <ul>
+        <li>拿下 1★：推动 +10 位/30 天访客与 +1 位获回复买家（回访老客、设置提醒）。</li>
+        <li>用完剩余 19 条 RFQ；目标响应 ＜2 小时。</li>
+        <li>选出 10 款"Top 候选商品"并开始完善内容。</li>
+      </ul>
+      <h4><span class="pill p1">P1</span> 第 2–3 周 — 加速</h4>
+      <ul>
+        <li>每天发布 6–7 款，向 500 款目标推进；发布即配齐图片与属性（避免事后返工）。</li>
+        <li>再把 PIS ≥5.5 提升约 35 款（阶段目标 65/100）。</li>
+        <li>复查 RTS 组：有点击商品 −50%（36 款）— 检查价格、MOQ、主图与运费展示以提升点击。</li>
+      </ul>
+      <h4><span class="pill p2">P2</span> 第 4 周 — 收口与复盘</h4>
+      <ul>
+        <li>完成 500 款与 100 款 PIS ≥5.5；核对 Top 清单（目标 ≥10）。</li>
+        <li>复测：搜索曝光、UV、询盘、订单数 — 与 2026年9月基数对比。</li>
+        <li>可考虑小额广告预算（当前 KWA = 0）助推 10 款目标商品 —— 建议在内容完善之后再执行。</li>
+      </ul>
+      <div class="note"><b>说明：</b>500 款 / 10 款 Top / 40 条 RFQ / 100 款 PIS≥5.5 为服务团队为下月设定的目标；本报告补充落地方法与跟踪指标。以上为计划目标，不构成结果承诺。</div>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 2 · VI ================= -->
+  <section class="panel mod2 vi">
+    <h2><span class="n">2</span>Thị trường ngành · Bathtub &amp; Sanitary Ware</h2>
+    <p class="lead">Ngành của Maydon: bồn tắm và thiết bị phòng tắm (Solid Surface / Acrylic bathtub, basin, vanity, cabinet). Số liệu dưới đây là nguồn công khai có dẫn chiếu và ngày; các nguồn dùng phạm vi định nghĩa khác nhau nên con số chênh lệch — dùng để tham chiếu xu hướng.</p>
+
+    <div class="card">
+      <h3>2.1 Quy mô &amp; tốc độ tăng trưởng</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">Phân khúc</th><th class="l">Quy mô / tốc độ</th><th class="l">Nguồn &amp; ngày</th></tr></thead>
+          <tbody>
+            <tr><td class="l"><b>Bathtub toàn cầu</b></td><td class="l">US$11,53 tỷ (2024) → 12,2 tỷ (2025) → <b>US$19,15 tỷ (2033)</b>; CAGR <b>5,8%</b> (2026–2033)</td><td class="l">SkyQuest — 26/07/2026</td></tr>
+            <tr><td class="l"><b>Bathtub toàn cầu</b></td><td class="l">US$11,91 tỷ (2025) → 12,59 tỷ (2026) → <b>US$20,41 tỷ (2034)</b>; CAGR <b>6,22%</b>; Bắc Mỹ chiếm <b>36,51%</b> thị phần (2025)</td><td class="l">Fortune Business Insights</td></tr>
+            <tr><td class="l"><b>Bathtub toàn cầu</b></td><td class="l">US$12,65 tỷ (2025) → 13,36 tỷ (2026) → US$20,74 tỷ (2034); CAGR <b>5,65%</b> (2026–2034)</td><td class="l">Market Data Forecast — 08/10/2026</td></tr>
+            <tr><td class="l"><b>Bathtub</b> (phạm vi hẹp)</td><td class="l">US$8,66 tỷ (2025) → 8,96 tỷ (2026); CAGR <b>3,4%</b></td><td class="l">The Business Research Company — 08/07/2026</td></tr>
+            <tr><td class="l"><b>Bồn tắm acrylic</b></td><td class="l">US$4,8 tỷ (2025) → <b>US$8,1 tỷ (2034)</b>; CAGR <b>6,1%</b> (2026–2034)</td><td class="l">Dataintelo — 21/03/2026</td></tr>
+            <tr><td class="l"><b>Bồn tắm freestanding</b></td><td class="l">US$4,05 tỷ (2026) → US$6,53 tỷ (2035); CAGR <b>5,4%</b>; acrylic chiếm <b>54%</b> thị phần (2023)</td><td class="l">Business Research Insights — 24/08/2026</td></tr>
+            <tr><td class="l"><b>Sanitary ware toàn cầu</b></td><td class="l">US$41,85 tỷ (2025) → <b>US$55,6 tỷ (2030)</b>; CAGR <b>5,8%</b>; Bắc Mỹ lớn nhất (2025), APAC tăng nhanh nhất</td><td class="l">The Business Research Company — 17/09/2026</td></tr>
+            <tr><td class="l"><b>Sanitary ware — khu vực</b></td><td class="l">APAC chiếm <b>39,72%</b> thị phần (2025); Trung Đông &amp; châu Phi CAGR <b>6,95%</b> đến 2031</td><td class="l">Mordor Intelligence — 06/08/2026</td></tr>
+            <tr><td class="l"><b>Sanitary ware</b></td><td class="l">CAGR <b>5,70%</b> (2026–2035) → US$25,19 tỷ (2035)</td><td class="l">Expert Market Research — 23/07/2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="chartbox" style="height:300px"><canvas id="mkt_vi"></canvas></div>
+      <p class="src">So sánh CAGR giữa các nguồn (nguồn như bảng trên). Chênh lệch phản ánh khác biệt phạm vi định nghĩa — nên dùng theo hướng xu hướng.</p>
+      <div class="note blue"><b>Ý nghĩa với Maydon:</b> ngành tăng trưởng ổn định ~5,4–6,2%/năm ở nhóm bồn tắm, trong đó <b>bồn tắm acrylic</b> (dòng chủ lực của Maydon) tăng nhanh hơn mặt bằng chung (6,1%) và <b>Bắc Mỹ là thị trường lớn nhất</b> (36,51% thị phần bồn tắm).</div>
+    </div>
+
+    <div class="card">
+      <h3>2.2 Xu hướng &amp; lưu ý thị trường</h3>
+      <ul>
+        <li><b>Acrylic dẫn dắt nhu cầu:</b> chiếm ~54% thị phần bồn tắm (2023) nhờ giá hợp lý, trọng lượng nhẹ và dễ tùy biến kích thước/màu — đúng thế mạnh sản xuất của Maydon. <span class="src">[Business Research Insights, 24/08/2026]</span></li>
+        <li><b>Xu hướng freestanding &amp; Solid Surface:</b> bồn tắm độc lập tăng 5,4%/năm; thiết bị "smart bathroom", tiết kiệm nước và vật liệu thân thiện môi trường là các yêu cầu ngày càng phổ biến ở Bắc Mỹ/EU. <span class="src">[tổng hợp từ các báo cáo nêu trên, 2026]</span></li>
+        <li><b>Trọng tâm khu vực:</b> Bắc Mỹ lớn nhất về bồn tắm (36,51%); APAC chiếm 39,72% thị phần sanitary ware và tăng nhanh nhất → ưu tiên nội dung theo 2 khu vực này. <span class="src">[Fortune Business Insights; Mordor Intelligence 06/08/2026]</span></li>
+        <li><b>Lưu ý về xuất xứ &amp; phòng vệ thương mại:</b> khuyến nghị chung cho doanh nghiệp Việt Nam là <b>tránh dùng linh kiện chính sản xuất tại Trung Quốc</b> để gia công, lắp ráp rồi xuất sang Mỹ (rủi ro bị điều tra xuất xứ/phòng vệ thương mại). <span class="src">[Lexology — 15/03/2024; danh sách cảnh báo sớm sản phẩm VN có nguy cơ bị điều tra — antidumping.vn]</span></li>
+        <li><b>Khuyến nghị truyền thông:</b> nếu muốn dùng định vị "không thuộc diện thuế chống bán phá giá", cần <b>xác minh theo mã HS và từng thị trường cụ thể</b> trước khi đưa vào nội dung bán hàng — không nên khẳng định chung.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>2.3 Cơ hội cho Maydon</h3>
+      <ul>
+        <li><b>Khớp dòng sản phẩm với xu hướng tăng nhanh:</b> ưu tiên nội dung cho nhóm <b>Acrylic Bathtub</b> và <b>freestanding</b> — hai nhóm có tốc độ tăng cao nhất trong bảng (6,1% và 5,4%/năm).</li>
+        <li><b>Ưu tiên thị trường theo số liệu:</b> Bắc Mỹ (thị phần bồn tắm lớn nhất) và APAC (tăng nhanh nhất) — thể hiện ngay trong tiêu đề, mô tả và bộ ảnh kích thước theo hệ inch/cm.</li>
+        <li><b>Chuyển từ "lượng" sang "chất":</b> 315 SP nhưng chỉ 31 SP đạt PIS ≥5,5 → dồn nguồn lực hoàn thiện 10 SP mục tiêu (ảnh, video, kích thước, chất liệu, bảo hành, chứng nhận) để có Top đầu tiên — đây cũng là cách nhanh nhất để tăng hiển thị.</li>
+        <li><b>Dùng hết nguồn lực miễn phí trước khi nghĩ tới quảng cáo:</b> 19 lượt RFQ còn lại, Showcase (đã 100%) và 656 điểm AI. Quảng cáo hiện bằng 0 — chỉ nên thử ngân sách nhỏ sau khi 10 SP mục tiêu đã hoàn thiện nội dung.</li>
+        <li><b>Kiểm soát xuất xứ linh kiện:</b> chuẩn bị hồ sơ chứng minh xuất xứ (nguồn nguyên liệu, công đoạn gia công tại Việt Nam) — vừa phục vụ truyền thông "Made in Vietnam", vừa phòng rủi ro phòng vệ thương mại ở thị trường Mỹ.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 2 · CN ================= -->
+  <section class="panel mod2 cn">
+    <h2><span class="n">2</span>行业市场 · 浴缸与卫浴洁具</h2>
+    <p class="lead">Maydon 所在行业：浴缸与卫浴（Solid Surface / 亚克力浴缸、洗手盆、浴室柜）。以下为公开来源并标注日期；各来源口径不同，数值存在差异，仅作趋势参考。</p>
+    <div class="card">
+      <h3>2.1 市场规模与增速</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th class="l">细分市场</th><th class="l">规模 / 增速</th><th class="l">来源与日期</th></tr></thead>
+          <tbody>
+            <tr><td class="l"><b>全球浴缸</b></td><td class="l">2024年 US$115.3亿 → 2025年 122亿 → 2033年 <b>US$191.5亿</b>；CAGR <b>5.8%</b>（2026–2033）</td><td class="l">SkyQuest — 2026/07/26</td></tr>
+            <tr><td class="l"><b>全球浴缸</b></td><td class="l">2025年 US$119.1亿 → 2026年 125.9亿 → 2034年 <b>US$204.1亿</b>；CAGR <b>6.22%</b>；2025年北美占 <b>36.51%</b></td><td class="l">Fortune Business Insights</td></tr>
+            <tr><td class="l"><b>全球浴缸</b></td><td class="l">2025年 US$126.5亿 → 2026年 133.6亿 → 2034年 US$207.4亿；CAGR <b>5.65%</b></td><td class="l">Market Data Forecast — 2026/10/08</td></tr>
+            <tr><td class="l"><b>浴缸</b>（窄口径）</td><td class="l">2025年 US$86.6亿 → 2026年 89.6亿；CAGR <b>3.4%</b></td><td class="l">The Business Research Company — 2026/07/08</td></tr>
+            <tr><td class="l"><b>亚克力浴缸</b></td><td class="l">2025年 US$48亿 → 2034年 <b>US$81亿</b>；CAGR <b>6.1%</b></td><td class="l">Dataintelo — 2026/03/21</td></tr>
+            <tr><td class="l"><b>独立式浴缸</b></td><td class="l">2026年 US$40.5亿 → 2035年 US$65.3亿；CAGR <b>5.4%</b>；2023年亚克力占 <b>54%</b></td><td class="l">Business Research Insights — 2026/08/24</td></tr>
+            <tr><td class="l"><b>全球卫浴洁具</b></td><td class="l">2025年 US$418.5亿 → 2030年 <b>US$556亿</b>；CAGR <b>5.8%</b>；2025年北美最大、亚太增速最快</td><td class="l">The Business Research Company — 2026/09/17</td></tr>
+            <tr><td class="l"><b>卫浴洁具 — 区域</b></td><td class="l">2025年亚太占 <b>39.72%</b>；中东与非洲至 2031 年 CAGR <b>6.95%</b></td><td class="l">Mordor Intelligence — 2026/08/06</td></tr>
+            <tr><td class="l"><b>卫浴洁具</b></td><td class="l">CAGR <b>5.70%</b>（2026–2035）→ 2035年 US$251.9亿</td><td class="l">Expert Market Research — 2026/07/23</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="chartbox" style="height:300px"><canvas id="mkt_cn"></canvas></div>
+      <p class="src">各来源 CAGR 对比（来源见上表）。差异源于口径不同，建议按趋势使用。</p>
+      <div class="note blue"><b>对 Maydon 的意义：</b>行业年增速稳定在约 5.4–6.2%，其中 <b>亚克力浴缸</b>（Maydon 主力品类）增速更高（6.1%），且 <b>北美是最大的浴缸市场</b>（36.51%）。</div>
+    </div>
+    <div class="card">
+      <h3>2.2 趋势与市场提示</h3>
+      <ul>
+        <li><b>亚克力主导需求：</b>2023 年占浴缸市场约 <b>54%</b>，因价格合理、重量轻、尺寸/颜色易定制 — 正契合 Maydon 的生产优势。<span class="src">[Business Research Insights，2026/08/24]</span></li>
+        <li><b>独立式与 Solid Surface 趋势：</b>独立式浴缸年增 5.4%；智能卫浴、节水与环保材料在北美/欧洲日益普及。<span class="src">[综合上述 2026 年报告]</span></li>
+        <li><b>区域重点：</b>北美是浴缸最大市场（36.51%）；亚太占卫浴洁具 39.72% 且增速最快 → 内容优先覆盖这两个区域。<span class="src">[Fortune Business Insights；Mordor Intelligence 2026/08/06]</span></li>
+        <li><b>原产地与贸易救济提示：</b>对越南企业的通用建议是 <b>避免使用中国生产的主要部件</b>进行加工组装后出口美国（存在原产地/贸易救济调查风险）。<span class="src">[Lexology — 2024/03/15；越南产品贸易救济早期预警清单 — antidumping.vn]</span></li>
+        <li><b>宣传建议：</b>若使用"不涉及反倾销税"的定位，须<b>按 HS 编码与具体市场逐一核实</b>后再写入销售内容，不宜笼统表述。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>2.3 Maydon 的机会</h3>
+      <ul>
+        <li><b>品类与高增速趋势对齐：</b>优先投入 <b>亚克力浴缸</b> 与 <b>独立式</b> 两组内容 — 这两组增速在表中最快（6.1% 与 5.4%）。</li>
+        <li><b>按数据选择市场：</b>北美（浴缸份额最大）与亚太（增速最快）— 在标题、描述与尺寸图中同时体现英制/公制。</li>
+        <li><b>由"量"转"质"：</b>315 款中仅 31 款达 PIS ≥5.5 → 集中完善 10 款目标商品（图片、视频、尺寸、材质、保修、认证），尽快拿到首个 Top — 这也是提升曝光最快的路径。</li>
+        <li><b>先用尽免费资源再考虑广告：</b>剩余 19 条 RFQ、橱窗（已 100%）与 656 分 AI 额度。当前广告为 0 — 建议在 10 款目标商品内容完善后再尝试小额预算。</li>
+        <li><b>原产地合规：</b>准备原产地证明资料（原料来源、越南境内加工工序）— 既支撑"Made in Vietnam"宣传，也可降低美国市场的贸易救济风险。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="foot">
+    <b><span class="vi">Nguồn dữ liệu &amp; ghi chú độ tin cậy</span><span class="cn">数据来源与可靠性说明</span>:</b>
+    <ul style="margin:6px 0">
+      <li><span class="vi">CRM Alibaba — 7 ảnh chụp do đội dịch vụ cung cấp ngày 14/10/2026: Star Rating, Store's performance 04–09/2026, Membership Privileges, Product Performance, Trade Assurance Performance, Business Opportunities Performance, Product Aggregation 12–30/09/2026. Thông tin định danh (Member ID vn19070517790roby, ngành Home &amp; Garden, Bình Dương – Tân Uyên, Gold 2 năm, hạn 2027-07-07) đối chiếu trực tiếp trên CRM ngày 14/10/2026.</span><span class="cn">阿里巴巴 CRM — 服务团队于 2026/10/14 提供的 7 张截图：星等级、2026年4–9月店铺效果、会员权益、商品表现、信保表现、商机表现、2026/09/12–30 商品汇总。主体信息（Member ID vn19070517790roby、行业 Home &amp; Garden、平阳省新渊、Gold 2 年、到期日 2027-07-07）于 2026/10/14 在 CRM 直接核对。</span></li>
+      <li><span class="vi">Điểm cần xác minh: (1) hạng sao ghi theo panel ngày 14/10/2026 — hiện 0★ và dự báo 0★, sẽ đạt 1★ khi Marketing ≥150 khách/30 ngày và Service ≥10 người mua phản hồi; (2) "Top sản phẩm" trong Product Performance là 2, trong khi bảng Product Aggregation dao động 2–3 tùy ngày; (3) GMV 90 ngày = 0 USD và doanh số TA = 0 theo hiển thị CRM; (4) các panel có thể dùng kỳ đo khác nhau.</span><span class="cn">待核实：(1) 星等级按 2026/10/14 面板记录 — 当前 0★、预测 0★，当营销力 ≥150 位/30 天访客且服务力 ≥10 位获回复买家时可达 1★；(2) Product Performance 中 Top 商品为 2 款，而 Product Aggregation 按日显示 2–3 款；(3) 90 天 GMV = 0 USD、信保销售额 = 0（按 CRM 显示）；(4) 各面板统计周期可能不同。</span></li>
+      <li><span class="vi">Số liệu ngành do nhiều nguồn công bố với phạm vi định nghĩa khác nhau (bathtub / acrylic bathtub / freestanding bathtub / sanitary ware) — chỉ nên dùng theo xu hướng. Các lưu ý về phòng vệ thương mại là cảnh báo chung, cần xác minh theo mã HS và thị trường cụ thể.</span><span class="cn">行业数据来自不同来源、口径不同（浴缸 / 亚克力浴缸 / 独立式浴缸 / 卫浴洁具）— 仅作趋势参考。贸易救济相关提示为通用警示，需按 HS 编码与具体市场核实。</span></li>
+      <li><span class="vi">Mục tiêu 500 bài / 10 Top / 40 RFQ / 100 bài PIS≥5,5 là mục tiêu kế hoạch tháng tới, không phải cam kết kết quả.</span><span class="cn">500 款 / 10 款 Top / 40 条 RFQ / 100 款 PIS≥5.5 为下月计划目标，不构成结果承诺。</span></li>
+    </ul>
+    <div style="margin-top:6px">Báo cáo Maydon · kỳ 09/2026 — lập ngày 14/10/2026</div>
+  </div>
+</div>
+
+<script>
+  const M6 = ['04/2026','05/2026','06/2026','07/2026','08/2026','09/2026'];
+  const IMP_S = [2917, 3210, 2288, 3934, 5098, 3439];
+  const IMP_I = [46409, 44643, 41355, 42828, 47235, 48969];
+  const D4 = ['12/09','20/09','25/09','30/09'];
+  const TOT = [198, 235, 286, 315];
+  const RTS = [189, 197, 210, 232];
+  const PIS = [23, 27, 29, 31];
+  const MKT_VI = ['Bathtub (SkyQuest)','Bathtub (Fortune BI)','Bathtub (Mkt Data Forecast)','Acrylic bathtub (Dataintelo)','Freestanding (BRI)','Sanitary ware (TBRC)','Sanitary ware (EMR)'];
+  const MKT_CN = ['浴缸 (SkyQuest)','浴缸 (Fortune BI)','浴缸 (Market Data Forecast)','亚克力浴缸 (Dataintelo)','独立式浴缸 (BRI)','卫浴洁具 (TBRC)','卫浴洁具 (EMR)'];
+  const MKT_V = [5.8, 6.22, 5.65, 6.1, 5.4, 5.8, 5.7];
+
+  function makeChart(id, kind){
+    const el = document.getElementById(id);
+    if(!el || el.dataset.done) return;
+    el.dataset.done = '1';
+    const cn = id.endsWith('_cn');
+    const t = (v, c) => (cn ? c : v);
+    const lg = { position:'bottom', labels:{ boxWidth:12, font:{size:11} } };
+    let cfg = null;
+    if(kind === 'imp'){
+      cfg = { type:'bar',
+        data:{ labels: M6, datasets:[
+          { label: t('Gian hàng Maydon','Maydon 店铺'), data: IMP_S, backgroundColor:'#1c5a6e', borderColor:'#123a44', borderWidth:1 },
+          { label: t('Trung bình ngành','行业均值'), data: IMP_I, backgroundColor:'#c68e31', borderColor:'#a3722a', borderWidth:1 }
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend: lg },
+          scales:{ y:{ beginAtZero:true, ticks:{ font:{size:11}, callback:(v)=>v.toLocaleString() } }, x:{ ticks:{ font:{size:11} } } } } };
+    } else if(kind === 'prod'){
+      cfg = { type:'line',
+        data:{ labels: D4, datasets:[
+          { label: t('Tổng sản phẩm','商品总数'), data: TOT, borderColor:'#1c5a6e', backgroundColor:'#1c5a6e', tension:.25, borderWidth:2, pointRadius:3 },
+          { label: t('Sản phẩm RTS','RTS 商品'), data: RTS, borderColor:'#c68e31', backgroundColor:'#c68e31', tension:.25, borderWidth:2, pointRadius:3 },
+          { label: t('PIS ≥ 5,5','PIS ≥ 5.5'), data: PIS, borderColor:'#c56443', backgroundColor:'#c56443', tension:.25, borderWidth:2, pointRadius:3 }
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend: lg },
+          scales:{ y:{ beginAtZero:true, ticks:{ font:{size:11} } }, x:{ ticks:{ font:{size:11} } } } } };
+    } else if(kind === 'mkt'){
+      cfg = { type:'bar',
+        data:{ labels: cn ? MKT_CN : MKT_VI, datasets:[ { label: t('CAGR (%)','CAGR（%）'), data: MKT_V, backgroundColor:'#1c5a6e', borderColor:'#123a44', borderWidth:1 } ]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:(c)=> c.parsed.x + '%' } } },
+          scales:{ x:{ beginAtZero:true, ticks:{ font:{size:11}, callback:(v)=>v+'%' } }, y:{ ticks:{ font:{size:10} } } } } };
+    }
+    if(cfg) new Chart(el, cfg);
+  }
+  function initVisible(){
+    const mod = document.body.dataset.mod, lang = document.body.dataset.lang;
+    if(mod === '1'){ makeChart('imp_'+lang,'imp'); makeChart('prod_'+lang,'prod'); }
+    else { makeChart('mkt_'+lang,'mkt'); }
+  }
+  function setLang(l){
+    document.body.dataset.lang = l;
+    document.getElementById('langvi').classList.toggle('on', l==='vi');
+    document.getElementById('langcn').classList.toggle('on', l==='cn');
+    initVisible();
+  }
+  function setMod(m){
+    document.body.dataset.mod = m;
+    document.getElementById('modbtn1').classList.toggle('on', m==1);
+    document.getElementById('modbtn2').classList.toggle('on', m==2);
+    initVisible();
+  }
+  window.addEventListener('DOMContentLoaded', initVisible);
+</script>
+</body>
+</html>
