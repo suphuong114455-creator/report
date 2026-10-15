@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Assistant Agent — Trợ lý AI vận hành gian hàng Alibaba.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --violet: #7c3aed;
+  --violet-dark: #5b21b6;
+  --magenta: #ec4899;
+  --cyan: #06b6d4;
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #1a1a24;
+  --card: #16161f;
+  --card-border: rgba(124,58,237,0.15);
+  --text: #e8e8f0;
+  --muted: #9ca3af;
+  --white: #ffffff;
+  --gradient: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #06b6d4 100%);
+  --gradient2: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+.sec { padding: 80px 24px; max-width: 1200px; margin: 0 auto; overflow-wrap: break-word; word-break: break-word; }
+.sec-tag { display: inline-block; font-size: 13px; font-weight: 600; color: var(--violet); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.sec-title { font-size: clamp(28px, 4vw, 42px); font-weight: 800; color: var(--white); margin-bottom: 16px; line-height: 1.2; }
+.sec-lead { font-size: 17px; color: var(--muted); max-width: 720px; margin-bottom: 48px; line-height: 1.7; }
+.hl { background: var(--gradient2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  position: relative;
+  background: radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 50%, rgba(236,72,153,0.08) 0%, transparent 50%),
+              var(--bg);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237c3aed' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: rgba(124,58,237,0.1);
+  border: 1px solid rgba(124,58,237,0.3);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--violet);
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+.hero h1 {
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+  color: var(--white);
+}
+.hero p {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--muted);
+  max-width: 700px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 24px;
+  max-width: 800px;
+  margin: 48px auto 0;
+  position: relative;
+  z-index: 1;
+}
+.stat { text-align: center; }
+.stat-num { font-size: 36px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary { background: var(--gradient2); color: var(--white); box-shadow: 0 4px 20px rgba(124,58,237,0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.4); }
+.btn-ghost { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.2); }
+.btn-ghost:hover { border-color: var(--violet); background: rgba(124,58,237,0.1); }
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+.card:hover { border-color: rgba(124,58,237,0.4); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(124,58,237,0.1); }
+
+/* 3 Pillars */
+.pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.pillar-num { font-size: 48px; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; opacity: 0.5; line-height: 1; margin-bottom: 16px; }
+.pillar-title { font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+.pillar-desc { font-size: 15px; color: var(--muted); line-height: 1.7; }
+
+/* Why section */
+.why-list { display: flex; flex-direction: column; gap: 16px; max-width: 800px; }
+.why-item { display: flex; align-items: flex-start; gap: 16px; padding: 20px 24px; background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; }
+.why-num { flex-shrink: 0; width: 32px; height: 32px; border-radius: 8px; background: var(--gradient2); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--white); }
+.why-text { font-size: 15px; color: var(--text); line-height: 1.6; }
+
+/* Leak points */
+.leak-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+.leak-card { padding: 28px 24px; background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; text-align: center; }
+.leak-num { font-size: 32px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+.leak-title { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.leak-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+/* Evolution timeline */
+.timeline { display: flex; gap: 24px; flex-wrap: wrap; }
+.timeline-item { flex: 1; min-width: 250px; padding: 32px 24px; background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; position: relative; }
+.timeline-year { font-size: 14px; font-weight: 600; color: var(--violet); margin-bottom: 8px; }
+.timeline-title { font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+.timeline-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+/* Capabilities tabs */
+.cap-tabs { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+.cap-tabs button {
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.cap-tabs button[aria-selected="true"] { background: var(--gradient2); color: var(--white); border-color: transparent; }
+.cap-panel { display: none; padding: 32px; background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; }
+.cap-panel.on { display: block; }
+.cap-lead { font-size: 16px; color: var(--muted); margin-bottom: 24px; font-style: italic; }
+.cap-list { display: flex; flex-direction: column; gap: 16px; }
+.cap-item { font-size: 15px; color: var(--text); line-height: 1.7; padding-left: 20px; position: relative; }
+.cap-item::before { content: '→'; position: absolute; left: 0; color: var(--violet); font-weight: 700; }
+.cap-prompt { margin-top: 24px; padding: 16px 20px; background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; font-size: 14px; color: var(--violet); font-style: italic; }
+
+/* Automation */
+.auto-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.auto-card { padding: 28px 24px; background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; }
+.auto-title { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+.auto-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+.auto-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.auto-tag { padding: 6px 12px; background: rgba(124,58,237,0.1); border-radius: 6px; font-size: 12px; font-weight: 500; color: var(--violet); }
+
+/* Rhythm / Timeline */
+.rhythm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.rhythm-card { padding: 32px 28px; background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; }
+.rhythm-time { font-size: 13px; font-weight: 600; color: var(--violet); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.rhythm-title { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+.rhythm-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* Situations table */
+.sit-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 16px; border: 1px solid var(--card-border); }
+.sit-table th { padding: 16px 20px; background: var(--bg3); font-size: 14px; font-weight: 600; color: var(--white); text-align: left; }
+.sit-table td { padding: 16px 20px; background: var(--card); font-size: 14px; color: var(--text); line-height: 1.6; border-top: 1px solid var(--card-border); }
+.sit-table tr:hover td { background: rgba(124,58,237,0.05); }
+
+/* Comparison */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.compare-col { padding: 32px 28px; border-radius: 16px; }
+.compare-old { background: var(--card); border: 1px solid var(--card-border); }
+.compare-new { background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(236,72,153,0.05)); border: 1px solid rgba(124,58,237,0.3); }
+.compare-title { font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.compare-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+.compare-list { display: flex; flex-direction: column; gap: 12px; }
+.compare-item { font-size: 14px; color: var(--text); line-height: 1.6; padding-left: 20px; position: relative; }
+.compare-item::before { content: ''; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; }
+.compare-old .compare-item::before { background: var(--muted); }
+.compare-new .compare-item::before { background: var(--violet); }
+
+/* Approach comparison table */
+.approach-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow-x: auto; display: block; border-radius: 16px; border: 1px solid var(--card-border); }
+.approach-table th { padding: 14px 16px; background: var(--bg3); font-size: 13px; font-weight: 600; color: var(--white); text-align: left; white-space: nowrap; }
+.approach-table td { padding: 14px 16px; background: var(--card); font-size: 13px; color: var(--text); line-height: 1.5; border-top: 1px solid var(--card-border); vertical-align: top; }
+
+/* Responsibility */
+.resp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.resp-card { padding: 32px 28px; background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; }
+.resp-num { font-size: 36px; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; opacity: 0.5; margin-bottom: 12px; }
+.resp-title { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+.resp-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* Getting started */
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 48px; }
+.step-card { padding: 24px 20px; background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; text-align: center; }
+.step-num { font-size: 13px; font-weight: 600; color: var(--violet); margin-bottom: 8px; }
+.step-title { font-size: 14px; font-weight: 600; color: var(--white); line-height: 1.5; }
+.data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.data-item { padding: 14px 16px; background: var(--card); border: 1px solid var(--card-border); border-radius: 10px; font-size: 14px; color: var(--text); text-align: center; }
+.principle-box { margin-top: 40px; padding: 28px; background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(236,72,153,0.05)); border: 1px solid rgba(124,58,237,0.2); border-radius: 16px; font-size: 15px; color: var(--text); line-height: 1.7; }
+
+/* Quote block */
+.quote-block { margin: 48px 0; padding: 32px; background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(236,72,153,0.05)); border: 1px solid rgba(124,58,237,0.2); border-radius: 16px; font-size: 17px; color: var(--text); line-height: 1.8; text-align: center; font-style: italic; }
+
+/* Platform block */
+.platform-block { margin: 48px 0; padding: 32px; background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; font-size: 15px; color: var(--text); line-height: 1.8; }
+
+/* Footer */
+.footer { padding: 40px 24px; text-align: center; border-top: 1px solid var(--card-border); max-width: 1200px; margin: 0 auto; }
+.footer p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* Operations table */
+.ops-group { margin-bottom: 40px; }
+.ops-group-title { font-size: 16px; font-weight: 700; color: var(--violet); margin-bottom: 16px; padding: 12px 16px; background: rgba(124,58,237,0.08); border-radius: 10px; border-left: 3px solid var(--violet); }
+.ops-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; margin-bottom: 24px; }
+.ops-table th { padding: 14px 16px; background: var(--bg3); font-size: 13px; font-weight: 600; color: var(--white); text-align: left; }
+.ops-table td { padding: 12px 16px; background: var(--card); font-size: 13px; color: var(--text); line-height: 1.5; border-top: 1px solid var(--card-border); vertical-align: top; }
+.ops-table tr:hover td { background: rgba(124,58,237,0.04); }
+.ops-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.ops-badge-full { background: rgba(124,58,237,0.15); color: var(--violet); }
+.ops-badge-assist { background: rgba(236,72,153,0.12); color: var(--magenta); }
+.ops-cadence { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; background: rgba(6,182,212,0.1); color: var(--cyan); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sec { padding: 60px 20px; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .sit-table, .approach-table { font-size: 13px; }
+  .sit-table th, .sit-table td, .approach-table th, .approach-table td { padding: 12px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Alibaba.com ✦ Smart Assistant Agent</div>
+  <h1>Trợ lý <span class="hl">AI</span> vận hành gian hàng Alibaba.com của bạn</h1>
+  <p>Không phải một công cụ AI để thử cho biết — mà là một đội vận hành số làm việc cùng bạn mỗi ngày: đăng sản phẩm, trả lời khách hỏi hàng, tìm cơ hội, và chỉ ra gian hàng đang tắc ở đâu.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">27</div>
+      <div class="stat-label">năm kinh nghiệm B2B</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50M+</div>
+      <div class="stat-label">người mua quốc tế</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$300B</div>
+      <div class="stat-label">giá trị giao dịch</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">130M+</div>
+      <div class="stat-label">đơn hàng đã xử lý</div>
+    </div>
+  </div>
+</section>
+
+<!-- SAA LÀ GÌ -->
+<section class="sec" id="about">
+  <span class="sec-tag">Giới thiệu</span>
+  <h2 class="sec-title">SAA là gì?</h2>
+  <p class="sec-lead">Smart Assistant Agent (SAA) là không gian làm việc AI nằm bên trong My Alibaba. Bạn giao việc bằng ngôn ngữ tự nhiên, Agent hiểu ý định, lập kế hoạch và bàn giao kết quả có thể dùng được ngay cho gian hàng.</p>
+
+  <div class="pillars">
+    <div class="card">
+      <div class="pillar-num">01</div>
+      <div class="pillar-title">Chuyên nghiệp hơn</div>
+      <div class="pillar-desc">Được thiết kế riêng cho kinh doanh B2B xuyên biên giới: am hiểu vận hành gian hàng, phân tích thị trường, chọn sản phẩm, marketing và xử lý hỏi hàng.</div>
+    </div>
+    <div class="card">
+      <div class="pillar-num">02</div>
+      <div class="pillar-title">Đơn giản hơn</div>
+      <div class="pillar-desc">Dùng trực tiếp trong My Alibaba, ai cũng bắt đầu được. Không cần biết kỹ thuật, không cần viết câu lệnh phức tạp.</div>
+    </div>
+    <div class="card">
+      <div class="pillar-num">03</div>
+      <div class="pillar-title">An toàn hơn</div>
+      <div class="pillar-desc">Tiêu chuẩn an toàn dữ liệu doanh nghiệp; quy trình chạy trong môi trường cách ly (sandbox); những thao tác nhạy cảm cần bạn cấp quyền.</div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    Cách làm việc rất đơn giản: <strong>bạn lên ý tưởng và ra lệnh → Agent thực hiện → bạn xem báo cáo và quyết định.</strong><br><br>
+    Với đội vận hành chỉ 1–2 người, SAA là phần bù cho khối lượng công việc hằng ngày.
+  </div>
+
+  <div class="platform-block">
+    Nền tảng phía sau SAA là chính Alibaba.com: <strong>27 năm</strong> kinh nghiệm B2B xuyên biên giới, <strong>hơn 50 triệu người mua quốc tế</strong>, dữ liệu thực từ <strong>300 tỷ USD giao dịch</strong> và <strong>hơn 130 triệu đơn hàng</strong> — nguồn dữ liệu về hỏi hàng, báo giá, hợp đồng và logistics mà không công cụ AI chung nào có được.
+  </div>
+</section>
+
+<!-- VÌ SAO CHỌN SAA -->
+<section class="sec" id="why">
+  <span class="sec-tag">Vì sao chọn</span>
+  <h2 class="sec-title">Vì sao chọn Smart Assistant Agent?</h2>
+  <div class="why-list">
+    <div class="why-item">
+      <div class="why-num">1</div>
+      <div class="why-text">Hiểu dữ liệu gian hàng và các điểm nghẽn tăng trưởng — không phải chatbot trả lời chung chung.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">2</div>
+      <div class="why-text">Tạo nội dung sản phẩm, trả lời hỏi hàng, báo giá và nội dung marketing trực tiếp trong hệ thống.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">3</div>
+      <div class="why-text">Biến đề xuất thành tác vụ có thể thực hiện và theo dõi được, thay vì chỉ đưa ra lời khuyên.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">4</div>
+      <div class="why-text">Giúp đội ngũ 1–2 người vẫn duy trì vận hành gian hàng đều đặn mỗi ngày.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">5</div>
+      <div class="why-text">Tự động hoá vận hành theo mô hình: con người lên ý tưởng và ra lệnh → Agent xử lý → xem báo cáo và quyết định.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CƠ HỘI RÒ RỈ -->
+<section class="sec" id="leak">
+  <span class="sec-tag">Cơ hội rò rỉ ở đâu</span>
+  <h2 class="sec-title">Cơ hội thường rò rỉ ở 5 điểm này</h2>
+  <p class="sec-lead">Đây là 5 điểm rò rỉ thường gặp trong vận hành gian hàng Alibaba.com. Mỗi điểm đều làm giảm số hỏi hàng và đơn hàng thực nhận — nhưng rất khó nhìn thấy nếu chỉ theo dõi thủ công.</p>
+
+  <div class="leak-grid">
+    <div class="leak-card">
+      <div class="leak-num">01</div>
+      <div class="leak-title">Lưu lượng</div>
+      <div class="leak-desc">Có hiển thị nhưng chưa biết khách truy cập và thị trường nào đáng tập trung.</div>
+    </div>
+    <div class="leak-card">
+      <div class="leak-num">02</div>
+      <div class="leak-title">Sản phẩm</div>
+      <div class="leak-desc">Rất nhiều sản phẩm, nhưng chưa rõ nên ưu tiên sửa tiêu đề, thuộc tính, từ khoá hay hình ảnh.</div>
+    </div>
+    <div class="leak-card">
+      <div class="leak-num">03</div>
+      <div class="leak-title">Hỏi hàng</div>
+      <div class="leak-desc">Đội vận hành bận, lệch múi giờ và rào cản ngôn ngữ khiến phản hồi tốt bị chậm lại.</div>
+    </div>
+    <div class="leak-card">
+      <div class="leak-num">04</div>
+      <div class="leak-title">Báo giá</div>
+      <div class="leak-desc">Báo giá đã gửi, nhưng nhịp theo sát thường bị đứt.</div>
+    </div>
+    <div class="leak-card">
+      <div class="leak-num">05</div>
+      <div class="leak-title">Chốt đơn</div>
+      <div class="leak-desc">Thiếu nhân lực khiến những cơ hội giá trị nhưng im lặng bị bỏ lỡ.</div>
+    </div>
+  </div>
+
+  <div class="platform-block" style="margin-top: 40px;">
+    SAA không tự động "chặn" 5 điểm rò rỉ này thay bạn. Vai trò của SAA là chỉ ra điểm rò rỉ sớm hơn, đề xuất cách xử lý và chuẩn bị sẵn nội dung — quyết định và kết quả cuối cùng vẫn thuộc về bạn.
+  </div>
+</section>
+
+<!-- NÂNG CẤP AGENT -->
+<section class="sec" id="evolution">
+  <span class="sec-tag">Nâng cấp Agent</span>
+  <h2 class="sec-title">Từ trả lời câu hỏi đến hoàn thành công việc.</h2>
+  <p class="sec-lead">Một Agent hiểu ý định, điều phối tác vụ, gọi công cụ và bàn giao kết quả xuyên suốt vòng quay vận hành Alibaba.com.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">1999–2023</div>
+      <div class="timeline-title">Người với người</div>
+      <div class="timeline-desc">Kinh doanh đã lên mạng, nhưng hệ thống vẫn chờ con người thao tác từng bước.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2024–2025</div>
+      <div class="timeline-title">Người + AI</div>
+      <div class="timeline-desc">AI viết nội dung và đưa gợi ý, nhưng phần lớn công việc vẫn do con người thực hiện.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2026–Tương lai</div>
+      <div class="timeline-title">Agent với Agent</div>
+      <div class="timeline-desc">AI hiểu nhu cầu, phối hợp năng lực và trả về công việc sẵn sàng để dùng.</div>
+    </div>
+  </div>
+</section>
+
+<!-- NĂNG LỰC -->
+<section class="sec" id="capabilities">
+  <span class="sec-tag">Năng lực</span>
+  <h2 class="sec-title">SAA có những công cụ và chức năng nào?</h2>
+  <p class="sec-lead">Toàn bộ năng lực được tổ chức thành 4 nhóm công việc — đúng theo 4 khâu bạn đang vận hành mỗi ngày.</p>
+
+  <div class="cap-tabs">
+    <button aria-selected="true" data-tab="f1">Đăng sản phẩm</button>
+    <button aria-selected="false" data-tab="f2">Trao đổi hỏi hàng</button>
+    <button aria-selected="false" data-tab="f3">Phát triển cơ hội</button>
+    <button aria-selected="false" data-tab="f4">Chẩn đoán vận hành</button>
+  </div>
+
+  <div class="cap-panel on" id="panel-f1">
+    <h3 style="font-size:20px;font-weight:700;color:var(--white);margin-bottom:8px;">Đăng sản phẩm</h3>
+    <div class="cap-lead">Từ "đăng được sản phẩm" đến "được người mua tìm thấy".</div>
+    <div class="cap-list">
+      <div class="cap-item"><strong>Đăng sản phẩm bằng AI</strong> — chỉ cần mô tả, từ khoá và ảnh; hệ thống tạo tiêu đề, thuộc tính, từ khoá và nội dung chi tiết.</div>
+      <div class="cap-item"><strong>Đăng hàng loạt</strong> — đăng nhiều sản phẩm cùng lúc từ file Excel, danh sách link hoặc bộ ảnh; các lô nhiều sản phẩm mặc định được lưu dưới dạng bản nháp để bạn kiểm tra trước khi đăng chính thức.</div>
+      <div class="cap-item"><strong>Chuyển dữ liệu từ sàn khác</strong> — Amazon, Shopify, AliExpress được tự động ánh xạ theo tiêu chuẩn Alibaba.com.</div>
+      <div class="cap-item"><strong>Tối ưu thông minh</strong> — kiểm tra tiêu đề, thuộc tính, độ phủ từ khoá và điểm chất lượng, rồi chỉ ra hạng mục cần sửa trước.</div>
+      <div class="cap-item"><strong>AI Visual Studio</strong> — xoá nền, tạo nền trắng, tăng độ nét, ghép ảnh bối cảnh cho sản phẩm.</div>
+    </div>
+    <div class="cap-prompt">"Hãy tạo một listing hoàn chỉnh gồm tiêu đề, thuộc tính, từ khoá và hình ảnh cho sản phẩm này."</div>
+  </div>
+
+  <div class="cap-panel" id="panel-f2">
+    <h3 style="font-size:20px;font-weight:700;color:var(--white);margin-bottom:8px;">Trao đổi hỏi hàng</h3>
+    <div class="cap-lead">Theo sát từng hỏi hàng với nhịp độ rõ ràng, không bỏ sót khách.</div>
+    <div class="cap-list">
+      <div class="cap-item"><strong>Nhận diện ý định người mua</strong> — phân biệt khách có nhu cầu thật, đối thủ dò giá hay chỉ hỏi tham khảo; nhận ra họ đang quan tâm giá, giao hàng hay chứng nhận.</div>
+      <div class="cap-item"><strong>Soạn phản hồi đa ngôn ngữ</strong> và gợi ý cách đàm phán khi khách chê giá cao, đòi MOQ lớn hoặc hỏi phí mẫu.</div>
+      <div class="cap-item"><strong>Nhịp theo sát ngày 1 – 3 – 7</strong> — tự tạo mẫu theo sát để không mất liên lạc sau khi báo giá.</div>
+      <div class="cap-item"><strong>Báo giá chuyên nghiệp</strong> — biến báo giá cơ bản thành nội dung thể hiện năng lực nhà máy, chứng nhận và cam kết dịch vụ.</div>
+      <div class="cap-item"><strong>Xác minh hồ sơ người mua</strong> — biết ai đang thật sự mua, mức độ tin cậy và nên đầu tư nguồn lực tới đâu.</div>
+    </div>
+    <div class="cap-prompt">"Hãy nghiên cứu người mua này và soạn phản hồi chất lượng cao kèm kế hoạch theo sát 7 ngày."</div>
+  </div>
+
+  <div class="cap-panel" id="panel-f3">
+    <h3 style="font-size:20px;font-weight:700;color:var(--white);margin-bottom:8px;">Phát triển cơ hội</h3>
+    <div class="cap-lead">Chủ động đi tìm cơ hội, thay vì chỉ ngồi chờ khách hỏi.</div>
+    <div class="cap-list">
+      <div class="cap-item"><strong>Thông tin thị trường toàn cầu</strong> — sản phẩm bán chạy, thị trường ít cạnh tranh, dữ liệu Amazon, để bạn chọn ngành hàng đáng đầu tư.</div>
+      <div class="cap-item"><strong>Gợi ý chọn sản phẩm</strong> theo quốc gia, mùa vụ, thuộc tính và chứng nhận phù hợp với Alibaba.com.</div>
+      <div class="cap-item"><strong>Lọc RFQ chất lượng và tạo thư báo giá</strong>, kèm phân tích hồ sơ và năng lực mua của người mua RFQ.</div>
+      <div class="cap-item"><strong>Tìm câu tìm kiếm dài của người mua</strong> — hiểu khách thật sự gõ gì để điều chỉnh tiêu đề và nội dung.</div>
+    </div>
+    <div class="cap-prompt">"Hãy phân tích xu hướng sản phẩm thiết bị thể thao ngoài trời cho tôi."</div>
+  </div>
+
+  <div class="cap-panel" id="panel-f4">
+    <h3 style="font-size:20px;font-weight:700;color:var(--white);margin-bottom:8px;">Chẩn đoán vận hành</h3>
+    <div class="cap-lead">Biến dữ liệu khó hiểu thành hành động cụ thể tiếp theo.</div>
+    <div class="cap-list">
+      <div class="cap-item"><strong>Chẩn đoán toàn bộ phễu gian hàng</strong> theo 6 mặt: sản phẩm · lưu lượng · chuyển đổi · quảng cáo · tuân thủ · trọng số — kèm điểm sức khỏe và thứ tự ưu tiên sửa.</div>
+      <div class="cap-item"><strong>Kiểm tra sức khỏe sản phẩm</strong>: phân loại bán chạy, tiềm năng, chưa hiệu quả; chỉ ra nguyên nhân điểm thấp.</div>
+      <div class="cap-item"><strong>Phân tích hiệu quả quảng cáo P4P</strong>: tìm từ khoá đang lãng phí ngân sách và hướng điều chỉnh giá thầu theo khu vực.</div>
+      <div class="cap-item"><strong>Báo cáo hằng ngày đọc trong 3 phút</strong>: chỉ ra bất thường và <strong>tối đa 3 việc cần làm hôm nay</strong>.</div>
+      <div class="cap-item"><strong>Chất lượng dịch vụ</strong>: rà soát kịch bản và thời gian phản hồi để chuẩn hoá quy trình theo sát khách.</div>
+    </div>
+    <div class="cap-prompt">"Hãy tạo báo cáo chẩn đoán toàn bộ gian hàng và xếp ưu tiên việc tối ưu tuần này."</div>
+  </div>
+</section>
+
+<!-- VẬN HÀNH HẰNG NGÀY -->
+<section class="sec" id="operations">
+  <span class="sec-tag">Vận hành hằng ngày</span>
+  <h2 class="sec-title">Mỗi ngày nhân viên vận hành làm gì — và SAA hỗ trợ bằng công cụ nào</h2>
+  <p class="sec-lead">29 đầu mục công việc theo nhịp ngày / tuần / tháng của một nhân viên vận hành gian hàng Alibaba.com, ánh xạ sang công cụ và tính năng SAA tương ứng.</p>
+
+  <!-- A · Kiểm tra và ưu tiên đầu ngày -->
+  <div class="ops-group">
+    <div class="ops-group-title">A · Kiểm tra và ưu tiên đầu ngày</div>
+    <table class="ops-table">
+      <thead>
+        <tr>
+          <th style="width:30%">Đầu mục công việc</th>
+          <th style="width:10%">Nhịp</th>
+          <th style="width:35%">Công cụ / tính năng SAA</th>
+          <th style="width:25%">Mức hỗ trợ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Rà soát sức khỏe gian hàng, tìm điểm nghẽn</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Chẩn đoán gian hàng (6 mặt: sản phẩm · lưu lượng · chuyển đổi · quảng cáo · tuân thủ · trọng số)</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Chốt danh sách việc ưu tiên trong ngày</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Báo cáo vận hành hằng ngày + tối đa 3 việc cần làm hôm nay</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Kiểm tra sản phẩm rớt hiển thị / rớt lượt xem / rớt hỏi hàng</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>4 công tắc tối ưu sản phẩm: mới · ít hiển thị · ít lượt xem · ít hỏi hàng</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Rà soát rủi ro tuân thủ và quy định cấm</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Kho kiến thức 199 tài liệu + cảnh báo rủi ro xâm phạm quyền</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+        <tr>
+          <td>Phân tích hiệu quả quảng cáo P4P</td>
+          <td><span class="ops-cadence">Hàng tuần</span></td>
+          <td>Chẩn đoán từ khoá lãng phí ngân sách và hướng chỉnh giá thầu</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- B · Sản phẩm và hình ảnh -->
+  <div class="ops-group">
+    <div class="ops-group-title">B · Sản phẩm và hình ảnh</div>
+    <table class="ops-table">
+      <thead>
+        <tr>
+          <th style="width:30%">Đầu mục công việc</th>
+          <th style="width:10%">Nhịp</th>
+          <th style="width:35%">Công cụ / tính năng SAA</th>
+          <th style="width:25%">Mức hỗ trợ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Đăng sản phẩm mới từ ảnh và mô tả</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Đăng sản phẩm bằng AI</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Đăng hàng loạt / chuyển dữ liệu từ Amazon, Shopify, AliExpress</td>
+          <td><span class="ops-cadence">Theo lô</span></td>
+          <td>Đăng hàng loạt (Excel, danh sách link, bộ ảnh) + chuyển dữ liệu đa nền tảng</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Tạo biến thể sản phẩm (màu, kích cỡ, quy cách)</td>
+          <td><span class="ops-cadence">Theo lô</span></td>
+          <td>Đăng theo lô & tạo biến thể sản phẩm (product variants)</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Tối ưu tiêu đề, thuộc tính và mô tả</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Tối ưu thông minh: kiểm tra tiêu đề, thuộc tính, độ phủ từ khoá, điểm chất lượng</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Chỉnh giá theo yêu cầu</td>
+          <td><span class="ops-cadence">Khi cần</span></td>
+          <td>Chỉnh giá hàng loạt bằng câu lệnh ngôn ngữ tự nhiên</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Xử lý ảnh: tách nền, nền trắng, xoá watermark, ảnh bối cảnh</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>AI Visual Studio</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Dựng trang chi tiết sản phẩm có cấu trúc</td>
+          <td><span class="ops-cadence">Khi cần</span></td>
+          <td>Tạo chi tiết sản phẩm có cấu trúc 6 mô-đun</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- C · Hỏi hàng và khách hàng -->
+  <div class="ops-group">
+    <div class="ops-group-title">C · Hỏi hàng và khách hàng</div>
+    <table class="ops-table">
+      <thead>
+        <tr>
+          <th style="width:30%">Đầu mục công việc</th>
+          <th style="width:10%">Nhịp</th>
+          <th style="width:35%">Công cụ / tính năng SAA</th>
+          <th style="width:25%">Mức hỗ trợ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Đọc, phân loại và chấm điểm hỏi hàng mới</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Phân tích hỏi hàng + nhận diện ý định người mua (phân cấp S/A/B/C, điểm 0–100)</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+        <tr>
+          <td>Soạn trả lời hỏi hàng đa ngôn ngữ</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Soạn phản hồi & kịch bản xử lý phản đối (giá cao, MOQ, phí mẫu)</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+        <tr>
+          <td>Theo sát khách ngày 1–3–7 và khai thác lại khách cũ</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>SOP theo sát khách hàng + đề xuất khai thác lại</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+        <tr>
+          <td>Xác minh hồ sơ và năng lực mua của khách</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Xác minh hồ sơ người mua (danh tính, năng lực mua, rủi ro)</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+        <tr>
+          <td>Tiếp nhận khách ngoài giờ hành chính</td>
+          <td><span class="ops-cadence">24/7</span></td>
+          <td>Tiếp nhận tự động + tiếp đón khách truy cập thông minh</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Chẩn đoán sâu cơ hội giá trị cao đang bị tắc</td>
+          <td><span class="ops-cadence">Khi cần</span></td>
+          <td>Phân tích hội thoại chuyên sâu theo 7 bước để tìm điểm tắc</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- D · RFQ và cơ hội -->
+  <div class="ops-group">
+    <div class="ops-group-title">D · RFQ và cơ hội</div>
+    <table class="ops-table">
+      <thead>
+        <tr>
+          <th style="width:30%">Đầu mục công việc</th>
+          <th style="width:10%">Nhịp</th>
+          <th style="width:35%">Công cụ / tính năng SAA</th>
+          <th style="width:25%">Mức hỗ trợ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tính chi phí, lợi nhuận gộp và dư địa đàm phán trước khi báo giá</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Chiến lược báo giá RFQ: chi phí, lợi nhuận, dư địa nhượng bộ, dự phòng tỷ giá</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+        <tr>
+          <td>Lọc RFQ phù hợp và xếp ưu tiên</td>
+          <td><span class="ops-cadence">Hàng ngày</span></td>
+          <td>Tối ưu RFQ + báo giá RFQ thông minh</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Tìm sản phẩm bán chạy, thị trường ít cạnh tranh, dữ liệu Amazon</td>
+          <td><span class="ops-cadence">Hàng tháng</span></td>
+          <td>Thông tin thị trường toàn cầu · tìm cơ hội thị trường · dữ liệu Amazon</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Chọn sản phẩm chủ lực và định vị khác biệt</td>
+          <td><span class="ops-cadence">Hàng quý</span></td>
+          <td>Phân tích sản phẩm chuyên sâu</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- E · Rà soát, GEO và quản trị -->
+  <div class="ops-group">
+    <div class="ops-group-title">E · Rà soát, GEO và quản trị</div>
+    <table class="ops-table">
+      <thead>
+        <tr>
+          <th style="width:30%">Đầu mục công việc</th>
+          <th style="width:10%">Nhịp</th>
+          <th style="width:35%">Công cụ / tính năng SAA</th>
+          <th style="width:25%">Mức hỗ trợ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Phân loại sản phẩm kém hiệu quả: giữ / tối ưu / gỡ / xoá</td>
+          <td><span class="ops-cadence">Hàng tuần</span></td>
+          <td>Chẩn đoán sức khỏe sản phẩm + quy tắc gỡ và đăng lại sản phẩm</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Tìm lý do AI tìm kiếm chưa đề xuất gian hàng, bổ sung GEO</td>
+          <td><span class="ops-cadence">Hàng tuần</span></td>
+          <td>Bổ sung thông tin GEO và mô phỏng tìm kiếm</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Cập nhật kho kiến thức cho CS, sales và AI</td>
+          <td><span class="ops-cadence">Hàng tháng</span></td>
+          <td>Cập nhật kho kiến thức (8 mô-đun)</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Rà soát cơ hội 90 ngày và phân nhóm người mua</td>
+          <td><span class="ops-cadence">Hàng quý</span></td>
+          <td>Rà soát cơ hội 90 ngày, phân nhóm người mua A/B/C</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Kiểm tra chất lượng theo sát khách của sales</td>
+          <td><span class="ops-cadence">Hàng tuần</span></td>
+          <td>Chấm điểm chất lượng theo sát theo thang 100 điểm</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+        <tr>
+          <td>Thiết lập lịch giám sát tự động</td>
+          <td><span class="ops-cadence">Hàng tuần</span></td>
+          <td>Tác vụ theo lịch và giám sát định kỳ</td>
+          <td><span class="ops-badge ops-badge-full">SAA làm thay phần lớn</span></td>
+        </tr>
+        <tr>
+          <td>Quản lý credits, phân bổ tài khoản phụ, đối soát</td>
+          <td><span class="ops-cadence">Hàng tháng</span></td>
+          <td>Trang quản lý tài khoản & thanh toán trong My Alibaba</td>
+          <td><span class="ops-badge ops-badge-assist">SAA hỗ trợ — bạn duyệt</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TỰ ĐỘNG HOÁ -->
+<section class="sec" id="automation">
+  <span class="sec-tag">Tự động hoá</span>
+  <h2 class="sec-title">Những việc SAA tự động chạy nền</h2>
+  <p class="sec-lead">Ngoài phần bạn ra lệnh trực tiếp, còn có 10 tính năng tự động bạn có thể bật/tắt theo nhu cầu — chúng chạy liên tục để gian hàng không bị "nguội".</p>
+
+  <div class="auto-grid">
+    <div class="auto-card">
+      <div class="auto-title">Trao đổi với khách</div>
+      <div class="auto-desc">Khách nhắn ngoài giờ hành chính hay lệch múi giờ vẫn được phản hồi; khách bỏ dở giữa chừng được nhắc lại đúng lúc.</div>
+      <div class="auto-tags">
+        <span class="auto-tag">Tiếp nhận tự động</span>
+        <span class="auto-tag">Tiếp đón khách truy cập thông minh</span>
+        <span class="auto-tag">Kết nối lại khách đã im lặng</span>
+      </div>
+    </div>
+    <div class="auto-card">
+      <div class="auto-title">Báo giá RFQ</div>
+      <div class="auto-desc">RFQ phù hợp được nhận diện và đề xuất nội dung báo giá; bạn vẫn là người chốt giá và điều khoản.</div>
+      <div class="auto-tags">
+        <span class="auto-tag">Báo giá RFQ thông minh</span>
+        <span class="auto-tag">Tối ưu RFQ</span>
+      </div>
+    </div>
+    <div class="auto-card">
+      <div class="auto-title">Sản phẩm</div>
+      <div class="auto-desc">Sản phẩm yếu được phát hiện và đề xuất phương án cải thiện, thay vì để tồn đọng làm giảm trọng số gian hàng.</div>
+      <div class="auto-tags">
+        <span class="auto-tag">Tối ưu sản phẩm mới</span>
+        <span class="auto-tag">Tối ưu ít hiển thị</span>
+        <span class="auto-tag">Tối ưu ít lượt xem</span>
+        <span class="auto-tag">Tối ưu ít hỏi hàng</span>
+      </div>
+    </div>
+    <div class="auto-card">
+      <div class="auto-title">Rủi ro & tuân thủ</div>
+      <div class="auto-desc">Cảnh báo sớm các vấn đề tuân thủ để bạn xử lý trước khi ảnh hưởng tới gian hàng.</div>
+      <div class="auto-tags">
+        <span class="auto-tag">Cảnh báo rủi ro xâm phạm quyền</span>
+        <span class="auto-tag">Liên kết đại diện EU</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NHỊP VẬN HÀNH -->
+<section class="sec" id="rhythm">
+  <span class="sec-tag">Nhịp vận hành</span>
+  <h2 class="sec-title">Một tuần vận hành cùng SAA</h2>
+  <p class="sec-lead">Bạn không cần dùng hết mọi thứ ngay. Nhịp đơn giản nhất là:</p>
+
+  <div class="rhythm-grid">
+    <div class="rhythm-card">
+      <div class="rhythm-time">Mỗi sáng</div>
+      <div class="rhythm-title">15 phút nắm tình hình</div>
+      <div class="rhythm-desc">Xem báo cáo vận hành hôm qua: chỉ số nào bất thường, nguyên nhân, và 3 việc cần làm hôm nay. Sau đó xử lý danh sách hỏi hàng mới: đánh giá khách nào đáng theo sát trước, soạn phản hồi, xác minh hồ sơ khách quan trọng.</div>
+    </div>
+    <div class="rhythm-card">
+      <div class="rhythm-time">Mỗi tuần</div>
+      <div class="rhythm-title">Xử lý tồn đọng và tìm cơ hội</div>
+      <div class="rhythm-desc">Phân loại sản phẩm kém hiệu quả (giữ / tối ưu / gỡ / xoá), bổ sung thông tin để AI tìm kiếm hiểu rõ gian hàng hơn, rà soát chất lượng theo sát khách của đội, và xem lại nhịp giám sát tự động.</div>
+    </div>
+    <div class="rhythm-card">
+      <div class="rhythm-time">Mỗi tháng / mỗi quý</div>
+      <div class="rhythm-title">Điều chỉnh chiến lược</div>
+      <div class="rhythm-desc">Chẩn đoán tổng thể gian hàng, cập nhật xu hướng ngành và đối thủ, làm mới kho kiến thức cho đội CS–sales, và rà soát 90 ngày để biết cơ hội đang đến từ đâu và thất thoát ở đâu.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 TÌNH HUỐNG -->
+<section class="sec" id="situations">
+  <span class="sec-tag">Tình huống</span>
+  <h2 class="sec-title">8 tình huống bạn sẽ dùng SAA nhiều nhất</h2>
+
+  <table class="sit-table">
+    <thead>
+      <tr>
+        <th>Khi bạn gặp tình huống này</th>
+        <th>SAA làm gì cho bạn</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Không biết gian hàng đang yếu ở đâu</td><td>Xem toàn bộ lưu lượng, sản phẩm, hỏi hàng, chuyển đổi để tìm điểm nghẽn — kèm thứ tự ưu tiên sửa trước.</td></tr>
+      <tr><td>Sản phẩm nhiều nhưng chưa biết tối ưu cái nào</td><td>Tối ưu tiêu đề, điểm bán hàng, mô tả chi tiết, thuộc tính và ảnh chính — ưu tiên theo tác động.</td></tr>
+      <tr><td>Thiếu ảnh và nội dung đủ tốt</td><td>Tạo ảnh sản phẩm, ảnh bối cảnh, nội dung chi tiết và nội dung marketing dùng được ngay.</td></tr>
+      <tr><td>Quá tải hỏi hàng, sợ trả lời chậm</td><td>Xác minh người mua, hiểu nhu cầu, soạn phản hồi và kịch bản theo sát để bạn duyệt và gửi.</td></tr>
+      <tr><td>Khách im lặng sau khi báo giá</td><td>Tìm những người mua chưa được theo sát và chuẩn bị nội dung liên hệ lại đúng nhịp.</td></tr>
+      <tr><td>Muốn chủ động tìm khách, không chỉ chờ</td><td>Đánh giá RFQ phù hợp, hỗ trợ nội dung báo giá và nội dung tiếp cận khách mới.</td></tr>
+      <tr><td>Sắp vào mùa cao điểm / chuẩn bị sự kiện</td><td>Tối ưu hàng loạt sản phẩm và nội dung trước khi mùa mua sắm bắt đầu.</td></tr>
+      <tr><td>Cuối tuần cần biết tuần sau làm gì</td><td>Biến dữ liệu tuần thành danh sách hành động cụ thể cho tuần tiếp theo.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SO SÁNH TRƯỚC VÀ SAU -->
+<section class="sec" id="comparison">
+  <span class="sec-tag">So sánh</span>
+  <h2 class="sec-title">Trước đây và khi có SAA</h2>
+
+  <div class="compare-grid">
+    <div class="compare-col compare-old">
+      <div class="compare-title">Vận hành trước đây</div>
+      <div class="compare-sub">Theo sát thủ công, phụ thuộc kinh nghiệm từng người</div>
+      <div class="compare-list">
+        <div class="compare-item">Chưa biết nên tối ưu sản phẩm nào trước</div>
+        <div class="compare-item">Trả lời hỏi hàng tuỳ khả năng ứng biến của sales</div>
+        <div class="compare-item">Dễ thiếu nhịp theo sát sau khi báo giá</div>
+        <div class="compare-item">Thiếu danh sách hành động cho các vấn đề hằng tuần</div>
+      </div>
+    </div>
+    <div class="compare-col compare-new">
+      <div class="compare-title">Vận hành cùng SAA</div>
+      <div class="compare-sub">AI tìm vấn đề, tạo nội dung, triển khai tác vụ</div>
+      <div class="compare-list">
+        <div class="compare-item"><strong>Chẩn đoán phễu gian hàng hằng tuần</strong></div>
+        <div class="compare-item"><strong>Ưu tiên đúng sản phẩm và hỏi hàng tiềm năng cao</strong></div>
+        <div class="compare-item"><strong>Tạo phản hồi, báo giá, nội dung theo sát và khai thác lại</strong></div>
+        <div class="compare-item"><strong>Chuẩn hoá, theo dõi và tự động hoá tác vụ vận hành</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SO SÁNH VỚI CÁCH LÀM KHÁC -->
+<section class="sec" id="approach">
+  <h2 class="sec-title">Vì sao chọn SAA thay vì các cách làm khác?</h2>
+
+  <table class="approach-table">
+    <thead>
+      <tr>
+        <th>Cách làm</th>
+        <th>Điểm mạnh</th>
+        <th>Điểm cần lưu ý</th>
+        <th>SAA bổ sung điều gì</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>AI viết nội dung phổ thông</strong><br><span style="color:var(--muted);font-size:12px">ChatGPT, Claude, Gemini</span></td>
+        <td>Chi phí thấp, viết nội dung nhanh, dễ dùng</td>
+        <td>Chưa hiểu dữ liệu gian hàng của bạn; phải nhập dữ liệu thủ công; không thực hiện trực tiếp trong hệ thống</td>
+        <td>Hiểu Alibaba.com và kết nối trực tiếp với các tác vụ trong My Alibaba</td>
+      </tr>
+      <tr>
+        <td><strong>Công cụ AI tìm kiếm</strong><br><span style="color:var(--muted);font-size:12px">Perplexity và tương tự</span></td>
+        <td>Tra thị trường, tìm thông tin nhanh</td>
+        <td>Thiên về nghiên cứu; chưa xử lý tác vụ sản phẩm, hỏi hàng hay gian hàng</td>
+        <td>Biến kết quả phân tích thành tác vụ sản phẩm và hỏi hàng cụ thể</td>
+      </tr>
+      <tr>
+        <td><strong>Công cụ quản trị</strong><br><span style="color:var(--muted);font-size:12px">ERP / CRM</span></td>
+        <td>Quản lý dữ liệu và quy trình nội bộ</td>
+        <td>Thường không tạo nội dung hay chẩn đoán vận hành; AI không phải trọng tâm</td>
+        <td>Tập trung vào vận hành ngoại thương và tác vụ trên sàn</td>
+      </tr>
+      <tr>
+        <td><strong>Thuê ngoài vận hành</strong></td>
+        <td>Có người thực hiện thay bạn</td>
+        <td>Chi phí cao, chất lượng thiếu ổn định, dữ liệu khách bị phân tán</td>
+        <td>AI xử lý phần tác vụ cơ bản và hàng loạt; con người tập trung vào đánh giá và chốt việc</td>
+      </tr>
+      <tr>
+        <td><strong>Công cụ có sẵn trên nền tảng</strong></td>
+        <td>Dễ bắt đầu</td>
+        <td>Thường là từng tính năng riêng lẻ, thiếu ghi nhớ và không liên kết các bước với nhau</td>
+        <td>Khép kín cả quy trình: phân tích → chẩn đoán → đề xuất → thực hiện</td>
+      </tr>
+      <tr>
+        <td><strong>Accio Work</strong><br><span style="color:var(--muted);font-size:12px">Bản cá nhân / doanh nghiệp</span></td>
+        <td>Không gian AI đa năng cho nhiều loại công việc</td>
+        <td>Không chuyên biệt cho việc vận hành gian hàng trên sàn</td>
+        <td>SAA tập trung riêng cho vận hành gian hàng Alibaba.com và ngoại thương</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PHÂN ĐỊNH TRÁCH NHIỆM -->
+<section class="sec" id="responsibility">
+  <span class="sec-tag">Phân định trách nhiệm</span>
+  <h2 class="sec-title">Ba việc vẫn luôn do bạn quyết</h2>
+  <p class="sec-lead">SAA làm việc như một nhân viên — nghĩa là vẫn có những việc thuộc về người lãnh đạo.</p>
+
+  <div class="resp-grid">
+    <div class="resp-card">
+      <div class="resp-num">01</div>
+      <div class="resp-title">Quyết định quan trọng</div>
+      <div class="resp-desc">Giảm giá, xoá sản phẩm, dừng quảng cáo, chốt giá và điều khoản cuối cùng — SAA đề xuất, bạn xác nhận.</div>
+    </div>
+    <div class="resp-card">
+      <div class="resp-num">02</div>
+      <div class="resp-title">Duyệt trước khi công khai</div>
+      <div class="resp-desc">Nội dung do AI tạo (đặc biệt là đăng hàng loạt và hình ảnh) cần bạn kiểm tra trước khi đăng chính thức lên gian hàng.</div>
+    </div>
+    <div class="resp-card">
+      <div class="resp-num">03</div>
+      <div class="resp-title">Kỳ vọng đúng mức</div>
+      <div class="resp-desc">SAA hỗ trợ hoàn thiện sản phẩm, phản hồi khách, theo sát và vận hành. SAA không cam kết sẽ có bao nhiêu hỏi hàng hay đơn hàng — điều đó còn phụ thuộc sản phẩm, giá và thị trường của bạn.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BẮT ĐẦU -->
+<section class="sec" id="start">
+  <span class="sec-tag">Khởi động</span>
+  <h2 class="sec-title">Bắt đầu như thế nào?</h2>
+  <p class="sec-lead">Lần đầu sử dụng nên đi theo 6 bước này — mục tiêu là xây dựng "dữ liệu nền" để các lần sau chính xác hơn.</p>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">Bước 1</div>
+      <div class="step-title">Tổng hợp lợi thế công ty và sản phẩm</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Bước 2</div>
+      <div class="step-title">Lưu thông tin công ty vào bộ nhớ của Agent</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Bước 3</div>
+      <div class="step-title">Chẩn đoán tổng thể gian hàng</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Bước 4</div>
+      <div class="step-title">Tìm hiểu nhu cầu người mua</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Bước 5</div>
+      <div class="step-title">Chọn sản phẩm chủ lực</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Bước 6</div>
+      <div class="step-title">Tạo nội dung và bắt đầu xử lý hỏi hàng</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:18px;font-weight:700;color:var(--white);margin-bottom:20px;">Dữ liệu nên chuẩn bị sẵn</h3>
+  <div class="data-grid">
+    <div class="data-item">Trang chủ gian hàng</div>
+    <div class="data-item">Link sản phẩm chính</div>
+    <div class="data-item">Báo cáo sản phẩm</div>
+    <div class="data-item">Báo cáo gian hàng</div>
+    <div class="data-item">Báo cáo quảng cáo</div>
+    <div class="data-item">Hỏi hàng & lịch sử chat</div>
+    <div class="data-item">Danh sách RFQ</div>
+    <div class="data-item">Link đối thủ cùng ngành</div>
+    <div class="data-item">Dữ liệu nhà máy, công suất, MOQ</div>
+    <div class="data-item">Chứng nhận</div>
+  </div>
+
+  <div class="principle-box">
+    Nguyên tắc quan trọng nhất để SAA hiệu quả: hãy cấp <strong>dữ liệu thật</strong> và yêu cầu rõ ràng. Nếu thiếu dữ liệu, hãy để SAA ghi rõ "cần bổ sung" thay vì tự suy diễn — sau đó mỗi kết quả nên được đưa ngược vào sản phẩm, gian hàng hoặc kho kiến thức của công ty. Càng dùng lâu, Agent càng hiểu doanh nghiệp bạn.
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Nội dung trong tài liệu này tổng hợp từ tài liệu giới thiệu Smart Assistant Agent của Alibaba.com và trang sản phẩm chính thức của nền tảng (dữ liệu cập nhật 10/2026).</p>
+  <p style="margin-top:12px;">Alibaba.com ✦ Smart Assistant Agent</p>
+</footer>
+
+<script>
+// Tabs functionality
+document.querySelectorAll('.cap-tabs button').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var tabs = document.querySelectorAll('.cap-tabs button');
+    var panels = document.querySelectorAll('.cap-panel');
+    tabs.forEach(function(t) { t.setAttribute('aria-selected', 'false'); });
+    panels.forEach(function(p) { p.classList.remove('on'); });
+    btn.setAttribute('aria-selected', 'true');
+    var target = document.getElementById('panel-' + btn.getAttribute('data-tab'));
+    if (target) target.classList.add('on');
+  });
+});
+</script>
+
+</body>
+</html>
