@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIYAO Store Report · Sep 2026 · EN/CN</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#22303a; --muted:#5a6a74; --line:#e2e8ee; --card:#ffffff;
+    --brand:#1c4e6e; --brand2:#c56443; --ok:#2e7d5b; --warn:#b3541e;
+    --soft:#eef4f8; --bg:#f5f7fa; --gold:#b98a2f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",-apple-system,"Noto Sans","Helvetica Neue",Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 60px}
+  .hero{background:linear-gradient(120deg,#12303f 0%,#1c5064 55%,#2c7f8f 100%);color:#fff;padding:34px 0 30px}
+  .hero .topline{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12.5px;margin-bottom:10px}
+  .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:2px 10px;border-radius:20px;font-weight:500}
+  .badge.gold{background:#b98a2f;border-color:#d8b45c}
+  .badge.alert{background:#c56443;border-color:#e0956f}
+  h1{font-size:25px;margin:6px 0 2px;letter-spacing:.2px;font-weight:600}
+  .sub{font-size:14px;opacity:.93;margin-bottom:14px}
+  .meta{font-size:12.5px;opacity:.88;display:flex;flex-wrap:wrap;gap:14px}
+  .controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:22px 0 18px;justify-content:space-between}
+  .tabs{display:inline-flex;background:#e6edf2;border-radius:12px;padding:4px;gap:4px}
+  .tabs button{border:0;background:transparent;padding:8px 20px;border-radius:9px;font-size:14px;font-weight:600;color:#3d4a52;cursor:pointer}
+  .tabs button.on{background:#fff;color:var(--brand);box-shadow:0 1px 4px rgba(20,45,65,.16)}
+  .langswitch{display:inline-flex;background:#e6edf2;border-radius:12px;padding:4px;gap:4px}
+  .langswitch button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-size:13.5px;font-weight:600;color:#3d4a52;cursor:pointer}
+  .langswitch button.on{background:var(--brand);color:#fff}
+  .panel{display:none}
+  body[data-mod="1"] .mod1{display:block}
+  body[data-mod="2"] .mod2{display:block}
+  body[data-lang="en"] .cn{display:none!important}
+  body[data-lang="cn"] .en{display:none!important}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:16px 0;box-shadow:0 1px 3px rgba(20,45,65,.05)}
+  h2{font-size:19px;margin:26px 0 4px;color:var(--brand);display:flex;align-items:center;gap:10px}
+  h2 .n{background:var(--brand);color:#fff;font-size:13px;width:26px;height:26px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 26px}
+  h3{font-size:15.5px;margin:18px 0 8px}
+  h4{font-size:14px;margin:14px 0 6px}
+  p{margin:8px 0;font-size:14px}
+  .lead{font-size:13.5px;color:var(--muted);margin:2px 0 10px}
+  ul,ol{margin:8px 0;padding-left:22px;font-size:14px}
+  li{margin:5px 0}
+  .tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:12px;margin-right:6px;margin-bottom:6px}
+  .tag.g{background:#e8f3ec;color:var(--ok);border:1px solid #c2e0cf}
+  .tag.w{background:#fbeadf;color:var(--warn);border:1px solid #f0cbb2}
+  .tag.b{background:var(--soft);color:var(--brand);border:1px solid #cfe0ea}
+  .good{color:var(--ok);font-weight:600}.bad{color:var(--warn);font-weight:600}
+  .twrap{overflow-x:auto;margin:12px 0}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:860px}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:middle}
+  th{background:#eef2f5;color:#3d4a52;font-weight:600;white-space:nowrap}
+  th.grp{text-align:center;background:#e3ebf1;font-size:13px}
+  td.r,th.r{text-align:right}
+  td.cur{background:#f7fbfd;font-weight:600}
+  tr.ctr td{background:#fdf6ec;font-weight:600}
+  figure{margin:14px 0 4px;text-align:center}
+  figure img{max-width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+  figcaption{font-size:12px;color:var(--muted);margin-top:6px;text-align:left}
+  .imgs2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.imgs2{grid-template-columns:1fr}}
+  .chartbox{position:relative;height:300px;margin:6px 0}
+  .src{font-size:11.5px;color:#8a97a1}
+  .link{color:var(--brand);text-decoration:none;border-bottom:1px dotted var(--brand)}
+  .link:hover{text-decoration:underline}
+  .note{background:#f7f4ec;border:1px solid #e8dfc9;border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0}
+  .note.blue{background:#eef4f8;border-color:#cfe0ea}
+  .note.green{background:#eef7f1;border-color:#cbe6d6}
+  .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:#8a97a1}
+  .grid-prof{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px;margin:10px 0}
+  .prof-item{background:var(--soft);border:1px solid #d5e2ea;border-radius:10px;padding:8px 12px;font-size:13px}
+  .prof-item b{display:block;color:var(--brand);font-size:13.5px}
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}
+  @media(max-width:860px){.statrow{grid-template-columns:1fr 1fr}}
+  .stat{background:var(--soft);border:1px solid #d5e2ea;border-radius:10px;padding:9px 12px}
+  .stat .v{font-size:16px;font-weight:700;color:var(--brand)}
+  .stat .k{font-size:11.5px;color:var(--muted);line-height:1.35}
+  .stat.warn{background:#fbeee4;border-color:#f0d3bc}
+  .stat.warn .v{color:var(--brand2)}
+  .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:10px;margin-left:6px}
+  .pill.p0{background:#a03d18;color:#fff}.pill.p1{background:#c68e31;color:#fff}.pill.p2{background:#6f8854;color:#fff}
+</style>
+</head>
+<body data-lang="en" data-mod="1">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="topline">
+      <span class="badge gold">GOLD SUPPLIER · 1 YR</span>
+      <span class="badge">Trade Assurance</span>
+      <span class="badge">A&amp;V Check verified</span>
+      <span class="badge">Furniture Fasteners &amp; Hardware · Binh Duong, Vietnam</span>
+      <span class="badge alert" style="margin-left:auto"><span class="en">Star Rating Sep 2026: below 1★ — 7 visitors away from 1★</span><span class="cn">2026年9月星等级：未达 1★ — 距 1★ 还差 7 位访客</span></span>
+    </div>
+    <h1>CONG TY TNHH CHE PHAM NGU KIM LI YAO</h1>
+    <div class="sub"><span class="en">Store report &amp; competitive price benchmark · period 09/2026 · October action plan</span><span class="cn">店铺报告与竞品价格对标 · 2026年9月 · 十月行动计划</span></div>
+    <div class="meta">
+      <span><span class="en">Report date:</span><span class="cn">报告日期:</span> 15/10/2026</span>
+      <span><span class="en">Member ID:</span><span class="cn">Member ID:</span> vn1576018820kdmu</span>
+      <span><span class="en">Industry:</span><span class="cn">行业:</span> Furniture fasteners / hardware</span>
+      <span><span class="en">Active products:</span><span class="cn">在线商品:</span> 153</span>
+      <span><span class="en">Response time / rate:</span><span class="cn">响应时间 / 回复率:</span> ≤4h · 95.45%</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="tabs" role="tablist">
+      <button id="modbtn1" class="on" onclick="setMod(1)"><span class="en">Module 1 · Store Overview &amp; Performance</span><span class="cn">模块一 · 店铺总览与运营表现</span></button>
+      <button id="modbtn2" onclick="setMod(2)"><span class="en">Module 2 · Price Benchmark vs Competitors</span><span class="cn">模块二 · 竞品价格对标</span></button>
+    </div>
+    <div class="langswitch">
+      <button id="langen" class="on" onclick="setLang('en')">English</button>
+      <button id="langcn" onclick="setLang('cn')">中文</button>
+    </div>
+  </div>
+
+  <!-- ================= MODULE 1 · EN ================= -->
+  <section class="panel mod1 en">
+    <h2><span class="n">1</span><span>Store Overview &amp; Operational Performance · 09/2026</span></h2>
+    <p class="lead">Sources: 6 CRM screenshots provided by the service team (15/10/2026): Star Rating, Store's performance 2026-07/08/09, Product Aggregation 2026-09-28 → 2026-10-13, Membership Privileges, Product Performance, Business Opportunities. Public storefront data read from vn1576018820kdmu.trustpass.alibaba.com (15/10/2026).</p>
+
+    <div class="card">
+      <h3>1.1 Store profile &amp; quick summary</h3>
+      <div class="grid-prof">
+        <div class="prof-item"><b>Company</b>CONG TY TNHH CHE PHAM NGU KIM LI YAO (LIYAO) · Binh Duong, Vietnam · Year established 2024 · Gold Supplier 1 yr · A&amp;V Check verified · Trade Assurance: on · Contact: Xu Kelly</div>
+        <div class="prof-item"><b>Main categories</b>Barrel nut · T nut · Rivet nut · Rivet · Torx key · Hex key · Rectangle · Wire shelf accessories · Screw bolts &amp; other fasteners · Steel tube insert nuts · Wooden furniture fasteners</div>
+        <div class="prof-item"><b>Star rating (Sep 2026)</b>Product <b>1/5</b> — 153 products · Marketing <b>0/5</b> — 93 visitors/30 days · Service <b>2/5</b> — 16 buyers · Sales <b>2/5</b> — GMV 90 days 0 USD</div>
+        <div class="prof-item"><b>October goal</b>Reaching <b>1★</b> requires Marketing to hit the first tier (100 visitors/30 days). Currently <b>93</b> → <b>7 visitors short</b>. Push levers: 300+ listings, more Top/Super products, RTS, KWA.</div>
+      </div>
+      <div class="statrow">
+        <div class="stat warn"><div class="v">916</div><div class="k">Search impressions · Sep 2026 (industry avg 28,056 · leaders 169,620)</div></div>
+        <div class="stat"><div class="v">100%</div><div class="k">Store response rate · Sep (industry avg 91.29%; response time 0.76h vs 3.96h average)</div></div>
+        <div class="stat"><div class="v">1</div><div class="k">Inquiries · Sep (industry avg 25) · Visitors with inquiries 1 · Messages 11</div></div>
+        <div class="stat warn"><div class="v">1.20%</div><div class="k">CTR · Sep (11 clicks / 916 impressions) vs industry average 2.11%</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>1.2 Store's performance — 3 months (2026-07 / 08 / 09)</h3>
+      <p class="lead">Reproduced in the same layout as the CRM view: for each month — Industry average · Industry Leaders · Current value. A <b>CTR row has been added below “Search Clicks”</b>, calculated as Search Clicks ÷ Search Impressions.</p>
+      <div class="twrap">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2">Indicators</th>
+              <th class="grp" colspan="3">2026-09</th>
+              <th class="grp" colspan="3">2026-08</th>
+              <th class="grp" colspan="3">2026-07</th>
+            </tr>
+            <tr>
+              <th class="r">Industry average</th><th class="r">Industry Leaders</th><th class="r">Current value</th>
+              <th class="r">Industry average</th><th class="r">Industry Leaders</th><th class="r">Current value</th>
+              <th class="r">Industry average</th><th class="r">Industry Leaders</th><th class="r">Current value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Search Impressions</td><td class="r">28,056</td><td class="r">169,620</td><td class="r cur">916</td><td class="r">27,279</td><td class="r">182,969</td><td class="r cur">4,340</td><td class="r">24,674</td><td class="r">167,268</td><td class="r cur">4,828</td></tr>
+            <tr><td>Page views (PV)</td><td class="r">2,410</td><td class="r">19,750</td><td class="r cur">96</td><td class="r">2,329</td><td class="r">21,873</td><td class="r cur">431</td><td class="r">2,217</td><td class="r">24,364</td><td class="r cur">450</td></tr>
+            <tr><td>Unique visitors</td><td class="r">1,094</td><td class="r">8,290</td><td class="r cur">52</td><td class="r">1,058</td><td class="r">8,983</td><td class="r cur">171</td><td class="r">1,020</td><td class="r">10,127</td><td class="r cur">241</td></tr>
+            <tr><td>Search Clicks</td><td class="r">593</td><td class="r">3,617</td><td class="r cur">11</td><td class="r">575</td><td class="r">4,432</td><td class="r cur">64</td><td class="r">520</td><td class="r">3,923</td><td class="r cur">36</td></tr>
+            <tr class="ctr"><td>CTR <span class="src">(Clicks / Impressions · added)</span></td><td class="r">2.11%</td><td class="r">2.13%</td><td class="r cur">1.20%</td><td class="r">2.11%</td><td class="r">2.42%</td><td class="r cur">1.47%</td><td class="r">2.11%</td><td class="r">2.35%</td><td class="r cur">0.75%</td></tr>
+            <tr><td>Visitors with Inquiries</td><td class="r">23</td><td class="r">220</td><td class="r cur">1</td><td class="r">25</td><td class="r">282</td><td class="r cur">3</td><td class="r">23</td><td class="r">308</td><td class="r cur">0</td></tr>
+            <tr><td>Inquiries</td><td class="r">25</td><td class="r">243</td><td class="r cur">1</td><td class="r">27</td><td class="r">315</td><td class="r cur">3</td><td class="r">25</td><td class="r">347</td><td class="r cur">0</td></tr>
+            <tr><td>Messages</td><td class="r">168</td><td class="r">1,688</td><td class="r cur">11</td><td class="r">170</td><td class="r">1,685</td><td class="r cur">18</td><td class="r">167</td><td class="r">1,905</td><td class="r cur">11</td></tr>
+            <tr><td>Store response rate</td><td class="r">91.29%</td><td class="r">99.91%</td><td class="r cur">100%</td><td class="r">90.98%</td><td class="r">99.82%</td><td class="r cur">80%</td><td class="r">91.32%</td><td class="r">99.95%</td><td class="r cur">88.89%</td></tr>
+            <tr><td>Store response time</td><td class="r">3.96</td><td class="r">0.97</td><td class="r cur">0.76</td><td class="r">4.06</td><td class="r">1.03</td><td class="r cur">5.82</td><td class="r">4.00</td><td class="r">0.85</td><td class="r cur">2.78</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><b>Reading the table:</b>
+        <ul>
+          <li><b>September traffic fell sharply</b> — search impressions 4,340 → <b>916</b> (−79% MoM) and unique visitors 171 → 52. This is the single biggest issue to reverse in October.</li>
+          <li><b>Service is the standout strength:</b> response rate 100% (Aug 80% → Sep 100%) and response time <b>0.76h</b> — faster than the industry leaders (0.97h).</li>
+          <li><b>CTR is below market:</b> the store sits at 0.75%–1.47% against a stable industry average of ~2.11%. Because traffic is tiny, even a modest CTR gain translates into few clicks — so both impressions <i>and</i> CTR need work.</li>
+          <li><b>Conversion is minimal:</b> 1 inquiry and 11 messages in September, with 1 visitor-with-inquiry.</li>
+        </ul>
+      </div>
+      <h4>Search impressions — store vs industry (Jul–Sep 2026)</h4>
+      <div class="chartbox"><canvas id="imp_en"></canvas></div>
+      <h4>CTR — store vs industry (Jul–Sep 2026)</h4>
+      <div class="chartbox" style="height:260px"><canvas id="ctr_en"></canvas></div>
+      <p class="src">Charts use the table values above. CTR = Search Clicks ÷ Search Impressions (calculated).</p>
+    </div>
+
+    <div class="card">
+      <h3>1.3 Star Rating — status and how to secure 1★ before the end of October</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>Criteria</th><th class="r">Current</th><th class="r">Next tier</th><th class="r">Gap</th><th>What it means</th></tr></thead>
+          <tbody>
+            <tr><td>Product</td><td class="r">1/5 · 153 products</td><td class="r">300 products</td><td class="r">−147</td><td>Posting products beyond 300 lifts this criterion to 2/5.</td></tr>
+            <tr class="ctr"><td>Marketing</td><td class="r">0/5 · 93 visitors/30d</td><td class="r">100 visitors</td><td class="r"><b>+7</b></td><td><b>This is the blocker.</b> +7 visitors is all that separates the store from 1★.</td></tr>
+            <tr><td>Service</td><td class="r">2/5 · 16 buyers</td><td class="r">30 buyers</td><td class="r">−14</td><td>Already above the first tier (15 buyers); keep the 100% response rate.</td></tr>
+            <tr><td>Sales</td><td class="r">2/5 · GMV 0 USD (90d)</td><td class="r">1 USD</td><td class="r">−</td><td>Any first paid order moves this criterion forward.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note green"><b>October sprint (target: 1★ before month-end):</b> the store needs <b>7 more visitors in a 30-day window</b> to earn the first Marketing heart. The levers already in motion all feed this single number:
+        <ul>
+          <li><b>Listings 153 → 300+</b>: more products = more entry points in search = more visitors (also lifts Product to 2/5).</li>
+          <li><b>Top / Super products</b>: Top products receive extra exposure; Super products carry higher visibility weighting.</li>
+          <li><b>RTS (Ready-to-Ship) 128 products</b>: RTS listings convert better and attract buyer-filter traffic.</li>
+          <li><b>KWA (keyword advertising)</b>: paid impressions are the fastest, most direct way to add the 7 needed visitors this month.</li>
+        </ul>
+        Practical recommendation: run the smallest KWA budget that reliably delivers 10–20 extra monthly visitors, and pause it once the Marketing heart is secured — then keep the free levers running.
+      </div>
+      <figure><img src="https://sc04.alicdn.com/kf/Sc1bd8420191b442db250c5dcf86a972fi.jpg" alt="Star Rating panel — LIYAO"><figcaption><b>Star Rating panel</b>: Product 1♥ — 153 products (next tier 300); Marketing 0♥ — 93 visitors/30 days (first tier 100 → +7); Service 2♥ — 16 buyers (next tier 30); Sales 2♥ — GMV in 90 days 0 USD. Forecasted rating still below 1★ until the Marketing tier is reached.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="panel mod1 en">
+    <div class="card">
+      <h3>1.4 Supporting CRM views</h3>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/Aa260e6dc72434bcc8f701f619f318262y.jpg" alt="Product Aggregation 28/09–13/10/2026"><figcaption><b>Product Aggregation</b> (28/09 → 13/10/2026): total products <b>138 → 153</b>; Product Score ≥5 follows total; <b>PIS ≥5.5: 124 → 133</b>; similar products 30 → 17; <b>Top products 15 → 18</b>; Super products 1; <b>RTS 128</b>; products visited 7; products with inquiries 0; products with orders 0 (13/10).</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/A8ec12c3901734cb084caaab9e7ca92eek.jpg" alt="Membership Privileges — LIYAO"><figcaption><b>Membership Privileges</b> (1 year active · Trade Assurance: on): RFQs <b>23/40 (57%)</b> — 17 still unused; Showcases <b>20/20 (100%)</b>; AI credits <b>2/660</b> used (AI content generation 2/600, image/video/data 0) — almost untouched.</figcaption></figure>
+      </div>
+      <div class="note"><b>Commentary (Product Aggregation &amp; Membership):</b>
+        <ul>
+          <li><b>Supply is rebuilding:</b> listings resumed growing (138 → 153 in about two weeks) and PIS ≥5.5 rose 124 → 133, with <b>Top products up from 15 to 18</b> — the quality mix is improving alongside quantity.</li>
+          <li><b>RTS base is a real asset:</b> 128 ready-to-ship listings give buyers a fast-order path and earn extra exposure in RTS filters.</li>
+          <li><b>But the demand layer is still empty:</b> on 13/10 only <b>7 products received visits</b>, 0 had inquiries and 0 had orders — the constraint is visibility and conversion, not supply.</li>
+          <li><b>Untapped free resources:</b> 17 unused RFQ quotations and 658 unused AI credits (image / video / data / content generation).</li>
+        </ul>
+      </div>
+
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/A6f34ae68736c4e77a107c7820793762cH.jpg" alt="Product Performance — LIYAO"><figcaption><b>Product Performance</b>: active products 138 (<b>+28.97%</b>) · with exposure 126 (+17.76%) · with clicks <b>10 (−37.50%)</b> · with inquiries <b>2 (−81.82%)</b> · newly posted <b>31 (+675.00%)</b> · Super products 1 · Top products 16 · duplicate 0.</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/A1504400fc13042d5a8aab219ef2579f4j.jpg" alt="Business opportunities — LIYAO"><figcaption><b>Business opportunities (Sep)</b>: opportunities <b>12</b> (industry avg 194) · inquiries <b>1</b> (24) · messages <b>11</b> (159) · response rate <b>80.00%</b> (85.71%) · active buyers 11 (172) · L2+ buyers 5 (135) · paying buyers 7 (106) · buyers ≥ $10,000 <b>0</b> (41).</figcaption></figure>
+      </div>
+      <div class="note"><b>Commentary (Product &amp; Business opportunities):</b>
+        <ul>
+          <li><b>Strong supply push, weak downstream signals:</b> newly posted products jumped +675% and active products +28.97%, yet products with clicks fell −37.50% and products with inquiries −81.82% — the bottleneck sits in visibility and listing competitiveness, not in publishing speed.</li>
+          <li><b>Funnel is thin but the buyer mix is reasonable:</b> 12 opportunities produced 11 active buyers, of which <b>5 are L2+</b> and <b>7 are paying buyers</b> — a healthy ratio for such a small top-of-funnel.</li>
+          <li><b>No large buyers yet:</b> buyers with total orders ≥ $10,000 = 0 (industry average 41) — the next milestone is the first repeat / larger order.</li>
+          <li><b>Response rate needs a check:</b> this panel shows 80.00% (below the industry average 85.71%) while the monthly Store's performance table shows 100% for September — the two views likely use different windows; verify in Seller Center.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>1.5 Highlights &amp; areas to improve</h3>
+      <h4><span class="tag g">Highlights</span></h4>
+      <ul>
+        <li><b>Best-in-class service:</b> 100% response rate in September and a <b>0.76-hour</b> average response time — faster than the industry leaders (0.97h). This is the store's strongest, most defensible advantage.</li>
+        <li><b>Listing and quality mix growing:</b> active products +28.97%, newly posted +675%, and PIS ≥5.5 up from 124 to 133 (28/09 → 13/10).</li>
+        <li><b>Top products rising:</b> 15 → 18 Top products, plus 1 Super product — the foundation for stronger search placement.</li>
+        <li><b>RTS engine ready:</b> 128 ready-to-ship listings support fast orders and RTS-filter traffic.</li>
+        <li><b>Tools well used:</b> Showcase 100% utilised (20/20) and RFQ at 57% — the store is already using its free quota actively.</li>
+      </ul>
+      <h4><span class="tag w">Areas to improve</span></h4>
+      <ul>
+        <li><b>September traffic collapse:</b> search impressions 4,340 → <b>916</b> (−79% MoM) and unique visitors 171 → 52 — the top priority to reverse.</li>
+        <li><b>CTR below market:</b> 0.75%–1.47% versus a stable ~2.11% industry average, so listings attract fewer clicks per impression.</li>
+        <li><b>Conversion is minimal:</b> 1 inquiry, 0 orders and GMV of 0 USD in the last 90 days; only 2 products had inquiries (−81.82%).</li>
+        <li><b>Star rating below 1★:</b> Marketing is 7 visitors short of the first tier and Product needs 147 more listings to reach the next tier (153 → 300).</li>
+        <li><b>Free capacity still idle:</b> 17 RFQ quotations and 658 AI credits unused — quick wins that cost nothing.</li>
+      </ul>
+
+      <h4>Price check — is price a strength for this store?</h4>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>Product</th><th>LIYAO price / MOQ</th><th>Competitor price range (same category)</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Furniture insert nut (M6/M8, zinc plated)</td>
+              <td><b>$0.02</b> / 1,000 sets</td>
+              <td>$0.01–$0.10 across 20+ listings; most sit at <b>$0.01–$0.03</b>; the $0.01 tier appears at 10,000–100,000 pcs</td>
+              <td><span class="bad">At market median</span> — not a price leader</td>
+            </tr>
+            <tr>
+              <td>Barrel nut / cam-lock fitting</td>
+              <td><b>$0.02–$0.05</b> / 1,000 pcs</td>
+              <td>$0.012–$0.101; median ≈ <b>$0.02–$0.06</b>; lowest tiers ($0.012–$0.02) at 20,000–50,000 pcs</td>
+              <td>Competitive at median; not the cheapest</td>
+            </tr>
+            <tr>
+              <td>Steel tube insert nut (21 mm / 21×21)</td>
+              <td><b>$0.07–$0.09</b> / <b>1 set</b></td>
+              <td>Comparable items are usually quoted from 100–1,000 pcs upward</td>
+              <td><span class="good">Real advantage</span> — MOQ of 1 set is unusually low</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note blue"><b>Verdict:</b> <b>against Chinese suppliers, price is not a clear strength — the store prices at the market median</b> ($0.02 insert nuts, $0.02–0.05 barrel nuts), while several Chinese competitors go to $0.01–0.025 once volume reaches 10,000–100,000 pcs. <b>Against Vietnamese peers, and specifically against its Binh Duong neighbour ZHIJIA VIETNAM, the store is cheaper at the same 1,000-pc MOQ</b> — insert nuts $0.02 vs $0.03–0.05 and barrel nuts $0.02–0.05 vs $0.05–0.10 — though ZHIJIA publishes $0.01–0.03 at 100,000–200,000 pcs. The genuine advantages this store has are: (1) <b>MOQ flexibility</b> — 1 set on tube insert nuts, 1,000 on the rest; (2) <b>Vietnam origin</b> — non-China supply plus EU/Vietnam trade preferences and shorter lead times for European buyers; (3) <b>service speed</b> — 0.76h response, faster than the industry leaders. <span class="src">Vietnamese peer comparison: Alibaba.com supplier search and storefront pages, 15/10/2026 — see Module 2.3.</span></div>
+      <div class="note"><b>How to turn price into a strength:</b>
+        <ul>
+          <li><b>Publish volume tiers</b> (e.g. $0.02 at 1,000 pcs → $0.014–0.016 at 10,000–50,000 pcs). Listings that only show a single flat price look expensive next to tiered competitors.</li>
+          <li><b>Sell a kit instead of a part</b>: cam-lock + dowel + bolt assemblies, or boxed furniture-fixing sets — moves the comparison away from unit price.</li>
+          <li><b>Lead with MOQ, not price</b>, in titles and images (sample / 1-set trial orders) — this is where the store genuinely beats most Chinese listings.</li>
+          <li><b>Make origin visible</b>: "Made in Vietnam" plus the EU/Vietnam trade-preference angle in the description — a differentiator Chinese listings cannot copy.</li>
+        </ul>
+        <span class="src">Competitor prices: Alibaba.com search on 15/10/2026 (listing-level, not like-for-like specification); treat as directional. LIYAO prices from the public storefront (15/10/2026).</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 1 · CN ================= -->
+  <section class="panel mod1 cn">
+    <h2><span class="n">1</span><span>店铺总览与运营表现 · 2026年9月</span></h2>
+    <p class="lead">数据来源：服务团队提供的 6 张 CRM 截图（2026/10/15）：星等级、2026年7–9月店铺效果、2026/09/28 → 10/13 商品汇总、会员权益、商品表现、商机表现。公开店铺信息读取自 vn1576018820kdmu.trustpass.alibaba.com（2026/10/15）。</p>
+    <div class="card">
+      <h3>1.1 店铺档案与快速摘要</h3>
+      <div class="grid-prof">
+        <div class="prof-item"><b>公司</b>CONG TY TNHH CHE PHAM NGU KIM LI YAO（LIYAO）· 越南平阳省 · 成立于 2024 年 · Gold Supplier 1 年 · A&amp;V Check 认证 · 信保：on · 联系人：Xu Kelly</div>
+        <div class="prof-item"><b>主要类目</b>Barrel nut（横孔螺母）· T nut · Rivet nut（拉铆螺母）· Rivet（铆钉）· Torx key · Hex key（内六角扳手）· Rectangle · 网架配件 · 螺丝螺栓及其他紧固件 · 钢管内置螺母 · 木质家具紧固件</div>
+        <div class="prof-item"><b>星等级（2026年9月）</b>商品力 <b>1/5</b> — 153 款 · 营销力 <b>0/5</b> — 30 天 93 位访客 · 服务力 <b>2/5</b> — 16 位买家 · 销售力 <b>2/5</b> — 90 天 GMV 0 USD</div>
+        <div class="prof-item"><b>十月目标</b>达到 <b>1★</b> 需营销力进入第一档（30 天 100 位访客）。当前 <b>93</b> → <b>还差 7 位访客</b>。推进手段：商品数 300+、Top/Super 商品、RTS、KWA。</div>
+      </div>
+      <div class="statrow">
+        <div class="stat warn"><div class="v">916</div><div class="k">2026年9月搜索曝光（行业均值 28,056 · 行业领先 169,620）</div></div>
+        <div class="stat"><div class="v">100%</div><div class="k">9月回复率（行业均值 91.29%；响应 0.76 小时 vs 行业 3.96 小时）</div></div>
+        <div class="stat"><div class="v">1</div><div class="k">9月询盘（行业均值 25）· 有询盘访客 1 · 消息 11</div></div>
+        <div class="stat warn"><div class="v">1.20%</div><div class="k">9月 CTR（11 点击 / 916 曝光）vs 行业均值 2.11%</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>1.2 店铺效果 — 近 3 个月（2026-07 / 08 / 09）</h3>
+      <p class="lead">按 CRM 原版式还原：每月依次为 行业均值 · 行业领先 · 本店。已在 “Search Clicks” 下方<b>新增一行 CTR</b>，计算方式为 搜索点击 ÷ 搜索曝光。</p>
+      <div class="twrap">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2">指标</th>
+              <th class="grp" colspan="3">2026-09</th>
+              <th class="grp" colspan="3">2026-08</th>
+              <th class="grp" colspan="3">2026-07</th>
+            </tr>
+            <tr>
+              <th class="r">行业均值</th><th class="r">行业领先</th><th class="r">本店</th>
+              <th class="r">行业均值</th><th class="r">行业领先</th><th class="r">本店</th>
+              <th class="r">行业均值</th><th class="r">行业领先</th><th class="r">本店</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>搜索曝光</td><td class="r">28,056</td><td class="r">169,620</td><td class="r cur">916</td><td class="r">27,279</td><td class="r">182,969</td><td class="r cur">4,340</td><td class="r">24,674</td><td class="r">167,268</td><td class="r cur">4,828</td></tr>
+            <tr><td>浏览量（PV）</td><td class="r">2,410</td><td class="r">19,750</td><td class="r cur">96</td><td class="r">2,329</td><td class="r">21,873</td><td class="r cur">431</td><td class="r">2,217</td><td class="r">24,364</td><td class="r cur">450</td></tr>
+            <tr><td>独立访客</td><td class="r">1,094</td><td class="r">8,290</td><td class="r cur">52</td><td class="r">1,058</td><td class="r">8,983</td><td class="r cur">171</td><td class="r">1,020</td><td class="r">10,127</td><td class="r cur">241</td></tr>
+            <tr><td>搜索点击</td><td class="r">593</td><td class="r">3,617</td><td class="r cur">11</td><td class="r">575</td><td class="r">4,432</td><td class="r cur">64</td><td class="r">520</td><td class="r">3,923</td><td class="r cur">36</td></tr>
+            <tr class="ctr"><td>CTR <span class="src">（点击 / 曝光 · 新增）</span></td><td class="r">2.11%</td><td class="r">2.13%</td><td class="r cur">1.20%</td><td class="r">2.11%</td><td class="r">2.42%</td><td class="r cur">1.47%</td><td class="r">2.11%</td><td class="r">2.35%</td><td class="r cur">0.75%</td></tr>
+            <tr><td>有询盘访客</td><td class="r">23</td><td class="r">220</td><td class="r cur">1</td><td class="r">25</td><td class="r">282</td><td class="r cur">3</td><td class="r">23</td><td class="r">308</td><td class="r cur">0</td></tr>
+            <tr><td>询盘</td><td class="r">25</td><td class="r">243</td><td class="r cur">1</td><td class="r">27</td><td class="r">315</td><td class="r cur">3</td><td class="r">25</td><td class="r">347</td><td class="r cur">0</td></tr>
+            <tr><td>消息</td><td class="r">168</td><td class="r">1,688</td><td class="r cur">11</td><td class="r">170</td><td class="r">1,685</td><td class="r cur">18</td><td class="r">167</td><td class="r">1,905</td><td class="r cur">11</td></tr>
+            <tr><td>店铺回复率</td><td class="r">91.29%</td><td class="r">99.91%</td><td class="r cur">100%</td><td class="r">90.98%</td><td class="r">99.82%</td><td class="r cur">80%</td><td class="r">91.32%</td><td class="r">99.95%</td><td class="r cur">88.89%</td></tr>
+            <tr><td>店铺响应时间</td><td class="r">3.96</td><td class="r">0.97</td><td class="r cur">0.76</td><td class="r">4.06</td><td class="r">1.03</td><td class="r cur">5.82</td><td class="r">4.00</td><td class="r">0.85</td><td class="r cur">2.78</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><b>表格解读：</b>
+        <ul>
+          <li><b>9月流量大幅下滑</b> — 搜索曝光 4,340 → <b>916</b>（环比 −79%），独立访客 171 → 52。这是十月最需要扭转的问题。</li>
+          <li><b>服务是最大亮点：</b>回复率 100%（8月 80% → 9月 100%），响应时间 <b>0.76 小时</b>，快于行业领先（0.97 小时）。</li>
+          <li><b>CTR 低于市场：</b>本店 0.75%–1.47%，而行业均值稳定在约 2.11%。由于流量基数很小，CTR 提升带来的点击量有限，因此曝光量与 CTR 需要同时改善。</li>
+          <li><b>转化极低：</b>9月仅 1 条询盘、11 条消息，有询盘访客 1 位。</li>
+        </ul>
+      </div>
+      <h4>搜索曝光 — 本店 vs 行业（2026年7–9月）</h4>
+      <div class="chartbox"><canvas id="imp_cn"></canvas></div>
+      <h4>CTR — 本店 vs 行业（2026年7–9月）</h4>
+      <div class="chartbox" style="height:260px"><canvas id="ctr_cn"></canvas></div>
+      <p class="src">图表数据取自上方表格；CTR = 搜索点击 ÷ 搜索曝光（计算得出）。</p>
+    </div>
+    <div class="card">
+      <h3>1.3 星等级 — 现状与「10月底前拿下 1★」的行动方案</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>考核项</th><th class="r">当前</th><th class="r">下一档</th><th class="r">差距</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>商品力 Product</td><td class="r">1/5 · 153 款</td><td class="r">300 款</td><td class="r">−147</td><td>商品数突破 300 款可升至 2/5。</td></tr>
+            <tr class="ctr"><td>营销力 Marketing</td><td class="r">0/5 · 30 天 93 位访客</td><td class="r">100 位访客</td><td class="r"><b>+7</b></td><td><b>这是关键卡点。</b>只差 7 位访客即可达到 1★。</td></tr>
+            <tr><td>服务力 Service</td><td class="r">2/5 · 16 位买家</td><td class="r">30 位买家</td><td class="r">−14</td><td>已超过第一档（15 位买家）；继续保持 100% 回复率。</td></tr>
+            <tr><td>销售力 Sales</td><td class="r">2/5 · 90 天 GMV 0 USD</td><td class="r">1 USD</td><td class="r">−</td><td>首笔成交即可推动该考核项。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note green"><b>十月冲刺（目标：月底前达到 1★）：</b>店铺只需在 30 天窗口内<b>再增加 7 位访客</b>即可获得营销力第一颗心。当前已在推进的各项手段都会汇入这一数字：
+        <ul>
+          <li><b>商品数 153 → 300+</b>：商品越多，搜索入口越多，访客越多（同时把商品力推到 2/5）。</li>
+          <li><b>Top / Super 商品</b>：Top 商品可获得额外曝光，Super 商品在展示权重上更具优势。</li>
+          <li><b>RTS（现货）128 款</b>：现货商品转化更好，也能获得现货筛选带来的流量。</li>
+          <li><b>KWA（关键词广告）</b>：付费曝光是本月最快、最直接补充 7 位访客的方式。</li>
+        </ul>
+        实操建议：投入能稳定带来每月 10–20 位增量访客的最小 KWA 预算；一旦营销力拿心即可暂停，保留免费手段持续运行。
+      </div>
+      <figure><img src="https://sc04.alicdn.com/kf/Sc1bd8420191b442db250c5dcf86a972fi.jpg" alt="星等级面板 — LIYAO"><figcaption><b>星等级面板</b>：商品力 1♥ — 153 款（下一档 300）；营销力 0♥ — 30 天 93 位访客（第一档 100 → 还差 7）；服务力 2♥ — 16 位买家（下一档 30）；销售力 2♥ — 90 天 GMV 0 USD。在营销力达标前，预测星级仍低于 1★。</figcaption></figure>
+    </div>
+    <div class="card">
+      <h3>1.4 其他 CRM 视图</h3>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/Aa260e6dc72434bcc8f701f619f318262y.jpg" alt="商品汇总 09/28–10/13/2026"><figcaption><b>商品汇总</b>（09/28 → 10/13/2026）：商品总数 <b>138 → 153</b>；PIS ≥5 与总数一致；<b>PIS ≥5.5：124 → 133</b>；相似商品 30 → 17；<b>Top 商品 15 → 18</b>；Super 商品 1；<b>RTS 128</b>；有访客商品 7；有询盘 0；有订单 0（10/13）。</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/A8ec12c3901734cb084caaab9e7ca92eek.jpg" alt="会员权益 — LIYAO"><figcaption><b>会员权益</b>（会员 1 年 · 信保：on）：RFQ <b>23/40（57%）</b> — 尚余 17 条；橱窗 <b>20/20（100%）</b>；AI 额度 <b>2/660</b>（AI 文本生成 2/600，生图/视频/分析均 0）— 几乎未使用。</figcaption></figure>
+      </div>
+      <div class="note"><b>点评（商品汇总与会员权益）：</b>
+        <ul>
+          <li><b>供给正在恢复：</b>商品数重新增长（两周内 138 → 153），PIS ≥5.5 由 124 升至 133，<b>Top 商品从 15 增至 18</b> — 数量与质量同步改善。</li>
+          <li><b>现货基础是真实资产：</b>128 款 RTS 商品为买家提供快速下单路径，并在现货筛选中获得额外曝光。</li>
+          <li><b>但需求端仍几乎空白：</b>10/13 仅 <b>7 款商品有访客</b>，0 款有询盘、0 款有订单 — 瓶颈在曝光与转化，而非供给。</li>
+          <li><b>免费资源尚未用尽：</b>17 条 RFQ 报价额度与 658 分 AI 额度（生图/视频/数据分析/文本）。</li>
+        </ul>
+      </div>
+      <div class="imgs2">
+        <figure><img src="https://sc04.alicdn.com/kf/A6f34ae68736c4e77a107c7820793762cH.jpg" alt="商品表现 — LIYAO"><figcaption><b>商品表现</b>：在线 138 款（<b>+28.97%</b>）· 有曝光 126 款（+17.76%）· 有点击 <b>10 款（−37.50%）</b> · 有询盘 <b>2 款（−81.82%）</b> · 新发 <b>31 款（+675.00%）</b> · Super 1 款 · Top 16 款 · 重复 0。</figcaption></figure>
+        <figure><img src="https://sc04.alicdn.com/kf/A1504400fc13042d5a8aab219ef2579f4j.jpg" alt="商机表现 — LIYAO"><figcaption><b>商机表现（9月）</b>：商机 <b>12</b>（行业均值 194）· 询盘 <b>1</b>（24）· 消息 <b>11</b>（159）· 回复率 <b>80.00%</b>（85.71%）· 活跃买家 11（172）· L2+ 买家 5（135）· 付费买家 7（106）· 订单 ≥ 10,000 USD 的买家 <b>0</b>（41）。</figcaption></figure>
+      </div>
+      <div class="note"><b>点评（商品表现与商机）：</b>
+        <ul>
+          <li><b>供给端冲刺明显，下游信号偏弱：</b>新发商品 +675%、在线商品 +28.97%，但有点击商品 −37.50%、有询盘商品 −81.82% — 卡点在曝光与商品竞争力，而不是发布速度。</li>
+          <li><b>漏斗虽小，买家结构尚可：</b>12 个商机带来 11 位活跃买家，其中 <b>5 位 L2+、7 位付费买家</b> — 对这样小的漏斗口径来说是健康比例。</li>
+          <li><b>尚无大买家：</b>订单 ≥ 10,000 USD 的买家为 0（行业均值 41）— 下一个里程碑是首笔复购/更大金额订单。</li>
+          <li><b>回复率需要复核：</b>该面板显示 80.00%（低于行业均值 85.71%），而月度店铺效果表中 9 月为 100% — 两个视图统计周期可能不同，建议在 Seller Center 核对。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>1.5 亮点与待改进</h3>
+      <h4><span class="tag g">亮点</span></h4>
+      <ul>
+        <li><b>服务处于行业最优水平：</b>9月回复率 100%，平均响应 <b>0.76 小时</b>，快于行业领先（0.97 小时）。这是店铺最强、最难被复制的优势。</li>
+        <li><b>商品与质量结构同步增长：</b>在线商品 +28.97%、新发商品 +675%，PIS ≥5.5 由 124 升至 133（09/28 → 10/13）。</li>
+        <li><b>Top 商品提升：</b>由 15 款增至 18 款，另有 1 款 Super 商品 — 为搜索排名打下基础。</li>
+        <li><b>现货引擎已就绪：</b>128 款 RTS 商品支持快速下单并带来现货筛选流量。</li>
+        <li><b>权益使用到位：</b>橱窗 100%（20/20），RFQ 57% — 免费额度已在积极使用。</li>
+      </ul>
+      <h4><span class="tag w">待改进</span></h4>
+      <ul>
+        <li><b>9月流量断崖式下滑：</b>搜索曝光 4,340 → <b>916</b>（环比 −79%），独立访客 171 → 52 — 首要扭转目标。</li>
+        <li><b>CTR 低于市场：</b>0.75%–1.47%，行业均值稳定在约 2.11%，说明单次曝光获得的点击偏少。</li>
+        <li><b>转化几乎为零：</b>近 90 天 1 条询盘、0 订单、GMV 0 USD；仅 2 款商品有询盘（−81.82%）。</li>
+        <li><b>星等级未达 1★：</b>营销力距第一档差 7 位访客；商品力距下一档差 147 款（153 → 300）。</li>
+        <li><b>免费能力闲置：</b>17 条 RFQ 报价与 658 分 AI 额度未使用 — 零成本的快速改善空间。</li>
+      </ul>
+      <h4>价格检查 — 本店的价格是否属于优势？</h4>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>产品</th><th>LIYAO 价格 / MOQ</th><th>同类竞品价格区间</th><th>结论</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>家具预埋螺母（M6/M8 镀锌）</td>
+              <td><b>$0.02</b> / 1,000 sets</td>
+              <td>20+ 条在售链接区间 $0.01–$0.10，多数集中在 <b>$0.01–$0.03</b>；$0.01 档出现在 10,000–100,000 件量级</td>
+              <td><span class="bad">处于市场中位</span> — 并非价格领先</td>
+            </tr>
+            <tr>
+              <td>横孔螺母 / 三合一连接件</td>
+              <td><b>$0.02–$0.05</b> / 1,000 pcs</td>
+              <td>$0.012–$0.101，中位约 <b>$0.02–$0.06</b>；最低档（$0.012–$0.02）出现在 20,000–50,000 件量级</td>
+              <td>中位具竞争力，但不是最低价</td>
+            </tr>
+            <tr>
+              <td>钢管内置螺母（21mm / 21×21）</td>
+              <td><b>$0.07–$0.09</b> / <b>1 set</b></td>
+              <td>同类商品通常从 100–1,000 件起订</td>
+              <td><span class="good">真实优势</span> — 1 套起订在类目中非常少见</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note blue"><b>结论：</b><b>对比中国供应商，价格并非明显优势 — 本店定价处于市场中位</b>（预埋螺母 $0.02、横孔螺母 $0.02–0.05），而多家中国竞品在 10,000–100,000 件量级可做到 $0.01–0.025。<b>但对比越南同行、尤其是同城的 ZHIJIA VIETNAM，本店在同样 1,000 件起订下更便宜</b> — 预埋螺母 $0.02 vs $0.03–0.05，横孔螺母 $0.02–0.05 vs $0.05–0.10；不过 ZHIJIA 在 10 万–20 万件时公布 $0.01–0.03。本店真正的优势是：(1) <b>起订量灵活</b> — 钢管内置螺母 1 套起订，其余 1,000 件；(2) <b>越南产地</b> — 非中国供应链，且具备欧盟/越南贸易优惠与更短交期；(3) <b>服务速度</b> — 0.76 小时响应，快于行业领先。 <span class="src">越南同行比较：2026/10/15 Alibaba.com 供应商搜索与店铺页面 — 详见模块二 2.3。</span></div>
+      <div class="note"><b>如何把价格变成优势：</b>
+        <ul>
+          <li><b>公布阶梯价格</b>（例如 1,000 件 $0.02 → 10,000–50,000 件 $0.014–0.016）。只显示单一价格的链接，在阶梯报价的竞品旁会显得偏贵。</li>
+          <li><b>卖"套件"而非单一零件</b>：三合一连接件 + 偏心轮 + 螺栓组合，或整箱家具装配套装 — 让比较维度从单价转移。</li>
+          <li><b>标题与主图主打起订量</b>而非价格（样品/1 套试单）— 这是本店真正优于多数中国链接的地方。</li>
+          <li><b>让产地可见</b>：描述中突出 "Made in Vietnam" 与欧盟/越南贸易优惠 — 这是中国链接无法复制的差异点。</li>
+        </ul>
+        <span class="src">竞品价格：2026/10/15 Alibaba.com 搜索结果（按链接层面采集，规格不完全一致，仅作方向性参考）。LIYAO 价格取自公开店铺（2026/10/15）。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 2 · EN ================= -->
+  <section class="panel mod2 en">
+    <h2><span class="n">2</span><span>Price Benchmark vs Competitors</span></h2>
+    <p class="lead">Benchmark captured from Alibaba.com product search on 15/10/2026 for the store's two core lines: furniture insert nuts and barrel nuts / cam-lock fittings. Prices are listing-level (not like-for-like specifications) — use them as directional evidence.</p>
+
+    <div class="card">
+      <h3>2.1 Furniture insert nuts — competitor prices</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>Supplier</th><th>Location</th><th>Price</th><th>MOQ</th><th>Rating / years</th><th>Link</th></tr></thead>
+          <tbody>
+            <tr class="ctr"><td><b>LIYAO (this store)</b></td><td>Binh Duong, VN</td><td class="r"><b>$0.02</b></td><td class="r">1,000 sets</td><td>Gold 1 yr · A&amp;V verified</td><td><a class="link" href="https://www.alibaba.com/product-detail/High-Precision-Metric-Furniture-Insert-Nut_1601876157129.html" target="_blank">view</a></td></tr>
+            <tr><td>Wuxi Zhuocheng Mechanical Components</td><td>Jiangsu, CN</td><td class="r">$0.01</td><td class="r">1,000 pcs</td><td>Verified · 20 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/Furniture-Wood-Insert-Nut-M5-M6_60719820943.html" target="_blank">view</a></td></tr>
+            <tr><td>Guangzhou Winice Hardware Technology</td><td>Guangdong, CN</td><td class="r">$0.01–0.03</td><td class="r">100,000 pcs</td><td>4.9/5 · 4 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/Wholesale-Furniture-Zinc-Plated-Threaded-Wood_1600801758556.html" target="_blank">view</a></td></tr>
+            <tr><td>Guangzhou Anguli Import &amp; Export</td><td>Guangdong, CN</td><td class="r">$0.01–0.02</td><td class="r">10,000 pcs</td><td>5.0/5 · 8 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/Furniture-Screw-in-Nut-Zinc-Alloy_1601044989406.html" target="_blank">view</a></td></tr>
+            <tr><td>Handan City Mosen Fastener</td><td>Hebei, CN</td><td class="r">$0.01–0.02</td><td class="r">1,000 pcs</td><td>5.0/5 · 6 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/Threaded-Inserts-Furniture-Nuts-M8-Hex_1600508055703.html" target="_blank">view</a></td></tr>
+            <tr><td>Hengshui Shunhai Kehua Trading</td><td>Hebei, CN</td><td class="r">$0.02</td><td class="r">1,000 pcs</td><td>Verified · 4.9/5 · 12 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/M6-M8-1-4-Inch-Furniture_62497044534.html" target="_blank">view</a></td></tr>
+            <tr><td>Kunshan Zhonggu Precision Hardware</td><td>Jiangsu, CN</td><td class="r">$0.02</td><td class="r">1,000 pcs</td><td>Verified · 5.0/5 · 17 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/Furniture-Wood-Insert-Nut-M5-M6_1600220501869.html" target="_blank">view</a></td></tr>
+            <tr><td>Shenzhen Conghui Precision Hardware</td><td>Guangdong, CN</td><td class="r">$0.01–0.10</td><td class="r">1,000 pcs</td><td>4.9/5 · 8 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/Furniture-Wood-Insert-Nut-M5-M6_62399740994.html" target="_blank">view</a></td></tr>
+            <tr><td>Shenzhen Huaxianglian Hardware</td><td>Guangdong, CN</td><td class="r">$0.03</td><td class="r">1,000 pcs</td><td>4.7/5 · 13 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/M4-M5-M6-M8-Wood-Furniture_60149887515.html" target="_blank">view</a></td></tr>
+            <tr><td>Fasto Industrial</td><td>Zhejiang, CN</td><td class="r">$0.07–0.10</td><td class="r">10,000 pcs</td><td>Verified · 5.0/5 · 6 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/Factory-Prices-M6-M8-M10-Steel_1600606819737.html" target="_blank">view</a></td></tr>
+            <tr><td>Dongguan Taily Metal</td><td>Guangdong, CN</td><td class="r">$0.10</td><td class="r">1,000 units</td><td>Verified · 5.0/5 · 11 yrs</td><td><a class="link" href="https://www.alibaba.com/product-detail/Factory-Stock-Carbon-Steel-Wood-Insert_1601254447276.html" target="_blank">view</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Source: Alibaba.com product search, 15/10/2026. The store's own listing price taken from the public storefront the same day.</p>
+
+      <h3>2.2 Barrels nuts / cam-lock fittings — competitor prices</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>Supplier</th><th>Location</th><th>Price</th><th>MOQ</th><th>Rating / years</th></tr></thead>
+          <tbody>
+            <tr class="ctr"><td><b>LIYAO (this store)</b></td><td>Binh Duong, VN</td><td class="r"><b>$0.02–0.05</b></td><td class="r">1,000 pcs</td><td>Gold 1 yr · A&amp;V verified</td></tr>
+            <tr><td>Topcent Hardware</td><td>Guangdong, CN</td><td class="r">$0.01</td><td class="r">50,000 pcs</td><td>Verified · 4.9/5 · 18 yrs</td></tr>
+            <tr><td>Guangzhou Huishengfa Hardware</td><td>Guangdong, CN</td><td class="r">$0.012–0.025</td><td class="r">20,000 pcs</td><td>5.0/5 · 5 yrs</td></tr>
+            <tr><td>Guangdong DIMETAL Industrial</td><td>Guangdong, CN</td><td class="r">$0.02</td><td class="r">1,000 pcs</td><td>4.9/5 · 6 yrs</td></tr>
+            <tr><td>Guangdong Lingzhuo Precision Mfg.</td><td>Guangdong, CN</td><td class="r">$0.028–0.101</td><td class="r">10,000 pcs</td><td>4.5/5 · 3 yrs</td></tr>
+            <tr><td>Hengshui Shunhai Kehua Trading</td><td>Hebei, CN</td><td class="r">$0.06</td><td class="r">1,000 pcs</td><td>Verified · 4.9/5 · 12 yrs</td></tr>
+            <tr><td>Haining Xinlian Hardware Machinery</td><td>Zhejiang, CN</td><td class="r">$0.06</td><td class="r">1,000 pcs</td><td>21 yrs</td></tr>
+            <tr><td>Huizhou SNIPPIN Hardware</td><td>Guangdong, CN</td><td class="r">$0.02–0.08</td><td class="r">100 pcs</td><td>Verified · 4.8/5 · 2 yrs</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4>Unit price position — insert nuts (lowest published price per listing)</h4>
+      <div class="chartbox"><canvas id="price_en"></canvas></div>
+      <p class="src">Chart plots the lowest published unit price among the sampled insert-nut listings; the store's $0.02 sits inside the $0.01–0.03 band where most listings cluster.</p>
+    </div>
+
+    <div class="card">
+      <h3>2.3 Vietnamese competitors — Binh Duong focus</h3>
+      <p class="lead">Suppliers in the same category, filtered to Vietnam (Binh Duong first). Prices are public listing prices captured on 15/10/2026.</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>Supplier</th><th>Location</th><th>Years</th><th>Main lines</th><th>Price / MOQ (public listing)</th><th>Response</th></tr></thead>
+          <tbody>
+            <tr class="ctr"><td><b>LIYAO (this store)</b></td><td><b>Binh Duong</b></td><td>1 yr</td><td>Insert nut · barrel nut · tube insert nut · rivets · hex keys</td><td>Insert nut <b>$0.02 / 1,000 sets</b> · barrel nut $0.02–0.05 / 1,000 pcs · tube insert nut $0.07–0.09 / 1 set</td><td>≤4h · 95.45%</td></tr>
+            <tr><td>ZHIJIA VIETNAM HARDWARE EQUIPMENT</td><td><b>Binh Duong</b></td><td>3 yrs</td><td>Stud/bolts · rivet nuts · <b>insert nuts</b> · bushes/spacers · screws</td><td>Rivet/insert nut <b>$0.03–0.05 / 1,000 pcs</b> · barrel connector nut $0.05–0.10 / 1,000 pcs · hanger bolts $0.02–0.05 / 1,000 pcs · <b>$0.01–0.03 at 100,000–200,000 pcs</b></td><td>≤2h · 100%</td></tr>
+            <tr><td>FINEFIX HARDWARE VIETNAM</td><td><b>Binh Duong</b></td><td>3 yrs</td><td>Bolts · screws · nuts · washers · CNC parts</td><td>Screws / anchors <b>$0.03 (MOQ 50–100 pcs)</b> · $0.01–0.04 at 20,000 pcs</td><td>≤5h · 87.23%</td></tr>
+            <tr><td>NGOC HUONG PHAT</td><td><b>Binh Duong</b></td><td>5 yrs</td><td>Screws · connector bolts · nuts &amp; washers</td><td>No public price on storefront</td><td>≤7h</td></tr>
+            <tr><td>KING TRADE MANUFACTURE VIETNAM</td><td><b>Binh Duong</b></td><td>2 yrs</td><td>No public categories</td><td>No public price</td><td>≤6h</td></tr>
+            <tr><td>THIEN HUONG VIET</td><td>Ho Chi Minh</td><td>1 yr</td><td>Fasteners · bolts · screws · nuts · thread rods</td><td>No public price</td><td>≤3h</td></tr>
+            <tr><td>LEBAO TECHNOLOGY (VN)</td><td>Hai Phong</td><td>1 yr</td><td>Rivets · screws · pins · washers · bolts</td><td>No public price</td><td>≤1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note green"><b>What the Vietnamese comparison shows:</b>
+        <ul>
+          <li><b>At the same 1,000-piece MOQ, LIYAO is cheaper than its Binh Duong neighbour:</b> insert nut <b>$0.02 vs $0.03–0.05</b> (roughly 33–60% lower) and barrel nut <b>$0.02–0.05 vs $0.05–0.10</b> (about 50% lower).</li>
+          <li><b>At large volumes the local rival goes lower:</b> ZHIJIA publishes $0.01–0.03 once orders reach 100,000–200,000 pcs, while LIYAO shows only a single flat price — so on large tenders LIYAO can look the more expensive option.</li>
+          <li><b>FINEFIX competes on minimum order, not on price:</b> it accepts 50–100 pcs but at $0.03 per piece — strong at sample scale, weaker at production scale.</li>
+          <li><b>Service gap:</b> ZHIJIA answers within ≤2h with a 100% response rate versus LIYAO's ≤4h / 95.45%; FINEFIX is slower again (≤5h / 87.23%).</li>
+        </ul>
+      </div>
+      <p class="src">Source: Alibaba.com supplier search and storefront pages captured 15/10/2026 (zhijiavn, finefixvn, nhphardware). Prices are listing-level and specifications differ between suppliers.</p>
+    </div>
+
+    <div class="card">
+      <h3>2.4 Verdict &amp; how to turn price into an advantage (incl. Vietnamese peers)</h3>
+      <div class="note blue"><b>Answer to the question “is price a strength?” — it depends on who you compare against.</b>
+        <ul>
+          <li><b>Versus Chinese suppliers — no:</b> the store prices at the <b>market median</b> ($0.02 insert nut against a $0.01–0.03 cluster; barrel nut $0.02–0.05 against $0.012–0.101), and several Chinese sellers reach $0.01–0.025 at 10,000–100,000 pcs — tiers the store does not currently publish.</li>
+          <li><b>Versus Vietnamese peers, especially Binh Duong — yes, at low-to-mid MOQ:</b> against ZHIJIA VIETNAM (same city) LIYAO is roughly <b>33–60% cheaper on insert nuts</b> and about <b>50% cheaper on barrel nuts</b> at the same 1,000-pc MOQ. At 100,000+ pcs, however, ZHIJIA's published $0.01–0.03 is lower.</li>
+          <li><b>Overall:</b> price is a <b>moderate relative strength domestically</b>, but not a decisive one. The durable advantages remain MOQ flexibility (1-set tube insert nuts), Vietnam origin and lead time — and on service, ZHIJIA currently leads (≤2h / 100% vs ≤4h / 95.45%).</li>
+        </ul>
+      </div>
+      <ul>
+        <li><b>What <i>is</i> a strength:</b> MOQ flexibility (tube insert nuts at 1 set; most items at 1,000 pcs), Vietnam origin (EU/Vietnam trade preferences, non-China sourcing, shorter lead times to Europe), and service speed (0.76h response — faster than the industry leaders).</li>
+        <li><b>Publish tiered pricing:</b> add a 10,000 / 50,000-pc tier (e.g. $0.014–0.016 for insert nuts). Flat single-price listings lose to tiered ones in buyer comparisons and in the price filter.</li>
+        <li><b>Shift the comparison to a kit:</b> sell cam-lock + dowel + bolt assemblies or boxed furniture-fixing sets so buyers compare total assembly cost rather than unit price.</li>
+        <li><b>Lead with MOQ and origin in the title and images:</b> “1-set sample available · Made in Vietnam” is a differentiator Chinese suppliers cannot match.</li>
+        <li><b>Fix the traffic problem first:</b> with only 916 impressions in September, even the sharpest pricing cannot generate orders — the October priority is listings (300+), Top/Super products, RTS exposure and a small KWA budget to add the 7 visitors needed for 1★.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= MODULE 2 · CN ================= -->
+  <section class="panel mod2 cn">
+    <h2><span class="n">2</span><span>竞品价格对标</span></h2>
+    <p class="lead">对标数据取自 2026/10/15 Alibaba.com 商品搜索，覆盖本店两条核心产品线：家具预埋螺母与横孔螺母 / 三合一连接件。价格为链接层面（规格不完全一致），仅作方向性依据。</p>
+    <div class="card">
+      <h3>2.1 家具预埋螺母 — 竞品价格</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>供应商</th><th>所在地</th><th>价格</th><th>MOQ</th><th>评分 / 年限</th><th>链接</th></tr></thead>
+          <tbody>
+            <tr class="ctr"><td><b>LIYAO（本店）</b></td><td>越南平阳</td><td class="r"><b>$0.02</b></td><td class="r">1,000 sets</td><td>Gold 1 年 · A&amp;V 认证</td><td><a class="link" href="https://www.alibaba.com/product-detail/High-Precision-Metric-Furniture-Insert-Nut_1601876157129.html" target="_blank">查看</a></td></tr>
+            <tr><td>Wuxi Zhuocheng Mechanical Components</td><td>江苏</td><td class="r">$0.01</td><td class="r">1,000 pcs</td><td>Verified · 20 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/Furniture-Wood-Insert-Nut-M5-M6_60719820943.html" target="_blank">查看</a></td></tr>
+            <tr><td>Guangzhou Winice Hardware Technology</td><td>广东</td><td class="r">$0.01–0.03</td><td class="r">100,000 pcs</td><td>4.9/5 · 4 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/Wholesale-Furniture-Zinc-Plated-Threaded-Wood_1600801758556.html" target="_blank">查看</a></td></tr>
+            <tr><td>Guangzhou Anguli Import &amp; Export</td><td>广东</td><td class="r">$0.01–0.02</td><td class="r">10,000 pcs</td><td>5.0/5 · 8 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/Furniture-Screw-in-Nut-Zinc-Alloy_1601044989406.html" target="_blank">查看</a></td></tr>
+            <tr><td>Handan City Mosen Fastener</td><td>河北</td><td class="r">$0.01–0.02</td><td class="r">1,000 pcs</td><td>5.0/5 · 6 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/Threaded-Inserts-Furniture-Nuts-M8-Hex_1600508055703.html" target="_blank">查看</a></td></tr>
+            <tr><td>Hengshui Shunhai Kehua Trading</td><td>河北</td><td class="r">$0.02</td><td class="r">1,000 pcs</td><td>Verified · 4.9/5 · 12 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/M6-M8-1-4-Inch-Furniture_62497044534.html" target="_blank">查看</a></td></tr>
+            <tr><td>Kunshan Zhonggu Precision Hardware</td><td>江苏</td><td class="r">$0.02</td><td class="r">1,000 pcs</td><td>Verified · 5.0/5 · 17 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/Furniture-Wood-Insert-Nut-M5-M6_1600220501869.html" target="_blank">查看</a></td></tr>
+            <tr><td>Shenzhen Conghui Precision Hardware</td><td>广东</td><td class="r">$0.01–0.10</td><td class="r">1,000 pcs</td><td>4.9/5 · 8 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/Furniture-Wood-Insert-Nut-M5-M6_62399740994.html" target="_blank">查看</a></td></tr>
+            <tr><td>Shenzhen Huaxianglian Hardware</td><td>广东</td><td class="r">$0.03</td><td class="r">1,000 pcs</td><td>4.7/5 · 13 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/M4-M5-M6-M8-Wood-Furniture_60149887515.html" target="_blank">查看</a></td></tr>
+            <tr><td>Fasto Industrial</td><td>浙江</td><td class="r">$0.07–0.10</td><td class="r">10,000 pcs</td><td>Verified · 5.0/5 · 6 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/Factory-Prices-M6-M8-M10-Steel_1600606819737.html" target="_blank">查看</a></td></tr>
+            <tr><td>Dongguan Taily Metal</td><td>广东</td><td class="r">$0.10</td><td class="r">1,000 units</td><td>Verified · 5.0/5 · 11 年</td><td><a class="link" href="https://www.alibaba.com/product-detail/Factory-Stock-Carbon-Steel-Wood-Insert_1601254447276.html" target="_blank">查看</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">来源：2026/10/15 Alibaba.com 商品搜索；本店价格同日取自公开店铺。</p>
+      <h3>2.2 横孔螺母 / 三合一连接件 — 竞品价格</h3>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>供应商</th><th>所在地</th><th>价格</th><th>MOQ</th><th>评分 / 年限</th></tr></thead>
+          <tbody>
+            <tr class="ctr"><td><b>LIYAO（本店）</b></td><td>越南平阳</td><td class="r"><b>$0.02–0.05</b></td><td class="r">1,000 pcs</td><td>Gold 1 年 · A&amp;V 认证</td></tr>
+            <tr><td>Topcent Hardware</td><td>广东</td><td class="r">$0.01</td><td class="r">50,000 pcs</td><td>Verified · 4.9/5 · 18 年</td></tr>
+            <tr><td>Guangzhou Huishengfa Hardware</td><td>广东</td><td class="r">$0.012–0.025</td><td class="r">20,000 pcs</td><td>5.0/5 · 5 年</td></tr>
+            <tr><td>Guangdong DIMETAL Industrial</td><td>广东</td><td class="r">$0.02</td><td class="r">1,000 pcs</td><td>4.9/5 · 6 年</td></tr>
+            <tr><td>Guangdong Lingzhuo Precision Mfg.</td><td>广东</td><td class="r">$0.028–0.101</td><td class="r">10,000 pcs</td><td>4.5/5 · 3 年</td></tr>
+            <tr><td>Hengshui Shunhai Kehua Trading</td><td>河北</td><td class="r">$0.06</td><td class="r">1,000 pcs</td><td>Verified · 4.9/5 · 12 年</td></tr>
+            <tr><td>Haining Xinlian Hardware Machinery</td><td>浙江</td><td class="r">$0.06</td><td class="r">1,000 pcs</td><td>21 年</td></tr>
+            <tr><td>Huizhou SNIPPIN Hardware</td><td>广东</td><td class="r">$0.02–0.08</td><td class="r">100 pcs</td><td>Verified · 4.8/5 · 2 年</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4>单价位置 — 预埋螺母（各链接公布的最低价）</h4>
+      <div class="chartbox"><canvas id="price_cn"></canvas></div>
+      <p class="src">图表取样本链接中公布的最低价；本店 $0.02 落在多数链接聚集的 $0.01–0.03 区间内。</p>
+    </div>
+    <div class="card">
+      <h3>2.3 越南同行比较 — 重点看平阳省</h3>
+      <p class="lead">同一类目下筛选越南供应商（优先平阳省）。价格为 2026/10/15 抓取的公开链接价格。</p>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>供应商</th><th>所在地</th><th>年限</th><th>主要产品</th><th>价格 / MOQ（公开链接）</th><th>响应</th></tr></thead>
+          <tbody>
+            <tr class="ctr"><td><b>LIYAO（本店）</b></td><td><b>平阳</b></td><td>1 年</td><td>预埋螺母 · 横孔螺母 · 钢管内置螺母 · 铆钉 · 内六角扳手</td><td>预埋螺母 <b>$0.02 / 1,000 sets</b> · 横孔螺母 $0.02–0.05 / 1,000 pcs · 钢管内置螺母 $0.07–0.09 / 1 set</td><td>≤4h · 95.45%</td></tr>
+            <tr><td>ZHIJIA VIETNAM HARDWARE EQUIPMENT</td><td><b>平阳</b></td><td>3 年</td><td>螺柱/螺栓 · 拉铆螺母 · <b>预埋螺母</b> · 衬套 · 螺丝</td><td>拉铆/预埋螺母 <b>$0.03–0.05 / 1,000 pcs</b> · 横孔连接螺母 $0.05–0.10 / 1,000 pcs · 双头牙棒 $0.02–0.05 / 1,000 pcs · <b>10 万–20 万件 可至 $0.01–0.03</b></td><td>≤2h · 100%</td></tr>
+            <tr><td>FINEFIX HARDWARE VIETNAM</td><td><b>平阳</b></td><td>3 年</td><td>螺栓 · 螺丝 · 螺母 · 垫圈 · CNC 件</td><td>螺丝/膨胀件 <b>$0.03（MOQ 50–100 pcs）</b> · 20,000 件 $0.01–0.04</td><td>≤5h · 87.23%</td></tr>
+            <tr><td>NGOC HUONG PHAT</td><td><b>平阳</b></td><td>5 年</td><td>螺丝 · 连接螺栓 · 螺母与垫圈</td><td>店铺未公开价格</td><td>≤7h</td></tr>
+            <tr><td>KING TRADE MANUFACTURE VIETNAM</td><td><b>平阳</b></td><td>2 年</td><td>未公开类目</td><td>未公开价格</td><td>≤6h</td></tr>
+            <tr><td>THIEN HUONG VIET</td><td>胡志明</td><td>1 年</td><td>紧固件 · 螺栓 · 螺丝 · 螺母 · 螺纹杆</td><td>未公开价格</td><td>≤3h</td></tr>
+            <tr><td>LEBAO TECHNOLOGY (VN)</td><td>海防</td><td>1 年</td><td>铆钉 · 螺丝 · 销 · 垫圈 · 螺栓</td><td>未公开价格</td><td>≤1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note green"><b>越南同行比较说明了什么：</b>
+        <ul>
+          <li><b>在同样 1,000 件起订下，本店比同城对手更便宜：</b>预埋螺母 <b>$0.02 vs $0.03–0.05</b>（低约 33–60%），横孔螺母 <b>$0.02–0.05 vs $0.05–0.10</b>（低约 50%）。</li>
+          <li><b>但在大货量上，本地对手更狠：</b>ZHIJIA 在 10 万–20 万件时公布 $0.01–0.03，而本店只有单一价格 — 面对大额询价时，本店看起来反而更贵。</li>
+          <li><b>FINEFIX 比的是起订量而非价格：</b>可接 50–100 件，但单价 $0.03 — 打样阶段有优势，量产阶段偏弱。</li>
+          <li><b>服务差距：</b>ZHIJIA 响应 ≤2h、回复率 100%，优于本店的 ≤4h / 95.45%；FINEFIX 更慢（≤5h / 87.23%）。</li>
+        </ul>
+      </div>
+      <p class="src">来源：2026/10/15 抓取的 Alibaba.com 供应商搜索与店铺页面（zhijiavn、finefixvn、nhphardware）。价格为链接层面公开报价，各供应商规格不同。</p>
+    </div>
+    <div class="card">
+      <h3>2.4 结论与「把价格变成优势」的建议（含越南同行）</h3>
+      <div class="note blue"><b>回答「价格是否是优势？」— 取决于和谁比。</b>
+        <ul>
+          <li><b>对比中国供应商 — 不是优势：</b>本店处于<b>市场中位</b>（预埋螺母 $0.02，竞品集中在 $0.01–0.03；横孔螺母 $0.02–0.05，竞品 $0.012–0.101）。多家中国供应商在 10,000–100,000 件量级可给到 $0.01–0.025 — 而本店尚未公布这些阶梯。</li>
+          <li><b>对比越南同行（尤其平阳省）— 在中低起订量下是优势：</b>与同城的 ZHIJIA VIETNAM 相比，同样 1,000 件起订，本店预埋螺母<b>低约 33–60%</b>、横孔螺母<b>低约 50%</b>。但在 10 万件以上，ZHIJIA 公布的 $0.01–0.03 更低。</li>
+          <li><b>总体：</b>价格在<b>越南国内属中等偏强的相对优势</b>，但不是决定性优势。真正的长期优势仍是起订量灵活（钢管内置螺母 1 套起订）、越南产地与交期 — 而服务速度目前由 ZHIJIA 领先（≤2h / 100% vs ≤4h / 95.45%）。</li>
+        </ul>
+      </div>
+      <ul>
+        <li><b>真正的优势在于：</b>起订量灵活（钢管内置螺母 1 套起订，其余 1,000 件）、越南产地（欧盟/越南贸易优惠、非中国供应链、发往欧洲交期更短）、以及服务速度（0.76 小时，快于行业领先）。</li>
+        <li><b>公布阶梯价格：</b>增加 10,000 / 50,000 件档（例如预埋螺母 $0.014–0.016）。只显示单一价格的链接，在买家比价与价格筛选中容易吃亏。</li>
+        <li><b>把比较维度转向"套件"：</b>销售三合一连接件 + 偏心轮 + 螺栓组合，或整套家具装配包，让买家比较整装成本而非单价。</li>
+        <li><b>标题与主图主打起订量与产地：</b>"1 套样品可订 · Made in Vietnam" 是中国供应商无法复制的差异点。</li>
+        <li><b>先解决流量问题：</b>9月仅 916 次曝光，价格再优也难以成单 — 十月优先做商品数（300+）、Top/Super 商品、RTS 曝光，并用小额 KWA 补足达到 1★ 所需的 7 位访客。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="foot">
+    <b>Sources &amp; reliability notes / 数据来源与可靠性说明:</b>
+    <ul style="margin:6px 0">
+      <li>CRM screenshots supplied by the service team on 15/10/2026: Star Rating, Store's performance 2026-07/08/09, Product Aggregation 2026-09-28 → 10-13, Membership Privileges, Product Performance, Business Opportunities. Public storefront data (company profile, categories, listing prices, response index) read from vn1576018820kdmu.trustpass.alibaba.com on 15/10/2026. / 服务团队 2026/10/15 提供的 CRM 截图：星等级、2026年7–9月店铺效果、09/28 → 10/13 商品汇总、会员权益、商品表现、商机表现。公开店铺信息（公司档案、类目、商品价格、响应指标）于 2026/10/15 读取自 vn1576018820kdmu.trustpass.alibaba.com。</li>
+      <li><b>Calculated, not from CRM:</b> the CTR row (= Search Clicks ÷ Search Impressions) was added at the client's request. / <b>计算值，非 CRM 直接给出：</b>CTR 行（搜索点击 ÷ 搜索曝光）应客户要求新增。</li>
+      <li><b>To verify:</b> the response rate reads 80.00% on the Business Opportunities panel but 100% in the September Store's performance table — the panels likely use different windows. Star-rating tiers quoted from the panel (100 / 300 visitors thresholds). / <b>待核实：</b>回复率在商机面板为 80.00%，而 9 月店铺效果表为 100% — 两个面板统计周期可能不同。星等级门槛按面板显示（100 / 300 位访客）。</li>
+      <li><b>Competitor prices</b> are listing-level snapshots from Alibaba.com on 15/10/2026 — both the product search (Chinese suppliers) and the supplier search plus storefront pages of Vietnamese peers (zhijiavn, finefixvn, nhphardware). Specifications (size, material, plating) differ between listings, so comparisons are directional, not like-for-like. Suppliers that do not publish prices are marked "no public price". / <b>竞品价格</b>为 2026/10/15 Alibaba.com 搜索的链接层面快照；各链接规格（尺寸、材质、镀层）不同，比较为方向性参考，非严格同规格对比。</li>
+      <li>KWA push, the 300+ listing target and the 1★ objective are the service team's October plan — targets, not guaranteed outcomes. / KWA 投放、300+ 商品目标与 1★ 目标为服务团队十月计划 — 属目标，不构成结果承诺。</li>
+    </ul>
+    <div style="margin-top:6px">LIYAO store report · period 09/2026 · generated 15/10/2026</div>
+  </div>
+</div>
+
+<script>
+  const M3 = ['2026-07','2026-08','2026-09'];
+  const IMP_S = [4828, 4340, 916];
+  const IMP_I = [24674, 27279, 28056];
+  const IMP_L = [167268, 182969, 169620];
+  const CTR_S = [0.75, 1.47, 1.20];
+  const CTR_I = [2.11, 2.11, 2.11];
+  const CTR_L = [2.35, 2.42, 2.13];
+  const PRICE_EN = ['Wuxi Zhuocheng','Guangzhou Anguli','Handan Mosen','Hengshui Shunhai','Kunshan Zhonggu','LIYAO (this store)','Shenzhen Huaxianglian','Fasto Industrial','Dongguan Taily'];
+  const PRICE_CN = ['Wuxi Zhuocheng','Guangzhou Anguli','Handan Mosen','Hengshui Shunhai','Kunshan Zhonggu','LIYAO（本店）','Shenzhen Huaxianglian','Fasto Industrial','Dongguan Taily'];
+  const PRICE_V = [0.01, 0.01, 0.01, 0.02, 0.02, 0.02, 0.03, 0.07, 0.10];
+  const PRICE_C = ['#8fb3c4','#8fb3c4','#8fb3c4','#8fb3c4','#8fb3c4','#c56443','#8fb3c4','#8fb3c4','#8fb3c4'];
+
+  function makeChart(id, kind){
+    const el = document.getElementById(id);
+    if(!el || el.dataset.done) return;
+    el.dataset.done = '1';
+    const cn = id.endsWith('_cn');
+    const t = (e, c) => (cn ? c : e);
+    const lg = { position:'bottom', labels:{ boxWidth:12, font:{size:11} } };
+    let cfg = null;
+    if(kind === 'imp'){
+      cfg = { type:'bar',
+        data:{ labels: M3, datasets:[
+          { label: t('This store','本店'), data: IMP_S, backgroundColor:'#1c5a6e', borderColor:'#123a44', borderWidth:1 },
+          { label: t('Industry average','行业均值'), data: IMP_I, backgroundColor:'#c68e31', borderColor:'#a3722a', borderWidth:1 },
+          { label: t('Industry leaders','行业领先'), data: IMP_L, backgroundColor:'#9fb8c7', borderColor:'#7d9aab', borderWidth:1 }
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend: lg },
+          scales:{ y:{ beginAtZero:true, ticks:{ font:{size:11}, callback:(v)=>v.toLocaleString() } }, x:{ ticks:{ font:{size:11} } } } } };
+    } else if(kind === 'ctr'){
+      cfg = { type:'line',
+        data:{ labels: M3, datasets:[
+          { label: t('This store','本店'), data: CTR_S, borderColor:'#1c5a6e', backgroundColor:'#1c5a6e', borderWidth:2, tension:.25, pointRadius:3 },
+          { label: t('Industry average','行业均值'), data: CTR_I, borderColor:'#c68e31', backgroundColor:'#c68e31', borderWidth:2, tension:.25, pointRadius:3, borderDash:[5,4] },
+          { label: t('Industry leaders','行业领先'), data: CTR_L, borderColor:'#7d9aab', backgroundColor:'#7d9aab', borderWidth:2, tension:.25, pointRadius:3, borderDash:[2,3] }
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend: lg,
+            tooltip:{ callbacks:{ label:(c)=> c.dataset.label + ': ' + c.parsed.y + '%' } } },
+          scales:{ y:{ beginAtZero:true, ticks:{ font:{size:11}, callback:(v)=>v+'%' } }, x:{ ticks:{ font:{size:11} } } } } };
+    } else if(kind === 'price'){
+      cfg = { type:'bar',
+        data:{ labels: cn ? PRICE_CN : PRICE_EN, datasets:[ { label: t('Lowest published unit price (USD)','公布最低单价（USD）'), data: PRICE_V, backgroundColor: PRICE_C, borderColor:'#5b6b77', borderWidth:1 } ]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:(c)=> '$' + c.parsed.x } } },
+          scales:{ x:{ beginAtZero:true, ticks:{ font:{size:11}, callback:(v)=>'$'+v } }, y:{ ticks:{ font:{size:10} } } } } };
+    }
+    if(cfg) new Chart(el, cfg);
+  }
+  function initVisible(){
+    const mod = document.body.dataset.mod, lang = document.body.dataset.lang;
+    if(mod === '1'){ makeChart('imp_'+lang,'imp'); makeChart('ctr_'+lang,'ctr'); }
+    else { makeChart('price_'+lang,'price'); }
+  }
+  function setLang(l){
+    document.body.dataset.lang = l;
+    document.getElementById('langen').classList.toggle('on', l==='en');
+    document.getElementById('langcn').classList.toggle('on', l==='cn');
+    initVisible();
+  }
+  function setMod(m){
+    document.body.dataset.mod = m;
+    document.getElementById('modbtn1').classList.toggle('on', m==1);
+    document.getElementById('modbtn2').classList.toggle('on', m==2);
+    initVisible();
+  }
+  window.addEventListener('DOMContentLoaded', initVisible);
+</script>
+</body>
+</html>
